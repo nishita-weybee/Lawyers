@@ -1,6 +1,3 @@
-// import { useIntl } from "react-intl";
-import { KTSVG } from "../../../../helpers";
-import { SidebarMenuItemWithSub } from "./SidebarMenuItemWithSub";
 import { SidebarMenuItem } from "./SidebarMenuItem";
 
 const SidebarMenuMain = () => {
@@ -15,7 +12,7 @@ const SidebarMenuMain = () => {
         title="Dashboard"
         fontIcon="bi-app-indicator"
       />
-      <SidebarMenuItem to="/builder" icon="/media/icons/duotune/communication/com006.svg" title="User" fontIcon="bi-layers" />
+      <SidebarMenuItem to="/addUser" icon="/media/icons/duotune/communication/com006.svg" title="Add User" fontIcon="bi-layers" />
       {/* <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">Crafted</span>

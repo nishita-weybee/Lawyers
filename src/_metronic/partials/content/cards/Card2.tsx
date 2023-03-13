@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
 import {Link} from 'react-router-dom'
-import {IconUserModel} from '../../../../app/components/pages/profile/ProfileModels'
-import {UsersList} from '../../../../app/components/pages/profile/components/UsersList'
+import {IconUserModel} from '../../../../app/components/profile/ProfileModels'
+import {UsersList} from '../../../../app/components/profile/components/UsersList'
 import {toAbsoluteUrl} from '../../../helpers'
 
 type Props = {

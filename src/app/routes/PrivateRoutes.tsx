@@ -2,11 +2,11 @@ import {lazy, FC, Suspense} from 'react'
 import {Route, Routes, Navigate} from "react-router-dom"
 import {MasterLayout} from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
-import {DashboardWrapper} from '../components/pages/dashboard/DashboardWrapper'
-import {MenuTestPage} from '../components/pages/MenuTestPage'
+import {DashboardWrapper} from '../components/dashboard/DashboardWrapper'
+import {MenuTestPage} from '../components/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
-import BuilderPageWrapper from '../components/pages/layout-builder/BuilderPageWrapper'
+import BuilderPageWrapper from '../components/layout-builder/BuilderPageWrapper'
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
