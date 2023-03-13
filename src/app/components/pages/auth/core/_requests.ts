@@ -25,11 +25,11 @@ export function register(
   password_confirmation: string
 ) {
   return axios.post(REGISTER_URL, {
-    email,
+    email:email,
     first_name: firstname,
     last_name: lastname,
-    password,
-    password_confirmation,
+    password:password,
+    password_confirmation:password_confirmation,
   })
 }
 

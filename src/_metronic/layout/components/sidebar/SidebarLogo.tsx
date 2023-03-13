@@ -47,7 +47,7 @@ const SidebarLogo = () => {
         />
       </Link>
 
-      {(appSidebarDefaultMinimizeDesktopEnabled || appSidebarDefaultCollapseDesktopEnabled) && (
+      {/* {(appSidebarDefaultMinimizeDesktopEnabled || appSidebarDefaultCollapseDesktopEnabled) && (
         <div
           id='kt_app_sidebar_toggle'
           className={clsx(
@@ -61,7 +61,7 @@ const SidebarLogo = () => {
         >
           <KTSVG path='/media/icons/duotune/arrows/arr079.svg' className='svg-icon-2 rotate-180' />
         </div>
-      )}
+      )} */}
     </div>
   )
 }
