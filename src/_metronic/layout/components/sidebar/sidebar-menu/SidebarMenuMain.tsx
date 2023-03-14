@@ -1,4 +1,6 @@
+import { ADD_ADMIN, ADD_EMPLOYEE } from "../../../../../app/helpers/routesConstant";
 import { SidebarMenuItem } from "./SidebarMenuItem";
+import { SidebarMenuItemWithSub } from "./SidebarMenuItemWithSub";
 
 const SidebarMenuMain = () => {
   // const intl = useIntl();
@@ -12,7 +14,13 @@ const SidebarMenuMain = () => {
         title="Dashboard"
         fontIcon="bi-app-indicator"
       />
-      <SidebarMenuItem to="/addUser" icon="/media/icons/duotune/communication/com006.svg" title="Add User" fontIcon="bi-layers" />
+{/* {hasPermission(actionsRole.ONLY_ADMIN) && ( */}
+      <SidebarMenuItemWithSub to="/crafted/accounts" title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-person">
+        <SidebarMenuItem to={ADD_EMPLOYEE} title="Add Employee" fontIcon="bi-layers" hasBullet={true} />
+        <SidebarMenuItem to={ADD_ADMIN} title="Add Admin" fontIcon="bi-layers" hasBullet={true} />
+      </SidebarMenuItemWithSub>
+{/* )} */}
+
       {/* <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">Crafted</span>
