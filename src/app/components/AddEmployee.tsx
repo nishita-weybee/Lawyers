@@ -4,6 +4,7 @@ import { useAuth } from "./auth";
 import * as Yup from "yup";
 import { register } from "./auth/core/_requests";
 import clsx from "clsx";
+import { AlertModal } from "./common/modal/AlertModal";
 
 const initialValues = {
   firstname: "",
@@ -21,8 +22,19 @@ const registrationSchema = Yup.object().shape({
 
 const AddEmployee = () => {
   const [loading, setLoading] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
+  const [modalShow, setModalShow] = useState(false);
+  let showLoader = false;
 
-  const { saveAuth, setCurrentUser } = useAuth();
+  // const togglePassword = () => {
+  //   if (passwordType === "password") {
+  //     setPasswordType("text");
+  //     return;
+  //   }
+  //   setPasswordType("password");
+  // };
+
+  const { saveAuth } = useAuth();
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
@@ -31,17 +43,16 @@ const AddEmployee = () => {
       try {
         const data = await register(values.email, values.firstname, values.lastname, values.password);
         setLoading(false);
+        setModalShow(true);
         resetForm();
-
-        // saveAuth(auth);
-        // const { data: user } = await getUserByToken(auth.api_token);
-        // setCurrentUser(user);
-      } catch (error) {
-        console.error(error);
+        showLoader = true;
+      } catch (err: any) {
+        console.error(err);
         saveAuth(undefined);
-        setStatus("The registration details is incorrect");
+        setStatus(err.response.data.error.errorMessage);
         setSubmitting(false);
         setLoading(false);
+        showLoader = false;
       }
     },
   });
@@ -143,16 +154,16 @@ const AddEmployee = () => {
                 )}
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-6 position-relative">
               <label className="col-lg-4 col-form-label fw-bold fs-6">Password</label>
               <div className="col-lg-8">
                 <input
-                  type="password"
+                  type={passwordType}
                   placeholder="Password"
                   autoComplete="off"
                   {...formik.getFieldProps("password")}
                   className={clsx(
-                    "form-control bg-transparent",
+                    "form-control bg-transparent pass",
                     {
                       "is-invalid": formik.touched.password && formik.errors.password,
                     },
@@ -161,6 +172,11 @@ const AddEmployee = () => {
                     }
                   )}
                 />
+
+                {/* <span className="position-absolute" style={{ right: "19px", top: "12px" }} onClick={togglePassword}>
+                  {passwordType === "password" ? <i className="fas fa-eye" id="show_eye" /> : <i className="fas fa-eye-slash" id="hide_eye" />}
+                </span> */}
+
                 {formik.touched.password && formik.errors.password && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
@@ -182,6 +198,17 @@ const AddEmployee = () => {
             </button>
           </div>
         </form>
+        {!showLoader && (
+          <AlertModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            alertType="success"
+            alertTitle="Success!!"
+            alertBody="You created employee user"
+            cancelBtn="Okay"
+            cancelFun={() => setModalShow(false)}
+          />
+        )}
       </div>
     </div>
   );

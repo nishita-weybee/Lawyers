@@ -13,8 +13,8 @@ const loginSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  email: "",
+  password: "",
 };
 
 /*
@@ -40,13 +40,13 @@ export function Login() {
         // setCurrentUser(user);
 
         const tokenInfo = await login(values.email, values.password);
-        saveAuth(tokenInfo.data.data.token);
+        saveAuth(tokenInfo.data.data);
         setCurrentUser(tokenInfo.data);
         navigate("/dashboard");
-      } catch (error) {
-        console.error(error);
+      } catch (err: any) {
+        console.log(err.response);
         saveAuth(undefined);
-        setStatus("The login details are incorrect");
+        setStatus(err?.response?.data?.error?.errorMessage);
         setSubmitting(false);
         setLoading(false);
       }
@@ -94,6 +94,7 @@ export function Login() {
         <label className="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
         <input
           type="password"
+          placeholder="Password"
           autoComplete="off"
           {...formik.getFieldProps("password")}
           className={clsx(

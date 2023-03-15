@@ -31,7 +31,8 @@ const setAuth = (auth: AuthModel) => {
 
   try {
     const lsValue = JSON.stringify(auth)
-    localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, lsValue)
+    localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, lsValue);
+    localStorage.setItem(AUTH_ROLE, auth.role);
 
   } catch (error) {
     console.error('AUTH LOCAL STORAGE SAVE ERROR', error)
@@ -75,14 +76,14 @@ export function setupAxios(axios: any) {
 
     (config: AxiosRequestConfig): AxiosRequestConfig => {
       const auth = getAuth()
-      if (auth && config.headers) {
+      if (auth && config.headers && auth.token) {
 
-        config.headers.Authorization = `Bearer ${auth}`
+        config.headers.Authorization = `Bearer ${auth.token}`
       }
 
       const abortController = new AbortController();
       const timeoutId = setTimeout(
-        () => abortController.abort(), 8000)
+        () => abortController.abort(), 20000)
       return { ...config, timeoutId, signal: abortController.signal } as AxiosRequestConfig
 
     },

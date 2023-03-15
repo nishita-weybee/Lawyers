@@ -8,7 +8,8 @@ export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
 export const LOGIN_URL = `${API_URL}/login`
 export const REGISTER_URL = `${API_URL}/register`
 export const REGISTER_ADMIN = `${API_URL}/register-admin`
-export const REQUEST_PASSWORD_URL = `${API_URL}/forgot_password`
+export const REQUEST_PASSWORD_URL = `${API_URL}/forgotpassword`
+export const RESER_PASSWORD = `${API_URL}/resetpassword`
 
 // Server should return AuthModel
 export function login(email: string, password: string) {
@@ -51,9 +52,15 @@ export function registerAdmin(
 
 // Server should return object => { result: boolean } (Is Email in DB)
 export function requestPassword(email: string) {
-  return axios.post<{ result: boolean }>(REQUEST_PASSWORD_URL, {
-    email,
+  return axios.post<{ result: boolean }>(REQUEST_PASSWORD_URL, email, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
+}
+
+export function resetPassword(newPass: Object) {
+  return axios.post(RESER_PASSWORD, newPass, )
 }
 
 export function getUserByToken(token: string) {

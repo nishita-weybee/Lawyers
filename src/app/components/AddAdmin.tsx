@@ -4,6 +4,7 @@ import { useAuth } from "./auth";
 import * as Yup from "yup";
 import { registerAdmin } from "./auth/core/_requests";
 import clsx from "clsx";
+import { AlertModal } from "./common/modal/AlertModal";
 
 const initialValues = {
   firstname: "",
@@ -22,29 +23,38 @@ const registrationSchema = Yup.object().shape({
 const AddAdmin = () => {
   const [loading, setLoading] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth();
+  const [passwordType, setPasswordType] = useState("password");
+  const [modalShow, setModalShow] = useState(false);
+  let showLoader = false;
+  // const togglePassword = () => {
+  //   if (passwordType === "password") {
+  //     setPasswordType("text");
+  //     return;
+  //   }
+  //   setPasswordType("password");
+  // };
+
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: async (values, { setStatus, setSubmitting }) => {
+    onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
       setLoading(true);
       try {
         const data = await registerAdmin(values.email, values.firstname, values.lastname, values.password);
+        resetForm();
         setLoading(false);
-
-        // saveAuth(auth);
-        // const { data: user } = await getUserByToken(auth.api_token);
-        // setCurrentUser(user);
-      } catch (error: any) {
-        console.log(error);
+        setModalShow(true);
+        console.log(data);
+        showLoader = true;
+      } catch (err: any) {
         saveAuth(undefined);
-        setStatus("The registration details is incorrect");
+        setStatus(err.response?.data?.error?.errorMessage);
         setSubmitting(false);
         setLoading(false);
+        showLoader = false;
       }
     },
   });
-
-
 
   return (
     <div className="app-container container-xxl">
@@ -55,7 +65,13 @@ const AddAdmin = () => {
           </div>
         </div>
 
-        <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
+        <form
+          autoComplete="off"
+          className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
+          noValidate
+          id="kt_login_signup_form"
+          onSubmit={formik.handleSubmit}
+        >
           <div className="card-body border-top p-9">
             {formik.status && (
               <div className="mb-lg-15 alert alert-danger">
@@ -144,7 +160,7 @@ const AddAdmin = () => {
             </div>
             <div className="row mb-6">
               <label className="col-lg-4 col-form-label fw-bold fs-6">Password</label>
-              <div className="col-lg-8">
+              <div className="col-lg-8 position-relative">
                 <input
                   type="password"
                   placeholder="Password"
@@ -160,6 +176,11 @@ const AddAdmin = () => {
                     }
                   )}
                 />
+
+                {/* <span className="position-absolute " style={{ right: "19px", top: "12px" }} onClick={togglePassword}>
+                  {passwordType === "password" ? <i className="fas fa-eye" id="show_eye" /> : <i className="fas fa-eye-slash" id="hide_eye" />}
+                </span> */}
+
                 {formik.touched.password && formik.errors.password && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
@@ -181,6 +202,18 @@ const AddAdmin = () => {
             </button>
           </div>
         </form>
+
+        {!showLoader && (
+          <AlertModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            alertType="success"
+            alertTitle="Success!"
+            alertBody="You created admin user"
+            cancelBtn="Okay"
+            cancelFun={() => setModalShow(false)}
+          />
+        )}
       </div>
     </div>
   );

@@ -15,10 +15,7 @@
   .app-header {
     @include property(z-index, $app-header-base-z-index);
 
-    // background-color: transparent;
-    // border-bottom: 1px dashed var(--kt-app-sidebar-light-separator-color);
-    // box-shadow: none;
-    background-color: var(--bs-app-bg-color);
+    background-color: var(--kt-app-header-base-bg-color);
     box-shadow: var(--kt-app-header-base-box-shadow);
     border-bottom: var(--kt-app-header-base-border-bottom);
   }
