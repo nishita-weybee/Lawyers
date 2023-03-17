@@ -16,16 +16,14 @@ const AuthLayout = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column flex-lg-row flex-column-fluid h-100">     
-      <div className="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">        
-        <div className="d-flex flex-center flex-column flex-lg-row-fluid">         
-          <div className="w-lg-500px p-10 bg-white card">
+    <div className="d-flex flex-column flex-lg-row flex-column-fluid h-100">
+      <div className="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+        <div className="d-flex flex-center flex-column flex-lg-row-fluid">
+          <div className="w-lg-500px p-10 bg-white card col-md-5 col-sm-6 col-12">
             <Outlet />
-          </div>         
+          </div>
         </div>
-      
 
-     
         {/* <div className="d-flex flex-center flex-wrap px-5">     
           <div className="d-flex fw-semibold text-primary fs-base">
             <a href="#" className="px-5" target="_blank">
@@ -39,9 +37,7 @@ const AuthLayout = () => {
             </a>
           </div>         
         </div> */}
-      
       </div>
-     
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const actionsRole = {
 
 const mappings = new Map();
 
-mappings.set(actionsRole.VIEW_FILE, ["Employee,Admin"]);
+mappings.set(actionsRole.VIEW_FILE, ["Admin"]);
 mappings.set(actionsRole.ONLY_ADMIN, ["Employee"]);
 
 function hasPermission(action: any) {

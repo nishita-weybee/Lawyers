@@ -58,7 +58,7 @@ const Navbar = () => {
         <HeaderUserMenu />
       </div>
 
-      {config.app?.header?.default?.menu?.display && (
+      {/* {config.app?.header?.default?.menu?.display && (
         <div className='app-navbar-item d-lg-none ms-2 me-n3' title='Show header menu'>
           <div
             className='btn btn-icon btn-active-color-primary w-35px h-35px'
@@ -67,7 +67,7 @@ const Navbar = () => {
             <KTSVG path='/media/icons/duotune/text/txt001.svg' className={btnIconClass} />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

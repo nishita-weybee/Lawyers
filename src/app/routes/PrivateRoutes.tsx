@@ -7,9 +7,12 @@ import { MenuTestPage } from "../components/MenuTestPage";
 import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_ADMIN, ADD_EMPLOYEE } from "../helpers/routesConstant";
-import AddAdmin from "../components/AddAdmin";
-import AddEmployee from "../components/AddEmployee";
+import { ADD_USER, EDIT_PROFILE, PROFILE, VIEW_USER } from "../helpers/routesConstant";
+import AddUser from "../components/pages/user/AddUser";
+import ViewUser from "../components/pages/user/ViewUser";
+import Profile from "../components/pages/user/Profile";
+import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
+import EditProfile from "../components/pages/user/EditProfile";
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -23,8 +26,21 @@ const PrivateRoutes = () => {
     <Routes>
       <Route element={<MasterLayout />}>
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
-        <Route path={ADD_EMPLOYEE} element={<AddEmployee />} />
-        <Route path={ADD_ADMIN} element={<AddAdmin />} />
+        {/* for admin */}
+        {hasPermission(actionsRole.VIEW_FILE) && (
+          <>
+            <Route path={ADD_USER} element={<AddUser />} />
+            <Route path={VIEW_USER} element={<ViewUser />} />
+          </>
+        )}
+        {/* for employee */}
+        {/* {hasPermission(actionsRole.ONLY_ADMIN) && ( */}
+          <>
+            <Route path={PROFILE} element={<Profile />} />
+            <Route path={EDIT_PROFILE} element={<EditProfile />} />
+          </>
+        {/* )} */}
+
         <Route path="dashboard" element={<DashboardWrapper />} />
         <Route path="builder" element={<BuilderPageWrapper />} />
         <Route path="menu-test" element={<MenuTestPage />} />

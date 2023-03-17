@@ -1,15 +1,18 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { login } from "../core/_requests";
 import { useAuth } from "../core/Auth";
+import { CONTINUE, PLEASE_WAIT, REQUIRED } from "../../../helpers/globalConstant";
+import { DASHBOARD } from "../../../helpers/routesConstant";
+import { useState } from "react";
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string().email("Wrong email format").min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required("Email is required"),
-  password: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required("Password is required"),
+  email: Yup.string().email("Wrong email format").required(REQUIRED),
+  password: Yup.string()
+    .required(REQUIRED)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/, "Wrong password format"),
 });
 
 const initialValues = {
@@ -17,38 +20,33 @@ const initialValues = {
   password: "",
 };
 
-/*
-  Formik+YUP+Typescript:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-  https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
-*/
-
 export function Login() {
-  const [loading, setLoading] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
-
+  const [passwordType, setPasswordType] = useState("password");
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
-      setLoading(true);
+      setSubmitting(true);
       try {
-        // const { data: auth } = await login(values.email, values.password);
-        // saveAuth(auth);
-        // const { data: user } = await getUserByToken(auth.api_token);
-        // setCurrentUser(user);
-
         const tokenInfo = await login(values.email, values.password);
         saveAuth(tokenInfo.data.data);
         setCurrentUser(tokenInfo.data);
-        navigate("/dashboard");
+        navigate(`${DASHBOARD}`);
+        setSubmitting(false);
       } catch (err: any) {
         console.log(err.response);
         saveAuth(undefined);
         setStatus(err?.response?.data?.error?.errorMessage);
         setSubmitting(false);
-        setLoading(false);
       }
     },
   });
@@ -90,23 +88,29 @@ export function Login() {
         )}
       </div>
 
-      <div className="fv-row mb-3">
+      <div className="fv-row mb-3 ">
         <label className="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          autoComplete="off"
-          {...formik.getFieldProps("password")}
-          className={clsx(
-            "form-control bg-transparent",
-            {
-              "is-invalid": formik.touched.password && formik.errors.password,
-            },
-            {
-              "is-valid": formik.touched.password && !formik.errors.password,
-            }
-          )}
-        />
+        <div className="position-relative">
+          <input
+            type={passwordType}
+            placeholder="Password"
+            autoComplete="off"
+            {...formik.getFieldProps("password")}
+            className={clsx(
+              "form-control bg-transparent",
+              {
+                "is-invalid password-icon": formik.touched.password && formik.errors.password,
+              },
+              {
+                "is-valid password-icon": formik.touched.password && !formik.errors.password,
+              }
+            )}
+          />
+          <span className="position-absolute " style={{ right: "10px", top: "13px" }} onClick={togglePassword}>
+            {passwordType === "password" ? <i className="fas fa-eye-slash" id="hide_eye" /> : <i className="fas fa-eye" id="show_eye" />}
+          </span>
+        </div>
+
         {formik.touched.password && formik.errors.password && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">
@@ -126,13 +130,8 @@ export function Login() {
 
       <div className="d-grid mb-10">
         <button type="submit" id="kt_sign_in_submit" className="btn btn-primary" disabled={formik.isSubmitting || !formik.isValid}>
-          {!loading && <span className="indicator-label">Continue</span>}
-          {loading && (
-            <span className="indicator-progress" style={{ display: "block" }}>
-              Please wait...
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          )}
+          {!formik.isSubmitting && <span className="indicator-label">{CONTINUE}</span>}
+          {formik.isSubmitting && PLEASE_WAIT}
         </button>
       </div>
     </form>

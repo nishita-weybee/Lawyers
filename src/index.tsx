@@ -16,6 +16,10 @@ import "./_metronic/assets/sass/style.react.scss";
 import { AppRoutes } from "./app/routes/AppRoutes";
 import { AuthProvider, setupAxios } from "./app/components/auth";
 import "./index.scss";
+import { Provider } from "react-redux";
+import store from "./app/store/store";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /**
  * Creates `axios-mock-adapter` instance for provided `axios` instance, add
  * basic Metronic mocks and returns it.
@@ -36,9 +40,12 @@ if (container) {
   createRoot(container).render(
     <QueryClientProvider client={queryClient}>
       <MetronicI18nProvider>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
+        <Provider store={store}>
+          <AuthProvider>
+            <AppRoutes />
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+          </AuthProvider>
+        </Provider>
       </MetronicI18nProvider>
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
