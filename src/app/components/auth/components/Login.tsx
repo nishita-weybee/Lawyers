@@ -43,7 +43,7 @@ export function Login() {
         navigate(`${DASHBOARD}`);
         setSubmitting(false);
       } catch (err: any) {
-        console.log(err.response);
+        console.log(err.response.status);
         saveAuth(undefined);
         setStatus(err?.response?.data?.error?.errorMessage);
         setSubmitting(false);

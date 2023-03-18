@@ -59,7 +59,7 @@ export function ForgotPassword() {
 
       {hasErrors === false && (
         <div className="mb-10 bg-light-info p-8 rounded">
-          <div className="text-info">Sent reset password link. Please check your email</div>
+          <div className="text-info">We have sent a password reset link.</div>
         </div>
       )}
 

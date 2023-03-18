@@ -1,10 +1,10 @@
 import { useState } from "react";
 import * as Yup from "yup";
-import clsx from "clsx";
 import { useFormik } from "formik";
 import { resetPassword } from "../core/_requests";
 import { Link } from "react-router-dom";
 import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
+import InputPass from "../../common/inputPass.tsx/inputPass";
 
 const initialValues = {
   password: "",
@@ -24,34 +24,18 @@ const ChangePasswordSchema = Yup.object().shape({
 });
 
 export function ChangePassword() {
-  const [loading, setLoading] = useState(false);
-  const [passLabel, setPassLabel] = useState();
-
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined);
-  const [passwordType, setPasswordType] = useState("password");
 
   let params = new URL(`${document.location}`).searchParams;
   let token = params.get("token");
   let id = params.get("Id");
 
-  const togglePassword = (name: any) => {
-    setPassLabel(name);
-
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
-  };
-
   const formik = useFormik({
     initialValues,
     validationSchema: ChangePasswordSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      setLoading(true);
       setHasErrors(undefined);
       setSubmitting(true);
-
       resetPassword({
         userId: id,
         password: values.password,
@@ -59,12 +43,10 @@ export function ChangePassword() {
       })
         .then(({ data: { result } }) => {
           setHasErrors(false);
-          setLoading(false);
           setSubmitting(false);
         })
         .catch((err: any) => {
           setHasErrors(true);
-          setLoading(false);
           setSubmitting(false);
           setStatus(err.response.data.error.errorMessage);
         });
@@ -91,98 +73,39 @@ export function ChangePassword() {
       {hasErrors === false && (
         <div className="mb-10 bg-light-info p-8 rounded">
           <div className="text-info">
-            Password reset successfully, Please <Link to="/auth/login">login</Link>
+            Password has been successfully changed.{" "}
+            <Link to="/auth/login" className="text-info">
+              <strong>Login</strong>
+            </Link>{" "}
+            to continue
           </div>
         </div>
       )}
 
-      {/* <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
-        <input
-          type='email'
-          placeholder=''
-          autoComplete='off'
-          {...formik.getFieldProps('email')}
-          className={clsx(
-            'form-control bg-transparent',
-            {'is-invalid': formik.touched.email && formik.errors.email},
-            {
-              'is-valid': formik.touched.email && !formik.errors.email,
-            }
-          )}
-        />
-        {formik.touched.email && formik.errors.email && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.email}</span>
-            </div>
-          </div>
-        )}
-      </div> */}
-
       <div className="fv-row mb-8" data-kt-password-meter="true">
         <div className="mb-1">
           <label className="form-label fw-bolder text-dark fs-6">Password</label>
-          <div className="position-relative mb-3">
-            <input
-              type={passLabel === "p" ? passwordType : "password"}
-              placeholder="Password"
-              autoComplete="off"
-              {...formik.getFieldProps("password")}
-              className={clsx(
-                "form-control bg-transparent",
-                {
-                  "is-invalid password-icon": formik.touched.password && formik.errors.password,
-                },
-                {
-                  "is-valid password-icon": formik.touched.password && !formik.errors.password,
-                }
-              )}
-            />
-            <span className="position-absolute" style={{ right: "10px", top: "13px" }} onClick={() => togglePassword("p")}>
-              {passLabel === "p" && passwordType === "password" ? <i className="fas fa-eye-slash" id="pass" /> : <i className="fas fa-eye" />}
-            </span>
-            {formik.touched.password && formik.errors.password && (
-              <div className="fv-plugins-message-container">
-                <div className="fv-help-block">
-                  <span role="alert">{formik.errors.password}</span>
-                </div>
+          <InputPass formik={formik} placeholder="Password" fieldProp="password" touched={formik.touched.password} errors={formik.errors.password} />
+          {formik.touched.password && formik.errors.password && (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">
+                <span role="alert">{formik.errors.password}</span>
               </div>
-            )}
-          </div>
-
-          {/* <div className="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-            <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-            <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-            <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-            <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
-          </div> */}
+            </div>
+          )}
         </div>
         <div className="text-muted">Use 6 or more characters with a mix of letters, numbers & symbols.</div>
       </div>
 
       <div className="fv-row mb-5">
         <label className="form-label fw-bolder text-dark fs-6">Confirm Password</label>
-        <div className="position-relative">
-          <input
-            type={passLabel === "pc" ? passwordType : "password"}
-            placeholder="Password confirmation"
-            autoComplete="off"
-            {...formik.getFieldProps("changepassword")}
-            className={clsx(
-              "form-control bg-transparent",
-              {
-                "is-invalid password-icon": formik.touched.changepassword && formik.errors.changepassword,
-              },
-              {
-                "is-valid password-icon": formik.touched.changepassword && !formik.errors.changepassword,
-              }
-            )}
-          />
-          <span className="position-absolute" style={{ right: "10px", top: "13px" }} onClick={() => togglePassword("pc")}>
-            {passLabel === "pc" && passwordType === "password" ? <i className="fas fa-eye-slash" /> : <i className="fas fa-eye" />}
-          </span>
-        </div>
+        <InputPass
+          formik={formik}
+          placeholder="Password confirmation"
+          fieldProp="changepassword"
+          touched={formik.touched.changepassword}
+          errors={formik.errors.changepassword}
+        />
         {formik.touched.changepassword && formik.errors.changepassword && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">

@@ -40,7 +40,7 @@ const UsersListFilter = () => {
       <button
         disabled={isLoading}
         type="button"
-        className="btn btn-light-primary me-3"
+        className="btn btn-sm btn-light-primary me-3"
         data-kt-menu-trigger="click"
         data-kt-menu-placement="bottom-end"
       >
@@ -132,7 +132,7 @@ const UsersListFilter = () => {
 
           {/* begin::Actions */}
           <div className="d-flex justify-content-end">
-            <button
+            {/* <button
               type="button"
               disabled={isLoading}
               onClick={filterData}
@@ -141,12 +141,12 @@ const UsersListFilter = () => {
               data-kt-user-table-filter="reset"
             >
               Reset
-            </button>
+            </button> */}
             <button
               disabled={isLoading}
               type="button"
               onClick={resetData}
-              className="btn btn-primary fw-bold px-6"
+              className="btn btn-sm btn-primary fw-bold px-6"
               data-kt-menu-dismiss="true"
               data-kt-user-table-filter="filter"
             >
