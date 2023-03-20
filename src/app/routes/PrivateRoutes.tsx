@@ -7,7 +7,7 @@ import { MenuTestPage } from "../components/MenuTestPage";
 import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_USER, EDIT_PROFILE, PROFILE, VIEW_USER } from "../helpers/routesConstant";
+import { ADD_USER, EDIT_PROFILE, MASTERS, PROFILE, VIEW_USER } from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
 import Profile from "../components/pages/user/Profile";
@@ -31,14 +31,15 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
+            <Route path={MASTERS} element={""} />
           </>
         )}
         {/* for employee */}
         {/* {hasPermission(actionsRole.ONLY_ADMIN) && ( */}
-          <>
-            <Route path={PROFILE} element={<Profile />} />
-            <Route path={EDIT_PROFILE} element={<EditProfile />} />
-          </>
+        <>
+          <Route path={PROFILE} element={<Profile />} />
+          <Route path={EDIT_PROFILE} element={<EditProfile />} />
+        </>
         {/* )} */}
 
         <Route path="dashboard" element={<DashboardWrapper />} />

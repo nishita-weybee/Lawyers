@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { initialQueryState, KTSVG, useDebounce } from "../../../../../../../_metronic/helpers";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 
 const UsersListSearchComponent = () => {
   const { updateState } = useQueryRequest();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>("");
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
@@ -22,6 +24,12 @@ const UsersListSearchComponent = () => {
     // More details about useDebounce: https://usehooks.com/useDebounce/
   );
 
+  const handleSearch = (e: any) => {
+    setSearchTerm(e.target.value);
+    searchParams.set("Search", e.target.value);
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className="card-title">
       {/* begin::Search */}
@@ -30,10 +38,11 @@ const UsersListSearchComponent = () => {
         <input
           type="text"
           data-kt-user-table-filter="search"
-          className="form-control form-control-solid w-250px ps-14 "
+          className="form-control form-control-solid w-250px ps-14"
           placeholder="Search user"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchParams.get("Search") || searchTerm}
+          // onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearch}
         />
       </div>
       {/* end::Search */}

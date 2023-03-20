@@ -1,61 +1,59 @@
-import clsx from 'clsx'
-import {FC, PropsWithChildren, useMemo} from 'react'
-import {HeaderProps} from 'react-table'
-import {initialQueryState} from '../../../../../../../_metronic/helpers'
-import {useQueryRequest} from '../../core/QueryRequestProvider'
-import {User} from '../../core/_models'
+import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { HeaderProps } from "react-table";
+import { User } from "../../core/_models";
 
 type Props = {
-  className?: string
-  title?: string
-  tableProps: PropsWithChildren<HeaderProps<User>>
-}
-const UserCustomHeader: FC<Props> = ({className, title, tableProps}) => {
-  const id = tableProps.column.id
-  const {state, updateState} = useQueryRequest()
-
-  const isSelectedForSorting = useMemo(() => {
-    return state.sort && state.sort === id
-  }, [state, id])
-  const order: 'asc' | 'desc' | undefined = useMemo(() => state.order, [state])
+  className?: string;
+  title?: string;
+  tableProps: PropsWithChildren<HeaderProps<User>>;
+};
+const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
+  const id = tableProps.column.id;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [sortBy, setSortBy] = useState<boolean | null>(false);
+  const [orderBy, setOrderby] = useState<boolean | null>();
+  console.log(sortBy);
+  useEffect(() => {
+    setSearchParams({
+      SortBy: "UserName",
+    });
+  }, []);
 
   const sortColumn = () => {
-    // avoid sorting for these columns
-    if (id === 'actions' || id === 'selection') {
-      return
-    }
+    switch (id) {
+      case "name":
+        setSortBy(true);
+        setOrderby(!orderBy);
+        setSearchParams({
+          SortBy: "UserName",
+          // OrderBy: `${!orderBy}`,
+        });
+        break;
+      case "role":
+        setSortBy(true);
+        setOrderby(!orderBy);
+        setSearchParams({
+          SortBy: "UserRole",
+          // OrderBy: `${!orderBy}`,
+        });
+        break;
 
-    if (!isSelectedForSorting) {
-      // enable sort asc
-      updateState({sort: id, order: 'asc', ...initialQueryState})
-      return
+      default:
+        break;
     }
-
-    if (isSelectedForSorting && order !== undefined) {
-      if (order === 'asc') {
-        // enable sort desc
-        updateState({sort: id, order: 'desc', ...initialQueryState})
-        return
-      }
-
-      // disable sort
-      updateState({sort: undefined, order: undefined, ...initialQueryState})
-    }
-  }
+  };
 
   return (
-    <th
-      {...tableProps.column.getHeaderProps()}
-      className={clsx(
-        className,
-        isSelectedForSorting && order !== undefined && `table-sort-${order}`
-      )}
-      style={{cursor: 'pointer'}}
-      onClick={sortColumn}
-    >
+    <th {...tableProps.column.getHeaderProps()} style={{ cursor: "pointer" }} onClick={sortColumn}>
       {title}
+      {sortBy ? (
+        <span className="ms-2">
+          <i className={`fa-solid fa-chevron-${orderBy ? "up" : "down"}`} />
+        </span>
+      ) : null}
     </th>
-  )
-}
+  );
+};
 
-export {UserCustomHeader}
+export { UserCustomHeader };

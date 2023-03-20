@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className={clsx('app-navbar-item', itemClass)}>
         <div
           className={clsx('cursor-pointer symbol', userAvatarClass)}
-          data-kt-menu-trigger="{default: 'click'}"
+          data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
           data-kt-menu-attach='parent'
           data-kt-menu-placement='bottom-end'
         >

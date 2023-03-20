@@ -18,10 +18,10 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
 
   return (
     <>
-      {userList.records.length > 0 && (
+      {userList.records && (
         <>
           <UsersTable userList={userList.records} />
-          <div className="mt-5 py-5">
+          <div className="card-body pt-0">
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}
@@ -39,7 +39,7 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
               disabledLinkClassName="disabled"
               nextLinkClassName="page-link"
               previousLinkClassName="page-link"
-              initialPage={0}
+              // initialPage={0}
               forcePage={searchParams.get("PageNumber") ? Number(searchParams.get("PageNumber")) - 1 : 0}
             />
           </div>

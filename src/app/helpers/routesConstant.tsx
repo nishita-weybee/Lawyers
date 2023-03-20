@@ -6,3 +6,4 @@ export const FORGOT_PASSWORD = "forgot-password";
 export const DASHBOARD = "/dashboard";
 export const PROFILE = "/profile";
 export const EDIT_PROFILE = `${PROFILE}/edit`;
+export const MASTERS = "/masters";

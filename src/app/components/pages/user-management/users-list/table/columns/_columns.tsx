@@ -24,20 +24,20 @@ const usersColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => <UserCustomHeader tableProps={props} title="Role" className="min-w-125px" />,
     accessor: "role",
   },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Last login" className="min-w-125px" />,
-    id: "last_login",
-    Cell: ({ ...props }) => <UserLastLoginCell last_login={props.data[props.row.index].last_login} />,
-  },
+  // {
+  //   Header: (props) => <UserCustomHeader tableProps={props} title="Last login" className="min-w-125px" />,
+  //   id: "last_login",
+  //   Cell: ({ ...props }) => <UserLastLoginCell last_login={props.data[props.row.index].last_login} />,
+  // },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Contact" className="min-w-125px" />,
-    id: "two_steps",
+    id: "contact",
     Cell: ({ ...props }) => <UserTwoStepsCell two_steps={props.data[props.row.index].two_steps} />,
   },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Joined day" className="min-w-125px" />,
-    accessor: "joined_day",
-  },
+  // {
+  //   Header: (props) => <UserCustomHeader tableProps={props} title="Joined day" className="min-w-125px" />,
+  //   accessor: "joined_day",
+  // },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-end min-w-100px" />,
     id: "actions",

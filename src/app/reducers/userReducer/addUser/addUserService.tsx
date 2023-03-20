@@ -7,13 +7,17 @@ export const getUserRoles = async () => {
 };
 
 export const getUserList = async (path: any) => {
+  // try {
   const res = await axios.get(`${USER_LIST}${path}`);
   return res;
+  // } catch {
+  //   (err: any) =>     console.log(err);
+  // }
 };
 
 export const getUserDetails = async () => {
   const res = await axios.get(`${USER_DETAILS}`);
-   return res.data;
+  return res.data;
 };
 
 export const editUserDetails = async (profileDetails: any) => {

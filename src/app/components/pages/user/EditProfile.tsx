@@ -21,7 +21,7 @@ function EditProfile() {
       <div id="kt_account_settings_profile_details" className="collapse show">
         <form id="kt_account_profile_details_form" className="form fv-plugins-bootstrap5 fv-plugins-framework" noValidate={false}>
           <div className="card-body border-top p-9">
-            <div className="row mb-6">
+            {/* <div className="row mb-6">
               <label className="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
 
               <div className="col-lg-8">
@@ -87,7 +87,7 @@ function EditProfile() {
                       name="fname"
                       className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                       placeholder="First name"
-                      value="Max"
+                      defaultValue="Max"
                     />
                     <div className="fv-plugins-message-container invalid-feedback"></div>
                   </div>
@@ -98,7 +98,7 @@ function EditProfile() {
                       name="lname"
                       className="form-control form-control-lg form-control-solid"
                       placeholder="Last name"
-                      value="Smith"
+                      defaultValue="Smith"
                     />
                     <div className="fv-plugins-message-container invalid-feedback"></div>
                   </div>
@@ -115,7 +115,7 @@ function EditProfile() {
                   name="company"
                   className="form-control form-control-lg form-control-solid"
                   placeholder="Company name"
-                  value="Keenthemes"
+                  defaultValue="Keenthemes"
                 />
                 <div className="fv-plugins-message-container invalid-feedback"></div>
               </div>
@@ -140,7 +140,7 @@ function EditProfile() {
                   name="phone"
                   className="form-control form-control-lg form-control-solid"
                   placeholder="Phone number"
-                  value="044 3276 454 935"
+                  defaultValue="044 3276 454 935"
                 />
                 <div className="fv-plugins-message-container invalid-feedback"></div>
               </div>
@@ -155,7 +155,7 @@ function EditProfile() {
                   name="website"
                   className="form-control form-control-lg form-control-solid"
                   placeholder="Company website"
-                  value="keenthemes.com"
+                  defaultValue="keenthemes.com"
                 />
               </div>
             </div>
@@ -1551,11 +1551,11 @@ function EditProfile() {
 
               <div className="col-lg-8 d-flex align-items-center">
                 <div className="form-check form-check-solid form-switch form-check-custom fv-row">
-                  <input className="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" checked={true} />
+                  <input className="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" defaultChecked={true} />
                   <label className="form-check-label" htmlFor="allowmarketing"></label>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="card-footer d-flex justify-content-end py-6 px-9">

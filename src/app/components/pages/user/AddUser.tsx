@@ -74,7 +74,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
         <div className="card-title m-0">
           <h3 className="fw-bolder m-0">Add User</h3>
         </div>
-        <div>
+        {/* <div>
           <select
             className="form-select form-select-solid"
             data-kt-select2="true"
@@ -85,10 +85,14 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
             data-allow-clear="true"
           >
             {userRoles?.map((role: string, i: any) => {
-              return <option value={role}>{role}</option>;
+              return (
+                <option key={i} value={role}>
+                  {role}
+                </option>
+              );
             })}
           </select>
-        </div>
+        </div> */}
       </div>
 
       <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
@@ -211,6 +215,35 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
               )}
 
               <div className="text-muted">Use 6 or more characters with a mix of letters, numbers & symbols.</div>
+            </div>
+          </div>
+          <div className="row mb-6">
+            <label className="col-lg-4 col-form-label fw-bold fs-6 required">Role</label>
+            <div className="col-lg-8">
+              <select
+                className="form-select form-select-solid"
+                data-kt-select2="true"
+                onChange={(e: any) => {
+                  return setRole(e.target.value);
+                }}
+                data-placeholder="Select option"
+                data-allow-clear="true"
+              >
+                {userRoles?.map((role: string, i: any) => {
+                  return (
+                    <option key={i} value={role}>
+                      {role}
+                    </option>
+                  );
+                })}
+              </select>
+              {formik.touched.firstname && formik.errors.firstname && (
+                <div className="fv-plugins-message-container">
+                  <div className="fv-help-block">
+                    <span role="alert">{formik.errors.firstname}</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -15,9 +15,10 @@ export interface Props {
 
 const ViewUser: React.FC<Props> = ({ getUserList, loadingList, userList, error }) => {
   const location = useLocation();
+
   useEffect(() => {
     getUserList(location.search);
-  }, [location.search]);
+  }, [getUserList, location.search]);
 
   return (
     <>

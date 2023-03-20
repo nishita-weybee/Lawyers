@@ -8,7 +8,7 @@ import { useQueryResponse } from "../../core/QueryResponseProvider";
 const UsersListFilter = () => {
   const { updateState } = useQueryRequest();
   const { isLoading } = useQueryResponse();
-  const [role, setRole] = useState("FirstName");
+  const [role, setRole] = useState("Name");
   const [orderBy, setOrderBy] = useState("false");
   const [lastLogin, setLastLogin] = useState<string | undefined>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,13 +18,10 @@ const UsersListFilter = () => {
   }, []);
 
   const resetData = () => {
-    searchParams.set("SortBy", role);
-    setSearchParams(searchParams);
-
-    searchParams.set("OrderBy", orderBy);
-    setSearchParams(searchParams);
-
-    // updateState({ filter: undefined, ...initialQueryState });
+    setSearchParams({
+      SortBy: role,
+      OrderBy: orderBy,
+    });
   };
 
   const filterData = () => {
@@ -78,7 +75,7 @@ const UsersListFilter = () => {
               value={role}
             >
               {/* <option value=''></option> */}
-              <option value="FirstName">Name</option>
+              <option value="Name">Name</option>
               <option value="UserName">User Name</option>
               {/* <option value='Developer'>Developer</option>
               <option value='Support'>Support</option>

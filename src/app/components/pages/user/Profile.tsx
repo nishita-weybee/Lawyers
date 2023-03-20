@@ -33,15 +33,13 @@ const Profile: React.FC<Props> = ({ getUserDetails, loading, error, userDetails 
               <>
                 <label className="col-lg-4 fw-semibold text-muted">Full Name</label>
                 <div className="col-lg-8">
-                  <span className="fw-bold fs-6 text-gray-800">
-                    {userDetails.data.firstName} {userDetails.data.lastName}
-                  </span>
+                  <span className="fw-bold fs-6 text-gray-800">{userDetails.data.name}</span>
                 </div>
               </>
             )}
           </div>
 
-          <div className="row mb-7">
+          {/* <div className="row mb-7">
             <label className="col-lg-4 fw-semibold text-muted">Company</label>
 
             <div className="col-lg-8 fv-row">
@@ -107,7 +105,7 @@ const Profile: React.FC<Props> = ({ getUserDetails, loading, error, userDetails 
             <div className="col-lg-8">
               <span className="fw-semibold fs-6 text-gray-800">Yes</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
