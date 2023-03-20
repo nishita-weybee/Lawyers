@@ -17,7 +17,7 @@ const InputPass: React.FC<Props> = ({ formik, fieldProp, placeholder, touched, e
     }
     setPasswordType("password");
   };
-  console.log(formik.touched.password);
+
 
   return (
     <div className="position-relative">

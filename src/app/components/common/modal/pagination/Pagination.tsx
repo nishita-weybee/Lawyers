@@ -12,14 +12,8 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePageClick = (e: any) => {
-    console.log(e, "pageclick");
-
     searchParams.set("PageNumber", e.selected + 1);
     setSearchParams(searchParams);
-  };
-
-  const handleClick = (data: any) => {
-    console.log(data);
   };
 
   return (
@@ -31,7 +25,6 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}
-              onClick={handleClick}
               pageRangeDisplayed={5}
               pageCount={pageCount}
               nextLabel={<i className="next"></i>}

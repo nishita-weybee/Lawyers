@@ -14,8 +14,6 @@ const Profile: React.FC<Props> = ({ getUserDetails, loading, error, userDetails 
     getUserDetails();
   }, []);
 
-  console.log(userDetails);
-
   return (
     <div>
       <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
