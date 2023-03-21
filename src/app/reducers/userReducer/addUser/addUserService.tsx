@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EDIT_USER_DETAILS, USER_DETAILS, USER_LIST, USER_ROLES } from "../../../helpers/config";
+import { ACTIVATE_DEACTIVATE_USER, EDIT_USER_DETAILS, USER_DETAILS, USER_LIST, USER_ROLES } from "../../../helpers/config";
 
 export const getUserRoles = async () => {
   const res = await axios.get(`${USER_ROLES}`);
@@ -7,12 +7,8 @@ export const getUserRoles = async () => {
 };
 
 export const getUserList = async (path: any) => {
-  // try {
   const res = await axios.get(`${USER_LIST}${path}`);
   return res;
-  // } catch {
-  //   (err: any) =>     console.log(err);
-  // }
 };
 
 export const getUserDetails = async () => {
@@ -21,6 +17,15 @@ export const getUserDetails = async () => {
 };
 
 export const editUserDetails = async (profileDetails: any) => {
-  const res = await axios.post(`${EDIT_USER_DETAILS}`, profileDetails);
+  const res = await axios.put(`${EDIT_USER_DETAILS}`, profileDetails);
+  return res;
+};
+
+export const activateDeactivateUserService = async (email: any) => {
+  const res = await axios.put(`${ACTIVATE_DEACTIVATE_USER}`, email, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   return res;
 };

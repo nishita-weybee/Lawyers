@@ -1,12 +1,9 @@
 // @ts-nocheck
 import { Column } from "react-table";
 import { UserInfoCell } from "./UserInfoCell";
-import { UserLastLoginCell } from "./UserLastLoginCell";
 import { UserTwoStepsCell } from "./UserTwoStepsCell";
 import { UserActionsCell } from "./UserActionsCell";
-import { UserSelectionCell } from "./UserSelectionCell";
 import { UserCustomHeader } from "./UserCustomHeader";
-import { UserSelectionHeader } from "./UserSelectionHeader";
 import { User } from "../../core/_models";
 
 const usersColumns: ReadonlyArray<Column<User>> = [
@@ -17,12 +14,12 @@ const usersColumns: ReadonlyArray<Column<User>> = [
   // },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Name" className="min-w-125px" />,
-    id: "name",
+    id: "Name",
     Cell: ({ ...props }) => <UserInfoCell user={props.data[props.row.index]} />,
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Role" className="min-w-125px" />,
-    accessor: "role",
+    accessor: "UserRole",
   },
   // {
   //   Header: (props) => <UserCustomHeader tableProps={props} title="Last login" className="min-w-125px" />,

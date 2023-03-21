@@ -22,7 +22,7 @@ const SidebarMenuMain = () => {
             <SidebarMenuItem to={ADD_USER} title="Add user" fontIcon="bi-layers" hasBullet={true} />
             <SidebarMenuItem to={VIEW_USER} title="View user" fontIcon="bi-layers" hasBullet={true} />
           </SidebarMenuItemWithSub>
-          <SidebarMenuItem to={MASTERS} icon="/media/icons/duotune/art/art002.svg" title="Master" fontIcon="bi-app-indicator" />
+          <SidebarMenuItem to={MASTERS} icon="/media/icons/duotune/art/art002.svg" title="Masters" fontIcon="bi-app-indicator" />
         </>
       )}
 {/* for employee */}

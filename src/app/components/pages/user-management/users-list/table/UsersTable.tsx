@@ -5,12 +5,15 @@ import { usersColumns } from "./columns/_columns";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { User } from "../core/_models";
+import { connect } from "react-redux";
+import { activateDeactivateUser } from "../../../../../reducers/userReducer/addUser/addUserAction";
 
 export interface Props {
   userList?: any;
+  statusFunc?: any;
 }
 
-const UsersTable: React.FC<Props> = ({ userList }) => {
+const UsersTable: React.FC<Props> = ({ userList, statusFunc }) => {
   const users = useQueryResponseData();
   // const isLoading = useQueryResponseLoading();
   const data = useMemo(() => users, [users]);
@@ -20,6 +23,11 @@ const UsersTable: React.FC<Props> = ({ userList }) => {
     data,
   });
   const [activeBtn, setActiveBtn] = useState(false);
+  const activateDeactivateUser = (email: any) => {
+    setActiveBtn(!activeBtn);
+    statusFunc(email);
+  };
+
   return (
     <KTCardBody className="py-4">
       <div className="table-responsive">
@@ -47,25 +55,30 @@ const UsersTable: React.FC<Props> = ({ userList }) => {
                             </a>
                           </div>
                           <div className="d-flex flex-column">
-                            <a className="text-gray-800 text-hover-primary mb-1">{userDetail.name}</a>
-                            <span>{userDetail.userName}</span>
+                            <a className="text-gray-800 text-hover-primary mb-1">
+                              {`${userDetail.firstName}  ${userDetail.lastName}`} {userDetail.middleName}
+                            </a>
+                            <span>{userDetail.email}</span>
                           </div>
                         </div>
                       </td>
                       <td role="cell" className="">
-                        <span key={i}> {userDetail.userRole} </span>
+                        <span key={i}> {userDetail.role} </span>
                       </td>
 
                       <td role="cell" className="">
-                        {userDetail.phoneNumber} +91 9725745122
+                        {userDetail.phoneNumber}
                       </td>
 
                       <td role="cell" className="text-end min-w-100px">
-                        <a href="#" className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" onClick={() => setActiveBtn(!activeBtn)}>
+                        <span
+                          className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
+                          onClick={() => activateDeactivateUser(userDetail.email)}
+                        >
                           <span className="svg-icon svg-icon-2">
                             {activeBtn ? <i className="fa-solid fa-user-xmark"></i> : <i className="fa-solid fa-user-check" />}
                           </span>
-                        </a>
+                        </span>
                       </td>
                     </tr>
                   );
@@ -85,4 +98,18 @@ const UsersTable: React.FC<Props> = ({ userList }) => {
   );
 };
 
-export { UsersTable };
+const mapStateToProps = (state: any) => {
+  return {
+    loading: state.activateDeactivateUserReducer.loading,
+    error: state.activateDeactivateUserReducer.error,
+    userRoles: state.activateDeactivateUserReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    statusFunc: (email: any) => dispatch(activateDeactivateUser(email)),
+  };
+};
+const connectComponent = connect(mapStateToProps, mapDispatchToProps)(UsersTable);
+export default connectComponent;

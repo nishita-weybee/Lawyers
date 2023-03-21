@@ -11,7 +11,7 @@ const UsersListHeader = () => {
       <div className="card-toolbar">
         {/* begin::Group actions */}
         <div className="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-          <UsersListFilter />
+          {/* <UsersListFilter /> */}
         </div>
         {/* {selected.length > 0 ? <UsersListGrouping /> : <UsersListToolbar />} */}
         {/* end::Group actions */}

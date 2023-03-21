@@ -27,7 +27,6 @@ export function ForgotPassword() {
         .then((res: any) => {
           setHasErrors(false);
           setSubmitting(false);
-  
         })
         .catch((err) => {
           setHasErrors(true);
@@ -78,16 +77,13 @@ export function ForgotPassword() {
             }
           )}
         />
-        {formik.touched.email &&
-          formik.errors.email &&
-          (
-          (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                <span role="alert">{formik.errors.email}</span>
-              </div>
+        {formik.touched.email && formik.errors.email && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span role="alert">{formik.errors.email}</span>
             </div>
-          ))}
+          </div>
+        )}
       </div>
 
       <div className="d-flex flex-wrap justify-content-center pb-lg-0">

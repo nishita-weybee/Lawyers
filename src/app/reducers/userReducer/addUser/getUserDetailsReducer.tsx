@@ -24,7 +24,7 @@ const userDetailsReducer = (state = initialState, action: action) => {
       return {
         loading: true,
         userDetails: {},
-        error: "",
+        error: "",  
       };
 
     case USER_DETAILS_SUCCESS:

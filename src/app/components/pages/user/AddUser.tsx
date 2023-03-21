@@ -237,13 +237,6 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
                   );
                 })}
               </select>
-              {formik.touched.firstname && formik.errors.firstname && (
-                <div className="fv-plugins-message-container">
-                  <div className="fv-help-block">
-                    <span role="alert">{formik.errors.firstname}</span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>

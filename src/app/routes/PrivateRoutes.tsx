@@ -13,6 +13,7 @@ import ViewUser from "../components/pages/user/ViewUser";
 import Profile from "../components/pages/user/Profile";
 import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
 import EditProfile from "../components/pages/user/EditProfile";
+import Masters from "../components/pages/masters/Masters";
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -31,7 +32,7 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
-            <Route path={MASTERS} element={""} />
+            <Route path={MASTERS} element={<Masters />  } />
           </>
         )}
         {/* for employee */}

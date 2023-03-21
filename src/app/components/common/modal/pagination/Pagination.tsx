@@ -1,6 +1,6 @@
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
-import { UsersTable } from "../../../pages/user-management/users-list/table/UsersTable";
+import  UsersTable  from "../../../pages/user-management/users-list/table/UsersTable";
 
 interface PaginatedItemsProps {
   itemsPerPage: number;

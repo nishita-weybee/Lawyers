@@ -1,15 +1,13 @@
-import { EDIT_USER_DETAILS_REQUEST,
-    EDIT_USER_DETAILS_SUCCESS,
-    EDIT_USER_DETAILS_FAILURE } from "../../actionTypes";
-export interface initialState {
-  loading: boolean;
-  userRoles: {};
-  error: string;
-}
+import { EDIT_USER_DETAILS_REQUEST, EDIT_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_FAILURE } from "../../actionTypes";
+// export interface initialState {
+//   loading: boolean;
+//   res: {};
+//   error: string;
+// }
 
-const initialState: initialState = {
+const initialState = {
   loading: false,
-  userRoles: {},
+  res: {},
   error: "",
 };
 
@@ -23,7 +21,7 @@ const postUserDetailReducer = (state = initialState, action: action) => {
     case EDIT_USER_DETAILS_REQUEST:
       return {
         loading: true,
-        userRoles: {},
+        res: {},
         error: "",
       };
 
@@ -31,14 +29,14 @@ const postUserDetailReducer = (state = initialState, action: action) => {
       return {
         ...state,
         loading: false,
-        userRoles: action.payload,
+        res: action.payload,
       };
 
     case EDIT_USER_DETAILS_FAILURE:
       return {
         ...state,
         loading: false,
-        userRoles: {},
+        res: {},
         error: action.payload,
       };
 
