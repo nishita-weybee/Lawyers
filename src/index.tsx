@@ -20,6 +20,7 @@ import { Provider } from "react-redux";
 import store from "./app/store/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { axiosInstance } from "./app/helpers/apiRequest";
 /**
  * Creates `axios-mock-adapter` instance for provided `axios` instance, add
  * basic Metronic mocks and returns it.
@@ -31,7 +32,7 @@ import "react-toastify/dist/ReactToastify.css";
  *
  * @see https://github.com/axios/axios#interceptors
  */
-setupAxios(axios);
+setupAxios(axiosInstance);
 Chart.register(...registerables);
 
 const queryClient = new QueryClient();

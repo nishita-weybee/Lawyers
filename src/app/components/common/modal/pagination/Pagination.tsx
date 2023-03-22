@@ -1,6 +1,6 @@
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
-import  UsersTable  from "../../../pages/user-management/users-list/table/UsersTable";
+import UsersTable from "../../../pages/user-management/users-list/table/UsersTable";
 
 interface PaginatedItemsProps {
   itemsPerPage: number;
@@ -39,7 +39,6 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
               disabledLinkClassName="disabled"
               nextLinkClassName="page-link"
               previousLinkClassName="page-link"
-              // initialPage={0}
               forcePage={searchParams.get("PageNumber") ? Number(searchParams.get("PageNumber")) - 1 : 0}
             />
           </div>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { fetchUserList } from "../../../reducers/userReducer/addUser/addUserAction";
+import { fetchUserList } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
 import { KTCard } from "../../../../_metronic/helpers";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
@@ -18,8 +18,7 @@ const ViewUser: React.FC<Props> = ({ getUserList, loadingList, userList, error }
 
   useEffect(() => {
     getUserList(location.search);
-  }, [getUserList, location.search]);
-
+  }, [getUserList, location.search]);  
   return (
     <>
       <KTCard>

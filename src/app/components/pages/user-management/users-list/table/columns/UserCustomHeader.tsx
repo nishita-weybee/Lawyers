@@ -17,7 +17,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
 
   const sortColumn = async () => {
     if (id !== "NULL" && id !== "actions" && id !== "contact") {
-      let orderby = searchParam.get("OrderBy") == null ? 'asc' : searchParam.get("OrderBy") === "asc" ? 'asc' : 'desc';
+      let orderby = searchParam.get("OrderBy") == null ? "asc" : searchParam.get("OrderBy") === "asc" ? "desc" : "asc";
       setSearchParam({
         ...searchObj,
         PageNumber: "1",
@@ -32,7 +32,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
       {...tableProps.column.getHeaderProps()}
       style={{ cursor: "pointer" }}
       className={clsx(
-        searchParam.get("OrderBy") && searchParam.get("SortBy") === id && `table-sort-${searchParam.get("OrderBy") === "true" ? "desc" : "asc"}`,
+        searchParam.get("OrderBy") && searchParam.get("SortBy") === id && `table-sort-${searchParam.get("OrderBy") === "asc" ? "asc" : "desc"}`,
         id !== "NULL" && "cursor-pointer",
         `${className}`
       )}

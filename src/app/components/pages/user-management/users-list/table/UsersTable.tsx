@@ -6,14 +6,17 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { User } from "../core/_models";
 import { connect } from "react-redux";
-import { activateDeactivateUser } from "../../../../../reducers/userReducer/addUser/addUserAction";
+import { activateDeactivateUser, fetchUserList } from "../../../../../reducers/userReducers/userAction";
+import { useLocation } from "react-router-dom";
 
 export interface Props {
   userList?: any;
-  statusFunc?: any;
+  accountStatus?: any;
+  getUserList: Function;
 }
 
-const UsersTable: React.FC<Props> = ({ userList, statusFunc }) => {
+const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) => {
+  const location = useLocation();
   const users = useQueryResponseData();
   // const isLoading = useQueryResponseLoading();
   const data = useMemo(() => users, [users]);
@@ -22,10 +25,13 @@ const UsersTable: React.FC<Props> = ({ userList, statusFunc }) => {
     columns,
     data,
   });
+
   const [activeBtn, setActiveBtn] = useState(false);
-  const activateDeactivateUser = (email: any) => {
+  const activateDeactivateUser = (email: any, status: any) => {
     setActiveBtn(!activeBtn);
-    statusFunc(email);
+    accountStatus(email, status, () => {
+      getUserList(location.search);
+    });
   };
 
   return (
@@ -73,10 +79,10 @@ const UsersTable: React.FC<Props> = ({ userList, statusFunc }) => {
                       <td role="cell" className="text-end min-w-100px">
                         <span
                           className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
-                          onClick={() => activateDeactivateUser(userDetail.email)}
+                          onClick={() => activateDeactivateUser(userDetail.email, userDetail.isActive ? "deactivated" : "activated")}
                         >
                           <span className="svg-icon svg-icon-2">
-                            {activeBtn ? <i className="fa-solid fa-user-xmark"></i> : <i className="fa-solid fa-user-check" />}
+                            {userDetail.isActive ? <i className="fa-solid fa-user-check" /> : <i className="fa-solid fa-user-xmark" />}
                           </span>
                         </span>
                       </td>
@@ -108,7 +114,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    statusFunc: (email: any) => dispatch(activateDeactivateUser(email)),
+    accountStatus: (email: any, status: string, callback: Function) => dispatch(activateDeactivateUser(email, status, callback)),
+    getUserList: (location: any) => dispatch(fetchUserList(location)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(UsersTable);

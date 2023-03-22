@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { fetchUserDetails, postUserDetails } from "../../../reducers/userReducer/addUser/addUserAction";
+import { fetchUserDetails, postUserDetails } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
 import { PLEASE_WAIT, REQUIRED } from "../../../helpers/globalConstant";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,31 +18,31 @@ export interface Props {
   getUserDetails: Function;
 }
 
-const profileDetailsSchema = Yup.object().shape({
-  firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
-  lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
-  middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
-  phoneNumber: Yup.string()
-    .required(REQUIRED)
-    .matches(/^\d{10}$/, "Wrong contact format"),
-});
-
 const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error, getUserDetails, userDetails }) => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    getUserDetails();
-  }, [getUserDetails]);
   const initialValues = {
-    firstName: userDetails?.data?.firsName,
+    firstName: userDetails?.data?.firstName,
     lastName: userDetails?.data?.lastName,
     phoneNumber: userDetails?.data?.phoneNumber,
     middleName: userDetails?.data?.middleName,
   };
 
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
+    lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
+    middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
+    phoneNumber: Yup.string()
+      .required(REQUIRED)
+      .matches(/^\d{10}$/, "Wrong contact format"),
+  });
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUserDetails();
+  }, [getUserDetails]);
+
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
-    validationSchema: profileDetailsSchema,
+    validationSchema,
     onSubmit: async (values) => {
       postUserDetails(values, () => navigate(PROFILE));
     },
@@ -72,7 +72,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                       />
                       {formik.touched.firstName && formik.errors.firstName && (
                         <div className="fv-plugins-message-container">
-                          {/* {formik.errors.firstName ? <div className="fv-help-block">{formik.errors.firstName}</div> : null} */}
+                          <div className="fv-help-block">{formik.errors.firstName}</div>
                         </div>
                       )}
                     </div>
@@ -86,7 +86,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                       />
                       {formik.touched.lastName && formik.errors.lastName && (
                         <div className="fv-plugins-message-container">
-                          {/* <div className="fv-help-block">{formik.errors.lastName}</div> */}
+                          <div className="fv-help-block">{formik.errors.lastName}</div>
                         </div>
                       )}
                     </div>
@@ -121,7 +121,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                   />
                   {formik.touched.phoneNumber && formik.errors.phoneNumber && (
                     <div className="fv-plugins-message-container">
-                      {/* <div className="fv-help-block">{formik.errors.phoneNumber}</div> */}
+                      <div className="fv-help-block">{formik.errors.phoneNumber}</div>
                     </div>
                   )}
                 </div>

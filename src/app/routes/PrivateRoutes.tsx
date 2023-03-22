@@ -3,7 +3,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { MasterLayout } from "../../_metronic/layout/MasterLayout";
 import TopBarProgress from "react-topbar-progress-indicator";
 import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
-import { MenuTestPage } from "../components/MenuTestPage";
 import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
@@ -16,13 +15,6 @@ import EditProfile from "../components/pages/user/EditProfile";
 import Masters from "../components/pages/masters/Masters";
 
 const PrivateRoutes = () => {
-  // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
-  // const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
-  // const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
-  // const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
-  // const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
-  // const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
-
   return (
     <Routes>
       <Route element={<MasterLayout />}>
@@ -32,7 +24,7 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
-            <Route path={MASTERS} element={<Masters />  } />
+            <Route path={MASTERS} element={<Masters />} />
           </>
         )}
         {/* for employee */}
@@ -45,7 +37,6 @@ const PrivateRoutes = () => {
 
         <Route path="dashboard" element={<DashboardWrapper />} />
         <Route path="builder" element={<BuilderPageWrapper />} />
-        <Route path="menu-test" element={<MenuTestPage />} />
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>
     </Routes>

@@ -1,8 +1,12 @@
-export const AUTH_BASE_URL = `http://192.168.1.11/api/Auth`;
-export const USER_BASE_URL = `http://192.168.1.11/api/User`;
+export const AUTH_BASE_URL = `/Auth`;
+export const USER_BASE_URL = `/User`;
 
-export const LOGIN_API_URL = `${AUTH_BASE_URL}/Login`;
 export const USER_ROLES = `${AUTH_BASE_URL}/Roles`;
+export const GET_USER_BY_ACCESSTOKEN = `${AUTH_BASE_URL}/verify_token`;
+export const LOGIN = `${AUTH_BASE_URL}/Login`;
+export const REGISTER = `${AUTH_BASE_URL}/RegisterUser`;
+export const FORGOT_PASSWORD = `${AUTH_BASE_URL}/ForgotPassword`;
+export const RESET_PASSWORD = `${AUTH_BASE_URL}/ResetPassword`;
 
 export const USER_LIST = `${USER_BASE_URL}/GetAllUsersDetails`;
 export const USER_DETAILS = `${USER_BASE_URL}/GetUserDetails`;

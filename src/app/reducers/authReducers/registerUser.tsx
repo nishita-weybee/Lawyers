@@ -1,9 +1,4 @@
-import { ACTIVATE_DEACTIVATE_USER_REQUEST, ACTIVATE_DEACTIVATE_USER_SUCCESS, ACTIVATE_DEACTIVATE_USER_FAILURE } from "../../actionTypes";
-// export interface initialState {
-//   loading: boolean;
-//   res: {};
-//   error: string;
-// }
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS } from "../actionTypes";
 
 const initialState = {
   loading: false,
@@ -16,23 +11,23 @@ export interface action {
   payload: any;
 }
 
-const activateDeactivateUserReducer = (state = initialState, action: action) => {
+const registerUserReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case ACTIVATE_DEACTIVATE_USER_REQUEST:
+    case REGISTER_USER_REQUEST:
       return {
         loading: true,
         res: {},
         error: "",
       };
 
-    case ACTIVATE_DEACTIVATE_USER_SUCCESS:
+    case REGISTER_USER_SUCCESS:
       return {
         ...state,
         loading: false,
         res: action.payload,
       };
 
-    case ACTIVATE_DEACTIVATE_USER_FAILURE:
+    case REGISTER_USER_FAILURE:
       return {
         ...state,
         loading: false,
@@ -46,4 +41,4 @@ const activateDeactivateUserReducer = (state = initialState, action: action) => 
   }
 };
 
-export { activateDeactivateUserReducer };
+export { registerUserReducer };

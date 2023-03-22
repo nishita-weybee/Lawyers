@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { EDIT_PROFILE } from "../../../helpers/routesConstant";
-import { fetchUserDetails } from "../../../reducers/userReducer/addUser/addUserAction";
+import { fetchUserDetails } from "../../../reducers/userReducers/userAction";
 import ProfileDetail from "../../common/ProfileDetail";
 export interface Props {
   loading: boolean;
@@ -31,7 +31,12 @@ const Profile: React.FC<Props> = ({ getUserDetails, loading, error, userDetails 
         <div className="card-body p-9">
           {userDetails.data && (
             <>
-              <ProfileDetail label="Full Name" value={`${userDetails.data.firstName} ${userDetails.data.middleName} ${userDetails.data.lastName}`} />
+              <ProfileDetail
+                label="Full Name"
+                value={`${userDetails.data.firstName} ${userDetails.data.middleName !== null ? userDetails.data.middleName : ""} ${
+                  userDetails.data.lastName
+                }`}
+              />
               <ProfileDetail label="Email" value={userDetails.data.email} />
               <ProfileDetail label="Contact Phone" value={userDetails.data.phoneNumber} />
             </>

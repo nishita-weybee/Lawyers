@@ -1,4 +1,4 @@
-import { showToastMessageFailure, showToastMessageSuccess } from "../../../helpers/helperFunction";
+import { showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
 import {
   USER_ROLE_REQUEST,
   USER_ROLE_SUCCESS,
@@ -15,8 +15,8 @@ import {
   ACTIVATE_DEACTIVATE_USER_REQUEST,
   ACTIVATE_DEACTIVATE_USER_SUCCESS,
   ACTIVATE_DEACTIVATE_USER_FAILURE,
-} from "../../actionTypes";
-import { activateDeactivateUserService, editUserDetails, getUserDetails, getUserList, getUserRoles } from "./addUserService";
+} from "../actionTypes";
+import { activateDeactivateUserService, editUserDetails, getUserDetails, getUserList, getUserRoles } from "./userService";
 
 const request = (type: string) => {
   return { type: type };
@@ -87,13 +87,14 @@ export const postUserDetails = (profileDetails: any, callback: Function) => {
   };
 };
 
-export const activateDeactivateUser = (email: any) => {
+export const activateDeactivateUser = (email: any, status: string, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVATE_DEACTIVATE_USER_REQUEST));
     return activateDeactivateUserService(email).then(
       (result: any) => {
         dispatch(success(ACTIVATE_DEACTIVATE_USER_SUCCESS, result.data));
-        showToastMessageSuccess();
+        showToastMessageSuccess(`User ${status} successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(ACTIVATE_DEACTIVATE_USER_FAILURE, error.message));

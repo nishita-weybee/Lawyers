@@ -64,7 +64,6 @@ const removeAuth = () => {
 //       if (auth && auth.api_token) {
 //         config.headers.Authorization = `Bearer ${auth.api_token}`
 //       }
-
 //       return config
 //     },
 //     (err: any) => Promise.reject(err)
@@ -77,7 +76,6 @@ export function setupAxios(axios: any) {
     (config: AxiosRequestConfig): AxiosRequestConfig => {
       const auth = getAuth()
       if (auth && config.headers && auth.token) {
-
         config.headers.Authorization = `Bearer ${auth.token}`
       }
 

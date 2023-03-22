@@ -13,6 +13,7 @@ const Content = ({children}: WithChildren) => {
   }, [location])
 
   const appContentContainer = config.app?.content?.container
+  
   return (
     <div id='kt_app_content' className={clsx('app-content flex-column-fluid', classes.content.join(' '), config?.app?.content?.class)}>
       {appContentContainer ? (

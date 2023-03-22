@@ -1,13 +1,13 @@
-import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from "../../actionTypes";
+import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actionTypes";
 export interface initialState {
   loading: boolean;
-  userList: {};
+  res: {};
   error: string;
 }
 
 const initialState: initialState = {
   loading: false,
-  userList: {},
+  res: {},
   error: "",
 };
 
@@ -16,27 +16,27 @@ export interface action {
   payload: any;
 }
 
-const userListReducer = (state = initialState, action: action) => {
+const loginReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case USER_LIST_REQUEST:
+    case LOGIN_REQUEST:
       return {
         loading: true,
-        userList: {},
+        res: {},
         error: "",
       };
 
-    case USER_LIST_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
-        userList: action.payload,
+        res: action.payload,
       };
 
-    case USER_LIST_FAILURE:
+    case LOGIN_FAILURE:
       return {
         ...state,
         loading: false,
-        userList: {},
+        res: {},
         error: action.payload,
       };
 
@@ -46,4 +46,4 @@ const userListReducer = (state = initialState, action: action) => {
   }
 };
 
-export { userListReducer };
+export { loginReducer };

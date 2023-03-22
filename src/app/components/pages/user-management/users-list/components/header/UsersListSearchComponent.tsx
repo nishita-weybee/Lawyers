@@ -25,14 +25,14 @@ const UsersListSearchComponent = () => {
   );
 
   const handleSearch = (e: any) => {
-    setSearchTerm(e.target.value);
-    searchParams.set("Search", e.target.value);
-    setSearchParams(searchParams);
+    setSearchParams({
+      PageNumber: "1",
+      Search: e.target.value,
+    });
   };
 
   return (
     <div className="card-title">
-      {/* begin::Search */}
       <div className="d-flex align-items-center position-relative my-1">
         <KTSVG path="/media/icons/duotune/general/gen021.svg" className="svg-icon-1 position-absolute ms-6" />
         <input
@@ -40,12 +40,10 @@ const UsersListSearchComponent = () => {
           data-kt-user-table-filter="search"
           className="form-control form-control-solid w-250px ps-14"
           placeholder="Search user"
-          value={searchParams.get("Search") || searchTerm}
-          // onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchParams.get("Search") || ""}
           onChange={handleSearch}
         />
       </div>
-      {/* end::Search */}
     </div>
   );
 };

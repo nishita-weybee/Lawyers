@@ -1,38 +1,34 @@
-import { useState } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useFormik } from "formik";
-import { requestPassword } from "../core/_requests";
 import { useNavigate } from "react-router-dom";
 import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
+import { connect } from "react-redux";
+import { forgotPassword } from "../../../reducers/authReducers/authAction";
 
-const initialValues = {
-  email: "",
-};
+export interface props {
+  postForgotPassDetails: Function;
+  error: string;
+  loading: boolean;
+  res: any;
+}
 
-const forgotPasswordSchema = Yup.object().shape({
-  email: Yup.string().email("Wrong email format").min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
-});
-
-export function ForgotPassword() {
+const ForgotPassword: React.FC<props> = ({ postForgotPassDetails, error, loading, res }) => {
   const navigate = useNavigate();
-  const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined);
+  
+  const initialValues = {
+    email: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email("Wrong email format").min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
+  });
+
   const formik = useFormik({
     initialValues,
-    validationSchema: forgotPasswordSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
-      setSubmitting(true);
-      setHasErrors(undefined);
-      requestPassword(values.email)
-        .then((res: any) => {
-          setHasErrors(false);
-          setSubmitting(false);
-        })
-        .catch((err) => {
-          setHasErrors(true);
-          setSubmitting(false);
-          setStatus(err.response?.data?.error?.errorMessage);
-        });
+    validationSchema,
+    onSubmit: (values) => {
+      postForgotPassDetails(values.email);
     },
   });
 
@@ -49,14 +45,13 @@ export function ForgotPassword() {
         <div className="text-gray-500 fw-semibold fs-6">Enter your email to reset your password.</div>
       </div>
 
-      {/* {hasErrors === true && ( */}
-      {formik.status && (
+      {error && (
         <div className="mb-lg-15 alert alert-danger">
-          <div className="alert-text font-weight-bold">{formik.status}</div>
+          <div className="alert-text font-weight-bold">{error}</div>
         </div>
       )}
 
-      {hasErrors === false && (
+      {res.success && (
         <div className="mb-10 bg-light-info p-8 rounded">
           <div className="text-info">We have sent a password reset link.</div>
         </div>
@@ -88,15 +83,15 @@ export function ForgotPassword() {
 
       <div className="d-flex flex-wrap justify-content-center pb-lg-0">
         <button type="submit" id="kt_password_reset_submit" className="btn btn-primary me-4">
-          {!formik.isSubmitting && <span className="indicator-label">{SUBMIT}</span>}
-          {formik.isSubmitting && PLEASE_WAIT}
+          {!loading && <span className="indicator-label">{SUBMIT}</span>}
+          {loading && PLEASE_WAIT}
         </button>
 
         <button
           type="button"
           id="kt_login_password_reset_form_cancel_button"
           className="btn btn-light"
-          disabled={formik.isSubmitting}
+          disabled={loading}
           onClick={() => navigate("/auth/login")}
         >
           Cancel
@@ -104,4 +99,20 @@ export function ForgotPassword() {
       </div>
     </form>
   );
-}
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    loading: state.forgotPasswordReducer.loading,
+    error: state.forgotPasswordReducer.error,
+    res: state.forgotPasswordReducer.res,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    postForgotPassDetails: (email: any) => dispatch(forgotPassword(email)),
+  };
+};
+const connectComponent = connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
+export default connectComponent;

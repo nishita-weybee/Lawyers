@@ -13,11 +13,8 @@ export const RESER_PASSWORD = `${API_URL}/ResetPassword`
 export const REGISTER_ADMIN = `${API_URL}/register-admin`
 
 // Server should return AuthModel
-export function login(email: string, password: string) {
-  return axios.post(LOGIN_URL, {
-    email,
-    password,
-  })
+export function login(values: Object) {
+  return axios.post(LOGIN_URL, values)
 }
 
 // Server should return AuthModel
@@ -64,7 +61,7 @@ export function requestPassword(email: string) {
 }
 
 export function resetPassword(newPass: Object) {
-  return axios.post(RESER_PASSWORD, newPass,)
+  return axios.post(RESER_PASSWORD, newPass)
 }
 
 export function getUserByToken(token: string) {

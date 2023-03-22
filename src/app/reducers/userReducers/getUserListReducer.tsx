@@ -1,13 +1,13 @@
-import { USER_ROLE_REQUEST, USER_ROLE_SUCCESS, USER_ROLE_FAILURE } from "../../actionTypes";
+import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE } from "../actionTypes";
 export interface initialState {
   loading: boolean;
-  userRoles: {};
+  userList: {};
   error: string;
 }
 
 const initialState: initialState = {
   loading: false,
-  userRoles: {},
+  userList: {},
   error: "",
 };
 
@@ -16,27 +16,27 @@ export interface action {
   payload: any;
 }
 
-const userRoleReducer = (state = initialState, action: action) => {
+const userListReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case USER_ROLE_REQUEST:
+    case USER_LIST_REQUEST:
       return {
         loading: true,
-        userRoles: {},
+        userList: {},
         error: "",
       };
 
-    case USER_ROLE_SUCCESS:
+    case USER_LIST_SUCCESS:
       return {
         ...state,
         loading: false,
-        userRoles: action.payload,
+        userList: action.payload,
       };
 
-    case USER_ROLE_FAILURE:
+    case USER_LIST_FAILURE:
       return {
         ...state,
         loading: false,
-        userRoles: {},
+        userList: {},
         error: action.payload,
       };
 
@@ -46,4 +46,4 @@ const userRoleReducer = (state = initialState, action: action) => {
   }
 };
 
-export { userRoleReducer };
+export { userListReducer };

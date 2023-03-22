@@ -1,106 +1,77 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../../auth";
 import * as Yup from "yup";
-import { register } from "../../auth/core/_requests";
 import clsx from "clsx";
 import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
-import { fetchUserRoles } from "../../../reducers/userReducer/addUser/addUserAction";
+import { fetchUserRoles } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
-import { showToastMessageFailure, showToastMessageSuccess } from "../../../helpers/helperFunction";
+import InputPass from "../../common/inputPass.tsx/inputPass";
+import { registerUser } from "../../../reducers/authReducers/authAction";
 
 export interface Props {
   loadingRoles: boolean;
+  loading: boolean;
   userRoles: any;
   error: string;
   getUserRoles: any;
+  postRegisterUser: Function;
 }
 
-const initialValues = {
-  firstname: "",
-  lastname: "",
-  email: "",
-  password: "",
-};
-
-const registrationSchema = Yup.object().shape({
-  firstname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
-  email: Yup.string().email("Wrong email format").required(REQUIRED),
-  lastname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
-  password: Yup.string()
-    .required(REQUIRED)
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/, "Wrong password format"),
-});
-
-const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error }) => {
-  const [passwordType, setPasswordType] = useState("password");
-  const [role, setRole] = useState("Admin");
-
+const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error, postRegisterUser, loading }) => {
   useEffect(() => {
     getUserRoles();
-  }, []);
-
-  const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
-  };
+  }, [getUserRoles]);
 
   const { saveAuth } = useAuth();
+
+  const initialValues = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    role: "Admin",
+  };
+
+  const validationSchema = Yup.object().shape({
+    firstname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
+    email: Yup.string().email("Wrong email format").required(REQUIRED),
+    lastname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
+    password: Yup.string()
+      .required(REQUIRED)
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Wrong password format"),
+  });
+
   const formik = useFormik({
     initialValues,
-    validationSchema: registrationSchema,
-    onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
-      setSubmitting(true);
-      try {
-        register(values.email, values.firstname, values.lastname, values.password, role);
-        showToastMessageSuccess();
-        setSubmitting(false);
-        resetForm();
-      } catch (err: any) {
-        console.error(err);
-        showToastMessageFailure();
-        saveAuth(undefined);
-        setStatus(err.response.data.error.errorMessage);
-        setSubmitting(false);
-      }
+    validationSchema,
+    onSubmit: async (values, { resetForm }) => {
+      postRegisterUser(
+        values,
+        () => {
+          resetForm();
+        },
+        () => {
+          saveAuth(undefined);
+        }
+      );
     },
   });
+
   return (
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
           <h3 className="fw-bolder m-0">Add User</h3>
         </div>
-        {/* <div>
-          <select
-            className="form-select form-select-solid"
-            data-kt-select2="true"
-            onChange={(e: any) => {
-              return setRole(e.target.value);
-            }}
-            data-placeholder="Select option"
-            data-allow-clear="true"
-          >
-            {userRoles?.map((role: string, i: any) => {
-              return (
-                <option key={i} value={role}>
-                  {role}
-                </option>
-              );
-            })}
-          </select>
-        </div> */}
       </div>
 
       <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
         <div className="card-body border-top p-9">
-          {formik.status && (
+          {error && (
             <div className="row mb-6">
               <div className="mb-lg-15 alert alert-danger">
-                <div className="alert-text font-weight-bold">{formik.status}</div>
+                <div className="alert-text font-weight-bold">{error}</div>
               </div>
             </div>
           )}
@@ -186,25 +157,14 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
           </div>
           <div className="row mb-6">
             <label className="col-lg-4 col-form-label fw-bold fs-6 required">Password</label>
-            <div className="col-lg-8 position-relative">
-              <input
-                type={passwordType}
+            <div className="col-lg-8">
+              <InputPass
+                formik={formik}
                 placeholder="Password"
-                autoComplete="off"
-                {...formik.getFieldProps("password")}
-                className={clsx(
-                  "form-control bg-transparent pass",
-                  {
-                    "is-invalid password-icon": formik.touched.password && formik.errors.password,
-                  },
-                  {
-                    "is-valid password-icon": formik.touched.password && !formik.errors.password,
-                  }
-                )}
+                fieldProp="password"
+                touched={formik.touched.password}
+                errors={formik.errors.password}
               />
-              <span className="position-absolute " style={{ right: "19px", top: "13px" }} onClick={togglePassword}>
-                {passwordType === "password" ? <i className="fas fa-eye-slash" id="hide_eye" /> : <i className="fas fa-eye" id="show_eye" />}
-              </span>
 
               {formik.touched.password && formik.errors.password && (
                 <div className="fv-plugins-message-container">
@@ -223,11 +183,13 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
               <select
                 className="form-select form-select-solid"
                 data-kt-select2="true"
-                onChange={(e: any) => {
-                  return setRole(e.target.value);
-                }}
+                // onChange={(e: any) => {
+                //   return setRole(e.target.value);
+                // }}
+                {...formik.getFieldProps("role")}
                 data-placeholder="Select option"
                 data-allow-clear="true"
+                // defaultValue={userRoles[0]}
               >
                 {userRoles?.map((role: string, i: any) => {
                   return (
@@ -241,10 +203,10 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
           </div>
         </div>
         <div className="card-footer d-flex justify-content-end py-6 px-9">
-          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={formik.isSubmitting || !formik.isValid}>
+          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading || !formik.isValid}>
             <>
-              {!formik.isSubmitting && <span className="indicator-label">{SUBMIT}</span>}
-              {formik.isSubmitting && PLEASE_WAIT}
+              {!loading && <span className="indicator-label">{SUBMIT}</span>}
+              {loading && PLEASE_WAIT}
             </>
           </button>
         </div>
@@ -256,14 +218,20 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
 const mapStateToProps = (state: any) => {
   return {
     loadingRoles: state.userRoleReducer.loading,
-    error: state.userRoleReducer.error,
+    errorRoles: state.userRoleReducer.error,
     userRoles: state.userRoleReducer.userRoles.data,
+
+    loading: state.registerUserReducer.loading,
+    error: state.registerUserReducer.error,
+    res: state.registerUserReducer.res,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getUserRoles: () => dispatch(fetchUserRoles()),
+    postRegisterUser: (registerUserDetails: any, callbackSuccess: Function, callbackFailure: Function) =>
+      dispatch(registerUser(registerUserDetails, callbackSuccess, callbackFailure)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddUser);

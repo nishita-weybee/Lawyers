@@ -1,9 +1,4 @@
-import { EDIT_USER_DETAILS_REQUEST, EDIT_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_FAILURE } from "../../actionTypes";
-// export interface initialState {
-//   loading: boolean;
-//   res: {};
-//   error: string;
-// }
+import { RESET_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS } from "../actionTypes";
 
 const initialState = {
   loading: false,
@@ -16,23 +11,23 @@ export interface action {
   payload: any;
 }
 
-const postUserDetailReducer = (state = initialState, action: action) => {
+const resetPasswordReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case EDIT_USER_DETAILS_REQUEST:
+    case RESET_PASSWORD_REQUEST:
       return {
         loading: true,
         res: {},
         error: "",
       };
 
-    case EDIT_USER_DETAILS_SUCCESS:
+    case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
         res: action.payload,
       };
 
-    case EDIT_USER_DETAILS_FAILURE:
+    case RESET_PASSWORD_FAILURE:
       return {
         ...state,
         loading: false,
@@ -46,4 +41,4 @@ const postUserDetailReducer = (state = initialState, action: action) => {
   }
 };
 
-export { postUserDetailReducer };
+export { resetPasswordReducer };
