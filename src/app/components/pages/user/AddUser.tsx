@@ -33,6 +33,9 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
     role: "Admin",
   };
 
+  console.log(initialValues);
+  
+
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
     email: Yup.string().email("Wrong email format").required(REQUIRED),
@@ -52,7 +55,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
           resetForm();
         },
         () => {
-          saveAuth(undefined);
+          // saveAuth(undefined);
         }
       );
     },

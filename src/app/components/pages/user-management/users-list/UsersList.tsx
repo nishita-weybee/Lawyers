@@ -5,13 +5,15 @@ import {UsersListHeader} from './components/header/UsersListHeader'
 import UsersTable from './table/UsersTable'
 import {UserEditModal} from './user-edit-modal/UserEditModal'
 import {KTCard} from '../../../../../_metronic/helpers'
-
-const UsersList = ({}) => {
+export interface props{
+  path:any
+}
+const UsersList:React.FC<props> = () => {
   const {itemIdForUpdate} = useListView()
   return (
     <>
       <KTCard>
-        <UsersListHeader />
+        {/* <UsersListHeader /> */}
         <UsersTable />
       </KTCard>
       {itemIdForUpdate !== undefined && <UserEditModal />}
@@ -23,7 +25,7 @@ const UsersListWrapper = () => (
   <QueryRequestProvider>
     <QueryResponseProvider>
       <ListViewProvider>
-        <UsersList />
+        {/* <UsersList /> */}
       </ListViewProvider>
     </QueryResponseProvider>
   </QueryRequestProvider>

@@ -1,9 +1,4 @@
 import { EDIT_USER_DETAILS_REQUEST, EDIT_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_FAILURE } from "../actionTypes";
-// export interface initialState {
-//   loading: boolean;
-//   res: {};
-//   error: string;
-// }
 
 const initialState = {
   loading: false,

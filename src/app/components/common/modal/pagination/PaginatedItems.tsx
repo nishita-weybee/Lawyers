@@ -12,8 +12,7 @@ const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePageClick = (e: any) => {
-    searchParams.set("PageNumber", e.selected + 1);
-    setSearchParams(searchParams);
+    setSearchParams("PageNumber", e.selected + 1);
   };
 
   return (

@@ -1,11 +1,6 @@
 import { USER_ROLE_REQUEST, USER_ROLE_SUCCESS, USER_ROLE_FAILURE } from "../actionTypes";
-export interface initialState {
-  loading: boolean;
-  userRoles: {};
-  error: string;
-}
 
-const initialState: initialState = {
+const initialState = {
   loading: false,
   userRoles: {},
   error: "",

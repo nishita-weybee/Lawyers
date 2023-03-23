@@ -3,8 +3,9 @@ import { fetchUserList } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
 import { KTCard } from "../../../../_metronic/helpers";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
-import PaginatedItems from "../../common/modal/pagination/Pagination";
+import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { useLocation } from "react-router-dom";
+import { ADD_USER } from "../../../helpers/routesConstant";
 
 export interface Props {
   error: string;
@@ -18,11 +19,13 @@ const ViewUser: React.FC<Props> = ({ getUserList, loadingList, userList, error }
 
   useEffect(() => {
     getUserList(location.search);
-  }, [getUserList, location.search]);  
+  }, [getUserList, location.search]);
+
+
   return (
     <>
       <KTCard>
-        <UsersListHeader />
+        <UsersListHeader path={ADD_USER} />
         {userList && <PaginatedItems itemsPerPage={10} userList={userList} />}
       </KTCard>
     </>
@@ -34,7 +37,7 @@ const mapStateToProps = (state: any) => {
     loadingList: state.userListReducer.loading,
     error: state.userListReducer.error,
     userList: state.userListReducer.userList?.data,
-  };
+  };  
 };
 
 const mapDispatchToProps = (dispatch: any) => {

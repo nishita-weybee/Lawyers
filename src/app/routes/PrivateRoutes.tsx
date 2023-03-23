@@ -6,13 +6,14 @@ import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
 import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_USER, EDIT_PROFILE, MASTERS, PROFILE, VIEW_USER } from "../helpers/routesConstant";
+import { ADD_USER, EDIT_PROFILE, PROFILE, VIEW_USER } from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
 import Profile from "../components/pages/user/Profile";
 import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
 import EditProfile from "../components/pages/user/EditProfile";
 import Masters from "../components/pages/masters/Masters";
+import AddDetails from "../components/pages/masters/AddDetails";
 
 const PrivateRoutes = () => {
   return (
@@ -24,7 +25,10 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
-            <Route path={MASTERS} element={<Masters />} />
+            <Route>
+              <Route path={"/masters/:masters"} element={<Masters />} />
+              <Route path={"/masters/add-:masters"} element={<AddDetails />} />
+            </Route>
           </>
         )}
         {/* for employee */}

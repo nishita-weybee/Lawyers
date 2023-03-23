@@ -1,11 +1,6 @@
-import { USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actionTypes";
-export interface initialState {
-  loading: boolean;
-  res: {};
-  error: string;
-}
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actionTypes";
 
-const initialState: initialState = {
+const initialState = {
   loading: false,
   res: {},
   error: "",

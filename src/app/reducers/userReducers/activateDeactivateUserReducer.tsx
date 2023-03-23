@@ -1,9 +1,4 @@
 import { ACTIVATE_DEACTIVATE_USER_REQUEST, ACTIVATE_DEACTIVATE_USER_SUCCESS, ACTIVATE_DEACTIVATE_USER_FAILURE } from "../actionTypes";
-// export interface initialState {
-//   loading: boolean;
-//   res: {};
-//   error: string;
-// }
 
 const initialState = {
   loading: false,
