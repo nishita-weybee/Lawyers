@@ -16,6 +16,7 @@ import {
   fetchAllOurAdvocate,
   fetchAllTaluka,
 } from "../../../reducers/mastersReducers/mastersAction";
+import { fetchUserList } from "../../../reducers/userReducers/userAction";
 import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
 
@@ -93,6 +94,7 @@ const mapDispatchToProps = (dispatch: any) => {
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
           break;
         default:
+          dispatch(fetchUserList(location));  
           break;
       }
     },

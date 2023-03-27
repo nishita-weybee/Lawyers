@@ -1,14 +1,13 @@
 import clsx from "clsx";
-import { useFormik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DISCARD, PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
 import {
-  fetchAllBank,
-  fetchAllBankBranch,
-  fetchAllDistrict,
   fetchBankBranchByBankId,
+  fetchBankForDropdown,
+  fetchDistrictForDropdown,
   postAssociateAdvocate,
   postBank,
   postBankBranch,
@@ -26,54 +25,60 @@ import {
 export interface props {
   postDetails: Function;
   loading: boolean;
-  list: any;
-  getAllBank: Function;
-  getAllDistrict: Function;
-  getAllBankBranch: Function;
-  getBankBranchByBankId: Function;
-  bankBranchByBankId: any;
+
+  branchList: any;
+  districtList: any;
+  bankList: any;
+  getBankList: Function;
+  getDistrictList: Function;
+  getBranchList: Function;
 }
 
-const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, getAllDistrict, bankBranchByBankId, getBankBranchByBankId }) => {
+const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, districtList, bankList, getBankList, getDistrictList, getBranchList }) => {
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  let initialValues = {};
-  let inputFields;
-
-  const formFields = [
-    [{ name: "name", label: "Name", placeholder: "Name" }],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
-      { name: "email", label: "Email", placeholder: "Email" },
-      { name: "postalAddress", label: "Address", placeholder: "Address" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "bankId", label: "Bank", placeholder: "Bank", type: "select" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
-      { name: "email", label: "Email", placeholder: "Email" },
-      { name: "bankId", label: "Bank", placeholder: "Bank", type: "select" },
-      { name: "bankBranchId", label: "Bank Branch", placeholder: "Bank Branch", type: "select2" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
-      { name: "email", label: "Email", placeholder: "Email" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "districtId", label: "District", placeholder: "District", type: "select" },
-    ],
-  ];
+  let num = 0;
+  switch (params.masters) {
+    case "district":
+      num = 0;
+      break;
+    case "taluka":
+      num = 6;
+      break;
+    case "forum":
+      num = 0;
+      break;
+    case "judge":
+      num = 0;
+      break;
+    case "bank-details":
+      num = 0;
+      break;
+    case "department":
+      num = 0;
+      break;
+    case "bank-branch":
+      num = 2;
+      break;
+    case "bank-officer":
+      num = 3;
+      break;
+    case "advocate":
+      num = 5;
+      break;
+    case "associate-advocate":
+      num = 1;
+      break;
+    case "executer":
+      num = 4;
+      break;
+    case "executive-officer-designation":
+      num = 0;
+      break;
+    default:
+      break;
+  }
   const initialValuesArr = [
     { name: "" },
     { name: "", mobile: "", email: "", postalAddress: "" },
@@ -85,72 +90,20 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
   ];
 
   useEffect(() => {
-    params.masters === "bank-branch" && getAllBank("bank-details", "");
-    params.masters === "taluka" && getAllDistrict("district", "");
-    params.masters === "bank-officer" && getAllBank("bank-details", "");
-  }, [params.masters, getAllBank, getAllDistrict]);
+    params.masters === "taluka" && getDistrictList();
+    params.masters === "bank-branch" && getBankList();
+    params.masters === "bank-officer" && getBankList();
+  }, [params.masters, getDistrictList, getBankList]);
 
-  switch (params.masters) {
-    case "district":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    case "taluka":
-      initialValues = initialValuesArr[6];
-      inputFields = formFields[6];
-      break;
-    case "forum":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    case "judge":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    case "bank-details":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    case "department":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    case "bank-branch":
-      initialValues = initialValuesArr[2];
-      inputFields = formFields[2];
-      break;
-    case "bank-officer":
-      initialValues = initialValuesArr[3];
-      inputFields = formFields[3];
-      break;
-    case "advocate":
-      initialValues = initialValuesArr[5];
-      inputFields = formFields[5];
-      break;
-    case "associate-advocate":
-      initialValues = initialValuesArr[1];
-      inputFields = formFields[1];
-      break;
-    case "executer":
-      initialValues = initialValuesArr[4];
-      inputFields = formFields[4];
-      break;
-    case "executive-officer-designation":
-      initialValues = initialValuesArr[0];
-      inputFields = formFields[0];
-      break;
-    default:
-      break;
-  }
+  // console.log(districtList, "districtList");
+  // console.log(branchList, "branchList");
+  // console.log(bankList, "  bankList");
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit: async (values, { resetForm }) => {
-      resetForm();
-      navigate(`/masters/${params.masters}`);
-      postDetails(params?.masters, values);
-    },
-  });
+  const onSubmit = async (values: any, resetForm: any) => {
+    await postDetails(params?.masters, values);
+    resetForm();
+    navigate(`/masters/${params.masters}`);
+  };
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -163,85 +116,205 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
         </div>
       </div>
 
-      <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
-        <div className="card-body border-top p-9">
-          {inputFields?.map((field: any, i: any) => {
-            return (
-              <div className="row mb-6" key={i}>
-                <label className="col-lg-4 col-form-label fw-bold fs-6 required">{field.label}</label>
+      <Formik
+        initialValues={initialValuesArr[num]}
+        onSubmit={(values: any, resetForm) => onSubmit(values, resetForm)}
+        enableReinitialize={true}
+        render={({ values, setFieldValue }) => (
+          <Form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form">
+            <div className="card-body border-top p-9">
+              <div className="row mb-6">
+                <label className="col-lg-4 col-form-label fw-bold fs-6 required">Name</label>
                 <div className="col-lg-8">
-                  {!field.type && (
-                    <input
-                      placeholder={field.placeholder}
+                  <Field placeholder={`Name`} type="text" name={"name"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                </div>
+              </div>
+              {params.masters === "taluka" && (
+                <div className="row mb-6">
+                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">District</label>
+                  <div className="col-lg-8">
+                    <Field
+                      placeholder={`District`}
                       type="text"
+                      as="select"
+                      name={"districtId"}
                       autoComplete="off"
-                      {...formik.getFieldProps(field.name)}
-                      className={clsx("form-control bg-transparent")}
-                    />
-                  )}
-
-                  {field.type === "select" && (
-                    <>
-                      <select
-                        className="form-select form-select-solid"
-                        data-kt-select2="true"
-                        {...formik.getFieldProps(field.name)}
-                        data-placeholder="Select option"
-                        data-allow-clear="true"
-                        // onChange={(e) => {
-                        //   getBankBranchByBankId(e.target.value);
-                        // }}
-                      >
-                        {list?.data?.records?.map((list: any, i: any) => {
-                          return (
-                            <option key={i} value={list.id}>
-                              {list.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </>
-                  )}
-
-                  {/* {field.type === "select2" && bankBranchByBankId?.data?.length && (
-                    <select
-                      className="form-select form-select-solid"
-                      data-kt-select2="true"
-                      {...formik.getFieldProps(field.name)}
-                      data-placeholder="Select option"
-                      data-allow-clear="true"
+                      className={clsx("form-control bg-transparent form-select")}
+                      onChange={(e: any) => setFieldValue("districtId", e.target.value)}
                     >
-                      <option value={"Select"}>Select</option>
-                      {bankBranchByBankId?.data.map((list: any, i: any) => {
+                      {districtList?.data?.map((list: any, i: any) => {
                         return (
                           <option key={i} value={list.id}>
                             {list.name}
                           </option>
                         );
                       })}
-                    </select>
-                  )} */}
+                    </Field>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="card-footer d-flex justify-content-end py-6 px-9 ">
-          <button
-            type="button"
-            id="kt_login_password_reset_form_cancel_button"
-            className="btn btn-light me-4"
-            disabled={loading}
-            onClick={() => navigate(`/masters/${params.masters}`)}
-          >
-            {DISCARD}
-          </button>
-          <button type="submit" className="btn btn-primary">
-            {!loading && <span className="indicator-label">{SUBMIT}</span>}
-            {loading && PLEASE_WAIT}
-          </button>
-        </div>
-      </form>
+              )}
+              {params.masters === "bank-branch" && (
+                <div className="row mb-6">
+                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank</label>
+                  <div className="col-lg-8">
+                    <Field
+                      placeholder={`Bank`}
+                      type="text"
+                      as="select"
+                      name={"bankId"}
+                      autoComplete="off"
+                      className={clsx("form-control bg-transparent form-select")}
+                      onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                    >
+                      {bankList?.data?.map((list: any, i: any) => {
+                        return (
+                          <option key={i} value={list.id}>
+                            {list.name}
+                          </option>
+                        );
+                      })}
+                    </Field>
+                  </div>
+                </div>
+              )}
+              {params.masters === "bank-officer" && (
+                <>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Mobile`} type="text" name={"mobile"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Email`} type="text" name={"email"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank</label>
+
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={`Bank`}
+                        type="text"
+                        as="select"
+                        name={"bankId"}
+                        autoComplete="off"
+                        className={clsx("form-control bg-transparent form-select")}
+                        onChange={(e: any) => {
+                          getBranchList(e.target.value);
+                          // console.log(e.target.value);
+                        }}
+                      >
+                        {bankList?.data?.map((list: any, i: any) => {
+                          return (
+                            <option key={i} value={list.id}>
+                              {list.name}
+                            </option>
+                          );
+                        })}
+                      </Field>
+                    </div>
+                  </div>
+                  {branchList?.data?.length > 0 && (
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Branch</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Bank Branch`}
+                          type="text"
+                          as="select"
+                          name={"bankBranchId"}
+                          autoComplete="off"
+                          className={clsx("form-control bg-transparent form-select")}
+                          onChange={(e: any) => setFieldValue("bankBranchId", e.target.value)}
+                        >
+                          {branchList?.data?.map((list: any, i: any) => {
+                            return (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            );
+                          })}
+                        </Field>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+              {params.masters === "advocate" && (
+                <>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Mobile`} type="text" name={"mobile"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Email`} type="text" name={"email"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                </>
+              )}
+              {params.masters === "associate-advocate" && (
+                <>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Mobile`} type="text" name={"mobile"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                    <div className="col-lg-8">
+                      <Field placeholder={`Email`} type="text" name={"email"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                    </div>
+                  </div>
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address</label>
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={`Address`}
+                        type="text"
+                        name={"postalAddress"}
+                        autoComplete="off"
+                        className={clsx("form-control bg-transparent")}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+              {params.masters === "executer" && (
+                <div className="row mb-6">
+                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                  <div className="col-lg-8">
+                    <Field placeholder={`Mobile`} type="text" name={"mobile"} autoComplete="off" className={clsx("form-control bg-transparent")} />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="card-footer d-flex justify-content-end py-6 px-9 ">
+              <button
+                type="button"
+                id="kt_login_password_reset_form_cancel_button"
+                className="btn btn-light me-4"
+                disabled={loading}
+                onClick={() => navigate(`/masters/${params?.masters?.replace("add-", "")}`)}
+              >
+                {DISCARD}
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {!loading && <span className="indicator-label">{SUBMIT}</span>}
+                {loading && PLEASE_WAIT}
+              </button>
+            </div>
+          </Form>
+        )}
+      />
     </div>
   );
 };
@@ -252,10 +325,9 @@ const mapStateToProps = (state: any) => {
     error: state.postMasterDataReducer.error,
     details: state.postMasterDataReducer.districtList,
 
-    // loading: state.getAllMastersDataReducer.loading,
-    // error: state.getAllMastersDataReducer.error,
-    list: state.getAllMastersDataReducer.getAllDetails,
-    bankBranchByBankId: state.getBankBranchByBankIdReducer.bankList,
+    bankList: state.getBankForDropdownReducer.bankList,
+    districtList: state.getDistrictForDropdownReducer.districtList,
+    branchList: state.getBankBranchByBankIdReducer.branchList,
   };
 };
 
@@ -303,10 +375,9 @@ const mapDispatchToProps = (dispatch: any) => {
           break;
       }
     },
-    getAllDistrict: (master: any, location: any) => dispatch(fetchAllDistrict(master, location)),
-    getAllBank: (master: any, location: any) => dispatch(fetchAllBank(master, location)),
-    getAllBankBranch: (master: any, location: any) => dispatch(fetchAllBankBranch(master, location)),
-    getBankBranchByBankId: (id: any) => dispatch(fetchBankBranchByBankId(id)),
+    getBranchList: (id: any) => dispatch(fetchBankBranchByBankId(id)),
+    getDistrictList: () => dispatch(fetchDistrictForDropdown()),
+    getBankList: () => dispatch(fetchBankForDropdown()),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddDetails);

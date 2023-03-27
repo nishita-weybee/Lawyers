@@ -90,6 +90,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
     columns,
     data,
   });
+  console.log(location);
 
   const [activeBtn, setActiveBtn] = useState(false);
 
@@ -99,7 +100,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters, location.search);
     });
   };
-
+  console.log(userList);
 
   return (
     <KTCardBody className="py-4">
@@ -131,7 +132,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               </div>
                               <div className="d-flex flex-column">
                                 <a className="text-gray-800 text-hover-primary mb-1">
-                                  {`${userDetail.firstName}  ${userDetail.lastName}`} {userDetail.middleName}
+                                  {`${userDetail.firstName}`} {userDetail.middleName} {userDetail.lastName}
                                 </a>
                                 <span>{userDetail.email}</span>
                               </div>
@@ -158,14 +159,14 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
 
                           {params.masters === "executer" && (
                             <td role="cell" className="">
-                              {userDetail.moblie}
+                              {userDetail.mobile}
                             </td>
                           )}
 
                           {params.masters === "associate-advocate" && (
                             <>
                               <td role="cell" className="">
-                                {userDetail.moblie}
+                                {userDetail.mobile}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.email}
@@ -179,7 +180,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                           {params.masters === "advocate" && (
                             <>
                               <td role="cell" className="">
-                                {userDetail.moblie}
+                                {userDetail.mobile}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.email}
@@ -198,7 +199,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                           {params.masters === "bank-officer" && (
                             <>
                               <td role="cell" className="">
-                                {userDetail.moblie}
+                                {userDetail.mobile}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.email}
@@ -215,14 +216,16 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                       )}
 
                       <td role="cell" className="text-end min-w-100px">
-                        <span
-                          className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary me-4"
-                          onClick={() => navigate(`/masters/edit-${params.masters}/${userDetail.id}`)}
-                        >
-                          <span className="svg-icon svg-icon-2">
-                            <i className="fa-solid fa-pen-to-square"></i>
+                        {location.pathname !== "/view-user" && (
+                          <span
+                            className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary me-4"
+                            onClick={() => navigate(`/masters/edit-${params.masters}/${userDetail.id}`)}
+                          >
+                            <span className="svg-icon svg-icon-2">
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </span>
                           </span>
-                        </span>
+                        )}
 
                         <span
                           className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"

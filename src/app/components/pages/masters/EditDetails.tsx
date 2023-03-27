@@ -85,6 +85,8 @@ const EditDetails: React.FC<props> = ({
   const location = useLocation();
 
   const onSubmit = (values: any) => {
+    // console.log(values);
+
     switch (params.masters) {
       case "district":
         updateMastersField(UPDATE_DISTRICT_BY_ID, values, () => {
@@ -197,9 +199,10 @@ const EditDetails: React.FC<props> = ({
     params.masters === "bank-officer" && getBankList();
   }, [params.id, params.masters, getByIdFields]);
 
-  console.log(districtList, "districtList");
-  console.log(branchList, "branchList");
-  console.log(bankList, "  bankList");
+  // console.log(districtList, "districtList");
+  // console.log(branchList, "branchList");
+  // console.log(bankList, "  bankList");
+  // console.log(details?.data);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -231,14 +234,14 @@ const EditDetails: React.FC<props> = ({
                         placeholder={`District`}
                         type="text"
                         as="select"
-                        name={"district"}
+                        name={"districtId"}
                         autoComplete="off"
                         className={clsx("form-control bg-transparent form-select")}
+                        onChange={(e: any) => setFieldValue("districtId", e.target.value)}
                       >
-                        {/* <option>{values.district}</option> */}
                         {districtList?.data?.map((list: any, i: any) => {
                           return (
-                            <option key={i} value={list.name}>
+                            <option key={i} value={list.id}>
                               {list.name}
                             </option>
                           );
@@ -255,9 +258,10 @@ const EditDetails: React.FC<props> = ({
                         placeholder={`Bank`}
                         type="text"
                         as="select"
-                        name={"bank"}
+                        name={"bankId"}
                         autoComplete="off"
                         className={clsx("form-control bg-transparent form-select")}
+                        onChange={(e: any) => setFieldValue("bankId", e.target.value)}
                       >
                         <option>{values.bank}</option>
                         {bankList?.data?.map((list: any, i: any) => {
@@ -279,7 +283,7 @@ const EditDetails: React.FC<props> = ({
                         <Field
                           placeholder={`Mobile`}
                           type="text"
-                          name={"moblie"}
+                          name={"mobile"}
                           autoComplete="off"
                           className={clsx("form-control bg-transparent")}
                         />
@@ -299,11 +303,12 @@ const EditDetails: React.FC<props> = ({
                           placeholder={`Bank`}
                           type="text"
                           as="select"
-                          // name={"bankId"}
+                          name={"bankId"}
                           autoComplete="off"
                           className={clsx("form-control bg-transparent form-select")}
                           onChange={(e: any) => {
                             getBranchList(e.target.value);
+                            // console.log(e.target.value);
                           }}
                         >
                           {bankList?.data?.map((list: any, i: any) => {
@@ -324,9 +329,10 @@ const EditDetails: React.FC<props> = ({
                             placeholder={`Bank Branch`}
                             type="text"
                             as="select"
-                            name={"bankBranch"}
+                            name={"bankBranchId"}
                             autoComplete="off"
                             className={clsx("form-control bg-transparent form-select")}
+                            onChange={(e: any) => setFieldValue("bankBranchId", e.target.value)}
                           >
                             {branchList?.data?.map((list: any, i: any) => {
                               return (

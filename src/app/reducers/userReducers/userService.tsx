@@ -20,8 +20,8 @@ export const editUserDetails = async (profileDetails: any) => {
   return await axiosInstance.put(`${EDIT_USER_DETAILS}`, profileDetails);
 };
 
-export const activateDeactivateUserService = async (email: any) => {
-  return await axiosInstance.put(`${ACTIVATE_DEACTIVATE_USER}`, email, {
+export const activateDeactivateUserService = async (id: any) => {
+  return await axiosInstance.put(`${ACTIVATE_DEACTIVATE_USER}/${id}`, id, {
     headers: {
       "Content-Type": "application/json",
     },
