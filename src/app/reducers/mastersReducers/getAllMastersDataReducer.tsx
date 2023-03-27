@@ -50,6 +50,7 @@ export interface action {
 }
 
 const getAllMastersDataReducer = (state = initialState, action: action) => {
+
   switch (action.master) {
     case "district":
       switch (action.type) {
@@ -163,7 +164,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "bank":
+    case "bank-details":
       switch (action.type) {
         case GET_ALL_BANK_REQUEST:
           return {
@@ -229,6 +230,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           };
 
         case GET_ALL_BANK_BRANCH_SUCCESS:
+
           return {
             ...state,
             loading: false,
@@ -388,7 +390,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
         }
       }
     default:
-      return initialState;
+      return { ...state };
   }
 };
 

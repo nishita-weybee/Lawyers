@@ -26,7 +26,7 @@ export const ADD_DISTRICT = "/masters/add-district";
 export const ADD_TALUKA = "/masters/add-taluka";
 export const ADD_FORUM = "/masters/add-forum";
 export const ADD_JUDGE = "/masters/add-judge";
-export const ADD_BANK = "/masters/add-bank";
+export const ADD_BANK = "/masters/add-bank-details";
 export const ADD_DEPARTMENT = "/masters/add-department";
 export const ADD_BANK_BRANCH = "/masters/add-bank-branch";
 export const ADD_BANK_OFFICER = "/masters/add-bank-officer";
@@ -34,6 +34,20 @@ export const ADD_ADVOCATE = "/masters/add-advocate";
 export const ADD_ASSOCIATE_ADVOCATE = "/masters/add-associate-advocate";
 export const ADD_EXECUTER = "/masters/add-executer";
 export const ADD_EXECUTIVE_OFFICER_DESIGNATION = "/masters/add-executive-officer-designation";
+
+// Edit Masters
+export const EDIT_DISTRICT = "/masters/edit-district";
+export const EDIT_TALUKA = "/masters/edit-taluka";
+export const EDIT_FORUM = "/masters/edit-forum";
+export const EDIT_JUDGE = "/masters/edit-judge";
+export const EDIT_BANK = "/masters/edit-bank-details";
+export const EDIT_DEPARTMENT = "/masters/edit-department";
+export const EDIT_BANK_BRANCH = "/masters/edit-bank-branch";
+export const EDIT_BANK_OFFICER = "/masters/edit-bank-officer";
+export const EDIT_ADVOCATE = "/masters/edit-advocate";
+export const EDIT_ASSOCIATE_ADVOCATE = "/masters/edit-associate-advocate";
+export const EDIT_EXECUTER = "/masters/edit-executer";
+export const EDIT_EXECUTIVE_OFFICER_DESIGNATION = "/masters/edit-executive-officer-designation";
 
 export const PROFILE = "/profile";
 export const EDIT_PROFILE = `${PROFILE}/edit`;

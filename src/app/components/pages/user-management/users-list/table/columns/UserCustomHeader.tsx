@@ -16,7 +16,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
   const searchObj = useMemo(() => getSearchParameter(searchParam), [searchParam]);
 
   const sortColumn = async () => {
-    if (id !== "NULL" && id !== "actions" && id !== "contact") {
+    if (id !== "NULL" && id !== "actions" && id !== "contact" && id !== 'Mobile' && id !== 'Address') {
       let orderby = searchParam.get("OrderBy") == null ? "asc" : searchParam.get("OrderBy") === "asc" ? "desc" : "asc";
       setSearchParam({
         ...searchObj,

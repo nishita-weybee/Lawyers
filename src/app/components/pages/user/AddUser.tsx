@@ -1,6 +1,5 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useAuth } from "../../auth";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
@@ -23,8 +22,6 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
     getUserRoles();
   }, [getUserRoles]);
 
-  const { saveAuth } = useAuth();
-
   const initialValues = {
     firstname: "",
     lastname: "",
@@ -32,9 +29,6 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
     password: "",
     role: "Admin",
   };
-
-  console.log(initialValues);
-  
 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
@@ -54,9 +48,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
         () => {
           resetForm();
         },
-        () => {
-          // saveAuth(undefined);
-        }
+    
       );
     },
   });
@@ -233,8 +225,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getUserRoles: () => dispatch(fetchUserRoles()),
-    postRegisterUser: (registerUserDetails: any, callbackSuccess: Function, callbackFailure: Function) =>
-      dispatch(registerUser(registerUserDetails, callbackSuccess, callbackFailure)),
+    postRegisterUser: (registerUserDetails: any, callbackSuccess: Function) =>
+      dispatch(registerUser(registerUserDetails, callbackSuccess)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddUser);

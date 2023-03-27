@@ -3,20 +3,6 @@ import { connect } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { KTCard } from "../../../../_metronic/helpers";
 import {
-  ADD_ADVOCATE,
-  ADD_ASSOCIATE_ADVOCATE,
-  ADD_BANK,
-  ADD_BANK_BRANCH,
-  ADD_BANK_OFFICER,
-  ADD_DEPARTMENT,
-  ADD_DISTRICT,
-  ADD_EXECUTER,
-  ADD_EXECUTIVE_OFFICER_DESIGNATION,
-  ADD_FORUM,
-  ADD_JUDGE,
-  ADD_TALUKA,
-} from "../../../helpers/routesConstant";
-import {
   fetchAllAssociateAdvocate,
   fetchAllBank,
   fetchAllBankBranch,
@@ -30,6 +16,7 @@ import {
   fetchAllOurAdvocate,
   fetchAllTaluka,
 } from "../../../reducers/mastersReducers/mastersAction";
+import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
 
 export interface props {
@@ -42,59 +29,16 @@ export interface props {
 const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
   const location = useLocation();
   const params = useParams();
-  const masters = params.masters;
-  let addPath = "";
 
   useEffect(() => {
-    getDetails(masters, location.search);
-  }, [getDetails, masters, location.search]);
+    getDetails(params.masters, location.search);
+  }, [getDetails, params.masters, location.search]);
 
-  switch (masters) {
-    case "district":
-      addPath = `${ADD_DISTRICT}`;
-      break;
-    case "taluka":
-      addPath = `${ADD_TALUKA}`;
-      break;
-    case "forum":
-      addPath = `${ADD_FORUM}`;
-      break;
-    case "judge":
-      addPath = `${ADD_JUDGE}`;
-      break;
-    case "bank-details":
-      addPath = `${ADD_BANK}`;
-      break;
-    case "department":
-      addPath = `${ADD_DEPARTMENT}`;
-      break;
-    case "bank-branch":
-      addPath = `${ADD_BANK_BRANCH}`;
-      break;
-    case "bank-officer":
-      addPath = `${ADD_BANK_OFFICER}`;
-      break;
-    case "advocate":
-      addPath = `${ADD_ADVOCATE}`;
-      break;
-    case "associate-advocate":
-      addPath = `${ADD_ASSOCIATE_ADVOCATE}`;
-      break;
-    case "executer":
-      addPath = `${ADD_EXECUTER}`;
-      break;
-    case "executive-officer-designation":
-      addPath = `${ADD_EXECUTIVE_OFFICER_DESIGNATION}`;
-      break;
-
-    default:
-      break;
-  }
   return (
     <>
       <KTCard>
-        <UsersListHeader path={addPath} />
-        {/* <PaginatedItems itemsPerPage={10} userList={userList} /> */}
+        <UsersListHeader path={`/masters/add-${params.masters}`} />
+        <PaginatedItems itemsPerPage={10} userList={details?.data} />
       </KTCard>
     </>
   );
@@ -124,7 +68,7 @@ const mapDispatchToProps = (dispatch: any) => {
         case "judge":
           dispatch(fetchAllJudgeName(masters, location));
           break;
-        case "bank":
+        case "bank-details":
           dispatch(fetchAllBank(masters, location));
           break;
         case "department":

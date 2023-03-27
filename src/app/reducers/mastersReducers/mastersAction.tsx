@@ -1,4 +1,8 @@
+import { showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
 import {
+  ACTIVE_DEACTIVE_MASTERS_FAILURE,
+  ACTIVE_DEACTIVE_MASTERS_REQUEST,
+  ACTIVE_DEACTIVE_MASTERS_SUCCESS,
   GET_ALL_ASSOCIATE_ADVOCATE_FAILURE,
   GET_ALL_ASSOCIATE_ADVOCATE_REQUEST,
   GET_ALL_ASSOCIATE_ADVOCATE_SUCCESS,
@@ -35,45 +39,24 @@ import {
   GET_ALL_TALUKA_FAILURE,
   GET_ALL_TALUKA_REQUEST,
   GET_ALL_TALUKA_SUCCESS,
-  POST_ADVOCATE_FAILURE,
-  POST_ADVOCATE_REQUEST,
-  POST_ADVOCATE_SUCCESS,
-  POST_ASSOCIATE_ADVOCATE_FAILURE,
-  POST_ASSOCIATE_ADVOCATE_REQUEST,
-  POST_ASSOCIATE_ADVOCATE_SUCCESS,
-  POST_BANK_BRANCH_FAILURE,
-  POST_BANK_BRANCH_REQUEST,
-  POST_BANK_BRANCH_SUCCESS,
-  POST_BANK_FAILURE,
-  POST_BANK_OFFICER_FAILURE,
-  POST_BANK_OFFICER_REQUEST,
-  POST_BANK_OFFICER_SUCCESS,
-  POST_BANK_REQUEST,
-  POST_BANK_SUCCESS,
-  POST_DEPARTMENT_FAILURE,
-  POST_DEPARTMENT_REQUEST,
-  POST_DEPARTMENT_SUCCESS,
-  POST_DISTRICT_FAILURE,
-  POST_DISTRICT_REQUEST,
-  POST_DISTRICT_SUCCESS,
-  POST_EXECUTER_FAILURE,
-  POST_EXECUTER_REQUEST,
-  POST_EXECUTER_SUCCESS,
-  POST_EXECUTING_OFFICER_DESIGNATION_FAILURE,
-  POST_EXECUTING_OFFICER_DESIGNATION_REQUEST,
-  POST_EXECUTING_OFFICER_DESIGNATION_SUCCESS,
-  POST_FORUM_FAILURE,
-  POST_FORUM_REQUEST,
-  POST_FORUM_SUCCESS,
-  POST_JUGDE_FAILURE,
-  POST_JUGDE_REQUEST,
-  POST_JUGDE_SUCCESS,
+  GET_BANK_BRANCH_BY_BANK_ID_FAILURE,
+  GET_BANK_BRANCH_BY_BANK_ID_REQUEST,
+  GET_BANK_BRANCH_BY_BANK_ID_SUCCESS,
+  GET_BANK_FOR_DROPDOWN_MASTERS_FAILURE,
+  GET_BANK_FOR_DROPDOWN_MASTERS_REQUEST,
+  GET_BANK_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_BY_ID_MASTERS_FAILURE,
+  GET_BY_ID_MASTERS_REQUEST,
+  GET_BY_ID_MASTERS_SUCCESS,
+  GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE,
+  GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST,
+  GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS,
   POST_MASTER_DATA_FAILURE,
   POST_MASTER_DATA_REQUEST,
   POST_MASTER_DATA_SUCCESS,
-  POST_TALUKA_FAILURE,
-  POST_TALUKA_REQUEST,
-  POST_TALUKA_SUCCESS,
+  UPDATE_MASTERS_FAILURE,
+  UPDATE_MASTERS_REQUEST,
+  UPDATE_MASTERS_SUCCESS,
 } from "../actionTypes";
 import {
   getAllDistrict,
@@ -100,6 +83,23 @@ import {
   postAssociateAdvocateService,
   postExecuterNameService,
   postExecutingOfficerDesignationService,
+  activeDeactiveDistrictService,
+  activeDeactiveTalukaService,
+  activeDeactiveForumService,
+  activeDeactiveJudgeNameService,
+  activeDeactiveBankService,
+  activeDeactiveDepartmentService,
+  activeDeactiveBankBranchService,
+  activeDeactiveBankOfficerService,
+  activeDeactiveOurAdvocateService,
+  activeDeactiveAssociateAdvocateService,
+  activeDeactiveExecuterNameService,
+  activeDeactiveExecutingOfficerDesignationService,
+  getByIdService,
+  getBankBranchByBankId,
+  updateMastersService,
+  getBankForDropdown,
+  getDistrictForDropdown,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -268,6 +268,20 @@ export const fetchAllTaluka = (master: any, location: any) => {
   };
 };
 
+export const fetchBankBranchByBankId = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_BANK_BRANCH_BY_BANK_ID_REQUEST));
+    return getBankBranchByBankId(id).then(
+      (result: any) => {
+        dispatch(success(GET_BANK_BRANCH_BY_BANK_ID_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_BANK_BRANCH_BY_BANK_ID_FAILURE, error.message));
+      }
+    );
+  };
+};
+
 export const postDistrict = (detail: any) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
@@ -283,13 +297,13 @@ export const postDistrict = (detail: any) => {
 };
 export const postTaluka = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_TALUKA_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postTalukaService(detail).then(
       (result: any) => {
-        dispatch(success(POST_TALUKA_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_TALUKA_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
@@ -309,26 +323,26 @@ export const postForum = (detail: any) => {
 };
 export const postJudgeName = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_JUGDE_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postJudgeNameService(detail).then(
       (result: any) => {
-        dispatch(success(POST_JUGDE_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_JUGDE_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postBank = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_BANK_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankService(detail).then(
       (result: any) => {
-        dispatch(success(POST_BANK_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_BANK_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
@@ -348,78 +362,329 @@ export const postDepartment = (detail: any) => {
 };
 export const postBankBranch = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_BANK_BRANCH_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankBranchService(detail).then(
       (result: any) => {
-        dispatch(success(POST_BANK_BRANCH_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_BANK_BRANCH_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postBankOfficer = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_BANK_OFFICER_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankOfficerService(detail).then(
       (result: any) => {
-        dispatch(success(POST_BANK_OFFICER_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_BANK_OFFICER_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postOurAdvocate = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_ADVOCATE_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postOurAdvocateService(detail).then(
       (result: any) => {
-        dispatch(success(POST_ADVOCATE_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_ADVOCATE_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postAssociateAdvocate = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_ASSOCIATE_ADVOCATE_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postAssociateAdvocateService(detail).then(
       (result: any) => {
-        dispatch(success(POST_ASSOCIATE_ADVOCATE_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_ASSOCIATE_ADVOCATE_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postExecuterName = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_EXECUTER_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postExecuterNameService(detail).then(
       (result: any) => {
-        dispatch(success(POST_EXECUTER_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_EXECUTER_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
       }
     );
   };
 };
 export const postExecutingOfficerDesignation = (detail: any) => {
   return (dispatch: any) => {
-    dispatch(request(POST_EXECUTING_OFFICER_DESIGNATION_REQUEST));
+    dispatch(request(POST_MASTER_DATA_REQUEST));
     return postExecutingOfficerDesignationService(detail).then(
       (result: any) => {
-        dispatch(success(POST_EXECUTING_OFFICER_DESIGNATION_SUCCESS, result.data));
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(POST_EXECUTING_OFFICER_DESIGNATION_FAILURE, error.message));
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const activeDeactiveDistrict = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveDistrictService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveTaluka = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveTalukaService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveForum = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveForumService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveJudgeName = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveJudgeNameService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveBank = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveBankService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveDepartment = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveDepartmentService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveBankBranch = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveBankBranchService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveBankOfficer = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveBankOfficerService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveOurAdvocate = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveOurAdvocateService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+export const activeDeactiveAssociateAdvocate = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveAssociateAdvocateService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveExecuterName = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveExecuterNameService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveExecutingOfficerDesignation = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveExecutingOfficerDesignationService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`${status} successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+
+export const getById = (url: any, id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_BY_ID_MASTERS_REQUEST));
+    return getByIdService(url, id).then(
+      (result: any) => {
+        dispatch(success(GET_BY_ID_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_BY_ID_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const updateMasters = (url: any, values: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(UPDATE_MASTERS_REQUEST));
+    return updateMastersService(url, values).then(
+      (result: any) => {
+        dispatch(success(UPDATE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(`Updated successfully`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(UPDATE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+
+export const fetchBankForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_BANK_FOR_DROPDOWN_MASTERS_REQUEST));
+    return getBankForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_BANK_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_BANK_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchDistrictForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST));
+    return getDistrictForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
       }
     );
   };

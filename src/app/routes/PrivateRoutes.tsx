@@ -14,6 +14,7 @@ import hasPermission, { actionsRole } from "../components/auth/core/hasPermissio
 import EditProfile from "../components/pages/user/EditProfile";
 import Masters from "../components/pages/masters/Masters";
 import AddDetails from "../components/pages/masters/AddDetails";
+import EditDetails from "../components/pages/masters/EditDetails";
 
 const PrivateRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const PrivateRoutes = () => {
             <Route>
               <Route path={"/masters/:masters"} element={<Masters />} />
               <Route path={"/masters/add-:masters"} element={<AddDetails />} />
+              <Route path={"/masters/edit-:masters/:id"} element={<EditDetails />} />
             </Route>
           </>
         )}

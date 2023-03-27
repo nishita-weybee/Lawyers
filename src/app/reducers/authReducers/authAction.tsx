@@ -41,7 +41,7 @@ export const login = (loginDetails: Object, callBackSucess: Function, callBackFa
   };
 };
 
-export const registerUser = (registerUserDetails: Object, callbackSuccess: Function, callbackFailure: Function) => {
+export const registerUser = (registerUserDetails: Object, callbackSuccess: Function) => {
   return (dispatch: any) => {
     dispatch(request(REGISTER_USER_REQUEST));
     return registerUserService(registerUserDetails).then(
@@ -53,7 +53,6 @@ export const registerUser = (registerUserDetails: Object, callbackSuccess: Funct
       (error: any) => {
         dispatch(failure(REGISTER_USER_FAILURE, error.response.data.error.errorMessage));
         showToastMessageFailure();
-        callbackFailure();
       }
     );
   };

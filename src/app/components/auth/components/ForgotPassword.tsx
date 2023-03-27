@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
+import { DISCARD, PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
 import { connect } from "react-redux";
 import { forgotPassword } from "../../../reducers/authReducers/authAction";
 
@@ -94,7 +94,7 @@ const ForgotPassword: React.FC<props> = ({ postForgotPassDetails, error, loading
           disabled={loading}
           onClick={() => navigate("/auth/login")}
         >
-          Cancel
+          {DISCARD}
         </button>
       </div>
     </form>

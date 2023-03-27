@@ -1,4 +1,4 @@
-import { POST_MASTER_DATA_SUCCESS, POST_MASTER_DATA_FAILURE, POST_MASTER_DATA_REQUEST } from "../actionTypes";
+import { UPDATE_MASTERS_FAILURE, UPDATE_MASTERS_SUCCESS, UPDATE_MASTERS_REQUEST } from "../actionTypes";
 
 const initialState = {
   loading: false,
@@ -11,23 +11,23 @@ export interface action {
   payload: any;
 }
 
-const postMasterDataReducer = (state = initialState, action: action) => {
+const updateMasterReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case POST_MASTER_DATA_REQUEST:
+    case UPDATE_MASTERS_REQUEST:
       return {
         loading: true,
         res: {},
         error: "",
       };
 
-    case POST_MASTER_DATA_SUCCESS:
+    case UPDATE_MASTERS_SUCCESS:
       return {
         ...state,
         loading: false,
         res: action.payload,
       };
 
-    case POST_MASTER_DATA_FAILURE:
+    case UPDATE_MASTERS_FAILURE:
       return {
         ...state,
         loading: false,
@@ -35,9 +35,10 @@ const postMasterDataReducer = (state = initialState, action: action) => {
         error: action.payload,
       };
 
-    default:
+    default: {
       return state;
+    }
   }
 };
 
-export { postMasterDataReducer };
+export { updateMasterReducer };

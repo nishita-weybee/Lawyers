@@ -2,12 +2,13 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
-import { PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { DISCARD, PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
 import {
   fetchAllBank,
   fetchAllBankBranch,
   fetchAllDistrict,
+  fetchBankBranchByBankId,
   postAssociateAdvocate,
   postBank,
   postBankBranch,
@@ -29,11 +30,14 @@ export interface props {
   getAllBank: Function;
   getAllDistrict: Function;
   getAllBankBranch: Function;
+  getBankBranchByBankId: Function;
+  bankBranchByBankId: any;
 }
 
-const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, getAllDistrict, getAllBankBranch }) => {
+const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, getAllDistrict, bankBranchByBankId, getBankBranchByBankId }) => {
   const params = useParams();
-  const masterField = params?.masters?.replace(/-/g, " ");
+  const navigate = useNavigate();
+  const location = useLocation();
   let initialValues = {};
   let inputFields;
 
@@ -43,48 +47,48 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
       { name: "name", label: "Name", placeholder: "Name" },
       { name: "mobile", label: "Mobile", placeholder: "Mobile" },
       { name: "email", label: "Email", placeholder: "Email" },
-      { name: "postalAddress;", label: "Address", placeholder: "Address" },
+      { name: "postalAddress", label: "Address", placeholder: "Address" },
     ],
     [
       { name: "name", label: "Name", placeholder: "Name" },
-      { name: "bankId", label: "Bank", placeholder: "Bank", type: "select", fetchOptions: getAllBank },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
-      { name: "email", label: "Email", placeholder: "Email" },
-      { name: "bankBranchId;", label: "Bank Branch", placeholder: "Bank Branch", type: "select" },
-    ],
-    [
-      { name: "name", label: "Name", placeholder: "Name" },
-      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
+      { name: "bankId", label: "Bank", placeholder: "Bank", type: "select" },
     ],
     [
       { name: "name", label: "Name", placeholder: "Name" },
       { name: "mobile", label: "Mobile", placeholder: "Mobile" },
       { name: "email", label: "Email", placeholder: "Email" },
+      { name: "bankId", label: "Bank", placeholder: "Bank", type: "select" },
+      { name: "bankBranchId", label: "Bank Branch", placeholder: "Bank Branch", type: "select2" },
     ],
     [
       { name: "name", label: "Name", placeholder: "Name" },
-      { name: "districtId", label: "District", placeholder: "District", type: "select", fetchOptions: getAllDistrict },
+      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
+    ],
+    [
+      { name: "name", label: "Name", placeholder: "Name" },
+      { name: "mobile", label: "Mobile", placeholder: "Mobile" },
+      { name: "email", label: "Email", placeholder: "Email" },
+    ],
+    [
+      { name: "name", label: "Name", placeholder: "Name" },
+      { name: "districtId", label: "District", placeholder: "District", type: "select" },
     ],
   ];
   const initialValuesArr = [
     { name: "" },
     { name: "", mobile: "", email: "", postalAddress: "" },
     { name: "", bankId: "" },
-    { name: "", mobile: "", email: "", bankBranchId: "" },
+    { name: "", mobile: "", email: "", bankBranchId: "", bankId: "" },
     { name: "", mobile: "" },
     { name: "", mobile: "", email: "" },
     { name: "", districtId: "" },
   ];
 
   useEffect(() => {
-    params.masters === "bank-branch" && getAllBank("bank", "");
+    params.masters === "bank-branch" && getAllBank("bank-details", "");
     params.masters === "taluka" && getAllDistrict("district", "");
-    params.masters === "bank-officer" && getAllBankBranch("bank-branch", "");
-  }, [params.masters, getAllBank, getAllDistrict, getAllBankBranch]);
-  console.log(list?.data?.records);
+    params.masters === "bank-officer" && getAllBank("bank-details", "");
+  }, [params.masters, getAllBank, getAllDistrict]);
 
   switch (params.masters) {
     case "district":
@@ -94,7 +98,6 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
     case "taluka":
       initialValues = initialValuesArr[6];
       inputFields = formFields[6];
-
       break;
     case "forum":
       initialValues = initialValuesArr[0];
@@ -104,7 +107,7 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
       initialValues = initialValuesArr[0];
       inputFields = formFields[0];
       break;
-    case "bank":
+    case "bank-details":
       initialValues = initialValuesArr[0];
       inputFields = formFields[0];
       break;
@@ -115,7 +118,6 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
     case "bank-branch":
       initialValues = initialValuesArr[2];
       inputFields = formFields[2];
-
       break;
     case "bank-officer":
       initialValues = initialValuesArr[3];
@@ -137,26 +139,27 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
       initialValues = initialValuesArr[0];
       inputFields = formFields[0];
       break;
-
     default:
       break;
   }
 
   const formik = useFormik({
     initialValues,
-    onSubmit: async (values) => {
-      console.log(values);
-      postDetails(masterField, values);
+    onSubmit: async (values, { resetForm }) => {
+      resetForm();
+      navigate(`/masters/${params.masters}`);
+      postDetails(params?.masters, values);
     },
   });
-
-  console.log(list?.data?.records);
 
   return (
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
-          <h3 className="fw-bolder m-0 text-capitalize">{`Add ${masterField}`}</h3>
+          <h3 className="fw-bolder m-0 text-capitalize">{`${location.pathname.includes("add") ? "Add" : "Update"} ${params.masters?.replace(
+            /-/,
+            " "
+          )}`}</h3>
         </div>
       </div>
 
@@ -176,6 +179,7 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
                       className={clsx("form-control bg-transparent")}
                     />
                   )}
+
                   {field.type === "select" && (
                     <>
                       <select
@@ -184,6 +188,9 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
                         {...formik.getFieldProps(field.name)}
                         data-placeholder="Select option"
                         data-allow-clear="true"
+                        // onChange={(e) => {
+                        //   getBankBranchByBankId(e.target.value);
+                        // }}
                       >
                         {list?.data?.records?.map((list: any, i: any) => {
                           return (
@@ -195,17 +202,43 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, list, getAllBank, g
                       </select>
                     </>
                   )}
+
+                  {/* {field.type === "select2" && bankBranchByBankId?.data?.length && (
+                    <select
+                      className="form-select form-select-solid"
+                      data-kt-select2="true"
+                      {...formik.getFieldProps(field.name)}
+                      data-placeholder="Select option"
+                      data-allow-clear="true"
+                    >
+                      <option value={"Select"}>Select</option>
+                      {bankBranchByBankId?.data.map((list: any, i: any) => {
+                        return (
+                          <option key={i} value={list.id}>
+                            {list.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )} */}
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="card-footer d-flex justify-content-end py-6 px-9">
-          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading || !formik.isValid}>
-            <>
-              {!loading && <span className="indicator-label">{SUBMIT}</span>}
-              {loading && PLEASE_WAIT}
-            </>
+        <div className="card-footer d-flex justify-content-end py-6 px-9 ">
+          <button
+            type="button"
+            id="kt_login_password_reset_form_cancel_button"
+            className="btn btn-light me-4"
+            disabled={loading}
+            onClick={() => navigate(`/masters/${params.masters}`)}
+          >
+            {DISCARD}
+          </button>
+          <button type="submit" className="btn btn-primary">
+            {!loading && <span className="indicator-label">{SUBMIT}</span>}
+            {loading && PLEASE_WAIT}
           </button>
         </div>
       </form>
@@ -222,6 +255,7 @@ const mapStateToProps = (state: any) => {
     // loading: state.getAllMastersDataReducer.loading,
     // error: state.getAllMastersDataReducer.error,
     list: state.getAllMastersDataReducer.getAllDetails,
+    bankBranchByBankId: state.getBankBranchByBankIdReducer.bankList,
   };
 };
 
@@ -241,7 +275,7 @@ const mapDispatchToProps = (dispatch: any) => {
         case "judge":
           dispatch(postJudgeName(detail));
           break;
-        case "bank":
+        case "bank-details":
           dispatch(postBank(detail));
           break;
         case "department":
@@ -272,6 +306,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getAllDistrict: (master: any, location: any) => dispatch(fetchAllDistrict(master, location)),
     getAllBank: (master: any, location: any) => dispatch(fetchAllBank(master, location)),
     getAllBankBranch: (master: any, location: any) => dispatch(fetchAllBankBranch(master, location)),
+    getBankBranchByBankId: (id: any) => dispatch(fetchBankBranchByBankId(id)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddDetails);

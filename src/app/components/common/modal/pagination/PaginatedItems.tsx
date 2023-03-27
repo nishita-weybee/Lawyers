@@ -8,16 +8,19 @@ interface PaginatedItemsProps {
 }
 
 const PaginatedItems: React.FC<PaginatedItemsProps> = ({ userList, itemsPerPage }) => {
-  const pageCount = Math.ceil(userList.total_Record_Count / itemsPerPage);
+  const pageCount = Math.ceil(userList?.total_Record_Count / itemsPerPage);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePageClick = (e: any) => {
-    setSearchParams("PageNumber", e.selected + 1);
+    searchParams.set("PageNumber", e.selected + 1);
+    setSearchParams(searchParams);
   };
+
+
 
   return (
     <>
-      {userList.records && (
+      {userList?.records && (
         <>
           <UsersTable userList={userList.records} />
           <div className="card-body pt-0">

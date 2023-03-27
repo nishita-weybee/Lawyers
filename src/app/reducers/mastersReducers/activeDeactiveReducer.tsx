@@ -1,4 +1,4 @@
-import { POST_MASTER_DATA_SUCCESS, POST_MASTER_DATA_FAILURE, POST_MASTER_DATA_REQUEST } from "../actionTypes";
+import { ACTIVE_DEACTIVE_MASTERS_REQUEST, ACTIVE_DEACTIVE_MASTERS_FAILURE, ACTIVE_DEACTIVE_MASTERS_SUCCESS } from "../actionTypes";
 
 const initialState = {
   loading: false,
@@ -13,21 +13,21 @@ export interface action {
 
 const postMasterDataReducer = (state = initialState, action: action) => {
   switch (action.type) {
-    case POST_MASTER_DATA_REQUEST:
+    case ACTIVE_DEACTIVE_MASTERS_REQUEST:
       return {
         loading: true,
         res: {},
         error: "",
       };
 
-    case POST_MASTER_DATA_SUCCESS:
+    case ACTIVE_DEACTIVE_MASTERS_SUCCESS:
       return {
         ...state,
         loading: false,
         res: action.payload,
       };
 
-    case POST_MASTER_DATA_FAILURE:
+    case ACTIVE_DEACTIVE_MASTERS_FAILURE:
       return {
         ...state,
         loading: false,
