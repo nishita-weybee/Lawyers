@@ -31,6 +31,9 @@ const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
   const location = useLocation();
   const params = useParams();
 
+  console.log(location);
+  
+
   useEffect(() => {
     getDetails(params.masters, location.search);
   }, [getDetails, params.masters, location.search]);
