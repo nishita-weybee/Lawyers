@@ -50,7 +50,6 @@ export interface action {
 }
 
 const getAllMastersDataReducer = (state = initialState, action: action) => {
-
   switch (action.master) {
     case "district":
       switch (action.type) {
@@ -230,7 +229,6 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           };
 
         case GET_ALL_BANK_BRANCH_SUCCESS:
-
           return {
             ...state,
             loading: false,

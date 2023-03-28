@@ -12,6 +12,8 @@ export interface action {
 }
 
 const postMasterDataReducer = (state = initialState, action: action) => {
+
+  
   switch (action.type) {
     case POST_MASTER_DATA_REQUEST:
       return {

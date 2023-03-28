@@ -90,7 +90,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
     columns,
     data,
   });
-  console.log(location);
+
 
   const [activeBtn, setActiveBtn] = useState(false);
 
@@ -100,7 +100,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters, location.search);
     });
   };
-  console.log(userList);
+
 
   return (
     <KTCardBody className="py-4">

@@ -31,9 +31,9 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
   };
 
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
+    firstname: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
     email: Yup.string().email("Wrong email format").required(REQUIRED),
-    lastname: Yup.string().min(3, "Minimum 3 symbols").max(50, "Maximum 50 symbols").required(REQUIRED),
+    lastname: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
     password: Yup.string()
       .required(REQUIRED)
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Wrong password format"),

@@ -69,7 +69,7 @@ export const bankOfficerColumns: ReadonlyArray<Column<User>> = [
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank Branch" className=" min-w-100px" />,
-    id: "Bank Branch",
+    id: "BankBranch",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-end min-w-100px" />,

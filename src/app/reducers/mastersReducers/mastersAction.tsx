@@ -282,158 +282,194 @@ export const fetchBankBranchByBankId = (id: any) => {
   };
 };
 
-export const postDistrict = (detail: any) => {
+export const postDistrict = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postDistrictService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postTaluka = (detail: any) => {
+export const postTaluka = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postTalukaService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postForum = (detail: any) => {
+export const postForum = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postForumService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postJudgeName = (detail: any) => {
+export const postJudgeName = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postJudgeNameService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postBank = (detail: any) => {
+export const postBank = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postDepartment = (detail: any) => {
+export const postDepartment = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postDepartmentService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postBankBranch = (detail: any) => {
+export const postBankBranch = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankBranchService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postBankOfficer = (detail: any) => {
+export const postBankOfficer = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postBankOfficerService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postOurAdvocate = (detail: any) => {
+export const postOurAdvocate = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postOurAdvocateService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postAssociateAdvocate = (detail: any) => {
+export const postAssociateAdvocate = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postAssociateAdvocateService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postExecuterName = (detail: any) => {
+export const postExecuterName = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postExecuterNameService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };
 };
-export const postExecutingOfficerDesignation = (detail: any) => {
+export const postExecutingOfficerDesignation = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postExecutingOfficerDesignationService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Added successfully`);
+        callback();
       },
       (error: any) => {
         dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
       }
     );
   };

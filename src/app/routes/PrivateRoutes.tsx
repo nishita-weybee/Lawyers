@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
             <Route path={VIEW_USER} element={<ViewUser />} />
             <Route>
               <Route path={"/masters/:masters"} element={<Masters />} />
-              <Route path={"/masters/add-:masters"} element={<AddDetails />} />
+              <Route path={"/masters/add-:masters"} element={<EditDetails />} />
               <Route path={"/masters/edit-:masters/:id"} element={<EditDetails />} />
             </Route>
           </>

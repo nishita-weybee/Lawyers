@@ -100,9 +100,10 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
   // console.log(bankList, "  bankList");
 
   const onSubmit = async (values: any, resetForm: any) => {
-    await postDetails(params?.masters, values);
-    resetForm();
-    navigate(`/masters/${params.masters}`);
+    await postDetails(params?.masters, values, () => {
+      navigate(`/masters/${params?.masters}`);
+      resetForm();
+    });
   };
 
   return (
@@ -142,6 +143,9 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
                       className={clsx("form-control bg-transparent form-select")}
                       onChange={(e: any) => setFieldValue("districtId", e.target.value)}
                     >
+                      <option value="" selected={true} disabled>
+                        Select Disrict
+                      </option>
                       {districtList?.data?.map((list: any, i: any) => {
                         return (
                           <option key={i} value={list.id}>
@@ -166,6 +170,9 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
                       className={clsx("form-control bg-transparent form-select")}
                       onChange={(e: any) => setFieldValue("bankId", e.target.value)}
                     >
+                      <option value="" selected={true} disabled>
+                        Select Branch
+                      </option>
                       {bankList?.data?.map((list: any, i: any) => {
                         return (
                           <option key={i} value={list.id}>
@@ -333,43 +340,43 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    postDetails: (masters: string, detail: any) => {
+    postDetails: (masters: string, detail: any, callback: Function) => {
       switch (masters) {
         case "district":
-          dispatch(postDistrict(detail));
+          dispatch(postDistrict(detail, callback));
           break;
         case "taluka":
-          dispatch(postTaluka(detail));
+          dispatch(postTaluka(detail, callback));
           break;
         case "forum":
-          dispatch(postForum(detail));
+          dispatch(postForum(detail, callback));
           break;
         case "judge":
-          dispatch(postJudgeName(detail));
+          dispatch(postJudgeName(detail, callback));
           break;
         case "bank-details":
-          dispatch(postBank(detail));
+          dispatch(postBank(detail, callback));
           break;
         case "department":
-          dispatch(postDepartment(detail));
+          dispatch(postDepartment(detail, callback));
           break;
         case "bank-branch":
-          dispatch(postBankBranch(detail));
+          dispatch(postBankBranch(detail, callback));
           break;
         case "bank-officer":
-          dispatch(postBankOfficer(detail));
+          dispatch(postBankOfficer(detail, callback));
           break;
         case "advocate":
-          dispatch(postOurAdvocate(detail));
+          dispatch(postOurAdvocate(detail, callback));
           break;
         case "associate-advocate":
-          dispatch(postAssociateAdvocate(detail));
+          dispatch(postAssociateAdvocate(detail, callback));
           break;
         case "executer":
-          dispatch(postExecuterName(detail));
+          dispatch(postExecuterName(detail, callback));
           break;
         case "executive-officer-designation":
-          dispatch(postExecutingOfficerDesignation(detail));
+          dispatch(postExecutingOfficerDesignation(detail, callback));
           break;
         default:
           break;

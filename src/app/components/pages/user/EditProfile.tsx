@@ -27,9 +27,9 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
-    lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
-    middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 symbols"),
+    firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
+    lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
+    middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
     phoneNumber: Yup.string()
       .required(REQUIRED)
       .matches(/^\d{10}$/, "Wrong contact format"),
