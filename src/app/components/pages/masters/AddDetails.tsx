@@ -95,9 +95,6 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
     params.masters === "bank-officer" && getBankList();
   }, [params.masters, getDistrictList, getBankList]);
 
-  // console.log(districtList, "districtList");
-  // console.log(branchList, "branchList");
-  // console.log(bankList, "  bankList");
 
   const onSubmit = async (values: any, resetForm: any) => {
     await postDetails(params?.masters, values, () => {
@@ -211,7 +208,7 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
                         className={clsx("form-control bg-transparent form-select")}
                         onChange={(e: any) => {
                           getBranchList(e.target.value);
-                          // console.log(e.target.value);
+               
                         }}
                       >
                         {bankList?.data?.map((list: any, i: any) => {
