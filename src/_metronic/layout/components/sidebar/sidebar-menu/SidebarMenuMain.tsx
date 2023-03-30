@@ -1,6 +1,5 @@
 import hasPermission, { actionsRole } from "../../../../../app/components/auth/core/hasPermissions";
 import {
-  ADD_USER,
   ADVOCATE,
   ASSOCIATE_ADVOCATE,
   BANK,
@@ -40,17 +39,23 @@ const SidebarMenuMain = () => {
       {/* for admin */}
       {hasPermission(actionsRole.VIEW_FILE) && (
         <>
-          <SidebarMenuItemWithSub to="" title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-person">
-            <SidebarMenuItem to={ADD_USER} title="Add user" fontIcon="bi-layers" hasBullet={true} />
-            <SidebarMenuItem to={VIEW_USER} title="View user" fontIcon="bi-layers" hasBullet={true} />
-          </SidebarMenuItemWithSub>
+          {/* <SidebarMenuItemWithSub to="" title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-person">
+            <SidebarMenuItem to={ADD_USER} title="Add User" fontIcon="bi-layers" hasBullet={true} />
+            <SidebarMenuItem to={VIEW_USER} title="View User" fontIcon="bi-layers" hasBullet={true} />
+          </SidebarMenuItemWithSub> */}
+          <SidebarMenuItem to={VIEW_USER} title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-layers" />
+
           <SidebarMenuItemWithSub to={MASTERS} icon="/media/icons/duotune/art/art002.svg" title="Masters" fontIcon="bi-app-indicator">
             {masterMenu.map((menu: any, i: any) => {
-              return <SidebarMenuItem to={`${menu.to}`} title={menu.title} fontIcon="bi-layers" hasBullet={true} key={i}/>;
+              return <SidebarMenuItem to={`${menu.to}`} title={menu.title} fontIcon="bi-layers" hasBullet={true} key={i} />;
             })}
           </SidebarMenuItemWithSub>
         </>
       )}
+
+      <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/art/art002.svg"} title="Case" fontIcon="bi-app-indicator">
+        <SidebarMenuItem to={`case/add-case`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
+      </SidebarMenuItemWithSub>
 
       {/* for employee
       {hasPermission(actionsRole.ONLY_ADMIN) && <></>} */}

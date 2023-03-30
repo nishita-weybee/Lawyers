@@ -90,8 +90,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
     columns,
     data,
   });
-
-
+  const color = ["primary", "danger", "success", "warning", "info"];
   const [activeBtn, setActiveBtn] = useState(false);
 
   const activateDeactivateUser = (id: any, status: any) => {
@@ -100,7 +99,6 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters, location.search);
     });
   };
-
 
   return (
     <KTCardBody className="py-4">
@@ -124,16 +122,16 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                           <td role="cell" className="">
                             <div className="d-flex align-items-center">
                               <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                <a>
-                                  <div className="symbol-label">
-                                    <img src="/media/avatars/300-6.jpg" alt="Emma Smith" className="w-100" />
-                                  </div>
-                                </a>
+                                <div className="symbol-label">
+                                  <span className={`symbol-label bg-light-primary text-primary fw-bold fs-4`}>
+                                    {userDetail?.firstName.charAt(0).toUpperCase()}{userDetail.lastName.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
                               </div>
                               <div className="d-flex flex-column">
-                                <a className="text-gray-800 text-hover-primary mb-1">
+                                <span className="text-gray-800 text-hover-primary mb-1">
                                   {`${userDetail.firstName}`} {userDetail.middleName} {userDetail.lastName}
-                                </a>
+                                </span>
                                 <span>{userDetail.email}</span>
                               </div>
                             </div>
@@ -218,7 +216,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                       <td role="cell" className="text-end min-w-100px">
                         {location.pathname !== "/view-user" && (
                           <span
-                            className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary me-4"
+                            className="btn btn-sm btn-icon btn-light-primary me-4"
                             onClick={() => navigate(`/masters/edit-${params.masters}/${userDetail.id}`)}
                           >
                             <span className="svg-icon svg-icon-2">
@@ -228,7 +226,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         )}
 
                         <span
-                          className="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
+                          className={`btn btn-sm btn-icon ${userDetail.isActive ? "btn-light-success" : "btn-light-danger"}`}
                           onClick={() => activateDeactivateUser(userDetail.id, userDetail.isActive ? "Deactivated" : "Activated")}
                         >
                           <span className="svg-icon svg-icon-2">
@@ -267,43 +265,43 @@ const mapDispatchToProps = (dispatch: any) => {
     accountStatus: (masters: any, id: any, status: string, callback: Function) => {
       switch (masters) {
         case "district":
-          dispatch(activeDeactiveDistrict(id, status, callback));
+          dispatch(activeDeactiveDistrict(id, `District ${status}`, callback));
           break;
         case "taluka":
-          dispatch(activeDeactiveTaluka(id, status, callback));
+          dispatch(activeDeactiveTaluka(id, `Taluka ${status}`, callback));
           break;
         case "forum":
-          dispatch(activeDeactiveForum(id, status, callback));
+          dispatch(activeDeactiveForum(id, `Forum ${status}`, callback));
           break;
         case "judge":
-          dispatch(activeDeactiveJudgeName(id, status, callback));
+          dispatch(activeDeactiveJudgeName(id, `Judge ${status}`, callback));
           break;
         case "bank-details":
-          dispatch(activeDeactiveBank(id, status, callback));
+          dispatch(activeDeactiveBank(id, `Bank ${status}`, callback));
           break;
         case "department":
-          dispatch(activeDeactiveDepartment(id, status, callback));
+          dispatch(activeDeactiveDepartment(id, `Department ${status}`, callback));
           break;
         case "bank-branch":
-          dispatch(activeDeactiveBankBranch(id, status, callback));
+          dispatch(activeDeactiveBankBranch(id, `Bank Branch ${status}`, callback));
           break;
         case "bank-officer":
-          dispatch(activeDeactiveBankOfficer(id, status, callback));
+          dispatch(activeDeactiveBankOfficer(id, `Bank Officer ${status}`, callback));
           break;
         case "advocate":
-          dispatch(activeDeactiveOurAdvocate(id, status, callback));
+          dispatch(activeDeactiveOurAdvocate(id, `Advocate ${status}`, callback));
           break;
         case "associate-advocate":
-          dispatch(activeDeactiveAssociateAdvocate(id, status, callback));
+          dispatch(activeDeactiveAssociateAdvocate(id, `Associate Advocate ${status}`, callback));
           break;
         case "executer":
-          dispatch(activeDeactiveExecuterName(id, status, callback));
+          dispatch(activeDeactiveExecuterName(id, `Executer ${status}`, callback));
           break;
         case "executive-officer-designation":
-          dispatch(activeDeactiveExecutingOfficerDesignation(id, status, callback));
+          dispatch(activeDeactiveExecutingOfficerDesignation(id, `Designation ${status}`, callback));
           break;
         default:
-          dispatch(activateDeactivateUser(id, status, callback));
+          dispatch(activateDeactivateUser(id, `User ${status}`, callback));
           break;
       }
     },

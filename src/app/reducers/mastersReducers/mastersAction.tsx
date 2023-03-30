@@ -1,4 +1,4 @@
-import { showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
+import { capitalizeFirstLetter, showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
 import {
   ACTIVE_DEACTIVE_MASTERS_FAILURE,
   ACTIVE_DEACTIVE_MASTERS_REQUEST,
@@ -288,7 +288,7 @@ export const postDistrict = (detail: any, callback: Function) => {
     return postDistrictService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`District Added`);
         callback();
       },
       (error: any) => {
@@ -304,7 +304,7 @@ export const postTaluka = (detail: any, callback: Function) => {
     return postTalukaService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Taluka Added`);
         callback();
       },
       (error: any) => {
@@ -320,7 +320,7 @@ export const postForum = (detail: any, callback: Function) => {
     return postForumService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Forum Added`);
         callback();
       },
       (error: any) => {
@@ -336,7 +336,7 @@ export const postJudgeName = (detail: any, callback: Function) => {
     return postJudgeNameService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Judge Added`);
         callback();
       },
       (error: any) => {
@@ -352,7 +352,7 @@ export const postBank = (detail: any, callback: Function) => {
     return postBankService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Bank Added`);
         callback();
       },
       (error: any) => {
@@ -368,7 +368,7 @@ export const postDepartment = (detail: any, callback: Function) => {
     return postDepartmentService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Department Added`);
         callback();
       },
       (error: any) => {
@@ -384,7 +384,7 @@ export const postBankBranch = (detail: any, callback: Function) => {
     return postBankBranchService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Bank Branch Added`);
         callback();
       },
       (error: any) => {
@@ -400,7 +400,7 @@ export const postBankOfficer = (detail: any, callback: Function) => {
     return postBankOfficerService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Bank Officer Added`);
         callback();
       },
       (error: any) => {
@@ -416,7 +416,7 @@ export const postOurAdvocate = (detail: any, callback: Function) => {
     return postOurAdvocateService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Advocate Added`);
         callback();
       },
       (error: any) => {
@@ -432,7 +432,7 @@ export const postAssociateAdvocate = (detail: any, callback: Function) => {
     return postAssociateAdvocateService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Associate Advocate added`);
         callback();
       },
       (error: any) => {
@@ -448,7 +448,7 @@ export const postExecuterName = (detail: any, callback: Function) => {
     return postExecuterNameService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Executer Advocate`);
         callback();
       },
       (error: any) => {
@@ -464,7 +464,7 @@ export const postExecutingOfficerDesignation = (detail: any, callback: Function)
     return postExecutingOfficerDesignationService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Added successfully`);
+        showToastMessageSuccess(`Designation Advocate`);
         callback();
       },
       (error: any) => {
@@ -481,7 +481,7 @@ export const activeDeactiveDistrict = (id: any, status: string, callback: Functi
     return activeDeactiveDistrictService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -497,7 +497,7 @@ export const activeDeactiveTaluka = (id: any, status: string, callback: Function
     return activeDeactiveTalukaService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -513,7 +513,7 @@ export const activeDeactiveForum = (id: any, status: string, callback: Function)
     return activeDeactiveForumService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -529,7 +529,7 @@ export const activeDeactiveJudgeName = (id: any, status: string, callback: Funct
     return activeDeactiveJudgeNameService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -545,7 +545,7 @@ export const activeDeactiveBank = (id: any, status: string, callback: Function) 
     return activeDeactiveBankService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -561,7 +561,7 @@ export const activeDeactiveDepartment = (id: any, status: string, callback: Func
     return activeDeactiveDepartmentService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -577,7 +577,7 @@ export const activeDeactiveBankBranch = (id: any, status: string, callback: Func
     return activeDeactiveBankBranchService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -593,7 +593,7 @@ export const activeDeactiveBankOfficer = (id: any, status: string, callback: Fun
     return activeDeactiveBankOfficerService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -609,7 +609,7 @@ export const activeDeactiveOurAdvocate = (id: any, status: string, callback: Fun
     return activeDeactiveOurAdvocateService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -624,7 +624,7 @@ export const activeDeactiveAssociateAdvocate = (id: any, status: string, callbac
     return activeDeactiveAssociateAdvocateService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -640,7 +640,7 @@ export const activeDeactiveExecuterName = (id: any, status: string, callback: Fu
     return activeDeactiveExecuterNameService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -656,7 +656,7 @@ export const activeDeactiveExecutingOfficerDesignation = (id: any, status: strin
     return activeDeactiveExecutingOfficerDesignationService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {
@@ -681,13 +681,15 @@ export const getById = (url: any, id: any) => {
   };
 };
 
-export const updateMasters = (url: any, values: any, callback: Function) => {
+export const updateMasters = (url: any, masters: any, values: any, callback: Function) => {
+  console.log(masters);
+
   return (dispatch: any) => {
     dispatch(request(UPDATE_MASTERS_REQUEST));
     return updateMastersService(url, values).then(
       (result: any) => {
         dispatch(success(UPDATE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`Updated successfully`);
+        showToastMessageSuccess(`${capitalizeFirstLetter(masters.replace(/-/g, " "))} Updated`);
         callback();
       },
       (error: any) => {

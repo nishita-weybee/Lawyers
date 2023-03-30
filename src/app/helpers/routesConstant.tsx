@@ -1,7 +1,9 @@
+// Auth
 export const LOGIN = "login";
 export const RESET_PASSWORD = "reset-password";
 export const FORGOT_PASSWORD = "forgot-password";
 
+// Users
 export const DASHBOARD = "/dashboard";
 export const ADD_USER = "/add-user";
 export const VIEW_USER = "/view-user";
@@ -49,5 +51,9 @@ export const EDIT_ASSOCIATE_ADVOCATE = "/masters/edit-associate-advocate";
 export const EDIT_EXECUTER = "/masters/edit-executer";
 export const EDIT_EXECUTIVE_OFFICER_DESIGNATION = "/masters/edit-executive-officer-designation";
 
+// Profile
 export const PROFILE = "/profile";
 export const EDIT_PROFILE = `${PROFILE}/edit`;
+
+// Case
+export const ADD_CASE = "case/add-case";

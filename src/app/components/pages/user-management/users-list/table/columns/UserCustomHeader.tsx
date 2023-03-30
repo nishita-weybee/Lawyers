@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { FC, PropsWithChildren, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { HeaderProps } from "react-table";
 import { getSearchParameter } from "../../../../../../helpers/helperFunction";
 import { User } from "../../core/_models";
@@ -14,6 +14,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
   const id = tableProps.column.id;
   const [searchParam, setSearchParam] = useSearchParams();
   const searchObj = useMemo(() => getSearchParameter(searchParam), [searchParam]);
+  const params = useParams();
 
   const sortColumn = async () => {
     if (id !== "NULL" && id !== "actions" && id !== "contact" && id !== "Mobile" && id !== "Address") {
@@ -27,6 +28,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
     }
   };
 
+
   return (
     <th
       {...tableProps.column.getHeaderProps()}
@@ -38,7 +40,8 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
       )}
       onClick={sortColumn}
     >
-      {title}
+      {title === "Name" ? params.masters?.replace(/-/g, " ") : title}
+      {/* {params.masters} {title} */}
     </th>
   );
 };

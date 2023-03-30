@@ -1,11 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../app/components/auth";
 import { PROFILE } from "../../../../app/helpers/routesConstant";
-import { toAbsoluteUrl } from "../../../helpers";
 
-const HeaderUserMenu: FC = () => {
+export interface props {
+  userDetails: any;
+}
+
+const HeaderUserMenu: React.FC<props> = ({ userDetails }) => {
   const { currentUser, logout } = useAuth();
 
   return (
@@ -16,17 +17,19 @@ const HeaderUserMenu: FC = () => {
       <div className="menu-item px-3">
         <div className="menu-content d-flex align-items-center px-3">
           <div className="symbol symbol-50px me-5">
-            <img alt="Logo" src={toAbsoluteUrl("/media/avatars/300-1.jpg")} />
+            <span className="symbol-label bg-light-primary text-primary fw-bold fs-3">
+              {userDetails?.firstName.charAt(0)}
+              {userDetails?.lastName.charAt(0)}
+            </span>
+
+            {/* <img alt="Logo" src={toAbsoluteUrl("/media/avatars/300-1.jpg")} /> */}
           </div>
 
           <div className="d-flex flex-column">
             <div className="fw-bolder d-flex align-items-center fs-5">
-              {currentUser?.firstName} {currentUser?.lastName}
-              {/* <span className="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span> */}
+              {userDetails?.firstName} {userDetails?.lastName}
             </div>
-            <a href="#" className="fw-bold text-muted text-hover-primary fs-7">
-              {currentUser?.email}
-            </a>
+            <span className="fw-bold text-muted text-hover-primary fs-7">{userDetails?.email}</span>
           </div>
         </div>
       </div>
@@ -39,98 +42,10 @@ const HeaderUserMenu: FC = () => {
         </Link>
       </div>
 
-      {/* <div className="menu-item px-5">
-        <Link to={"#"} className="menu-link px-5">
-          <span className="menu-text">My Projects</span>
-          <span className="menu-badge">
-            <span className="badge badge-light-danger badge-circle fw-bolder fs-7">3</span>
-          </span>
-        </Link>
-      </div> */}
-
-      {/* <div
-        className='menu-item px-5'
-        data-kt-menu-trigger='hover'
-        data-kt-menu-placement='left-start'
-        data-kt-menu-flip='bottom'
-      >
-        <a href='#' className='menu-link px-5'>
-          <span className='menu-title'>My Subscription</span>
-          <span className='menu-arrow'></span>
-        </a>
-
-        <div className='menu-sub menu-sub-dropdown w-175px py-4'>
-          <div className='menu-item px-3'>
-            <a href='#' className='menu-link px-5'>
-              Referrals
-            </a>
-          </div>
-
-          <div className='menu-item px-3'>
-            <a href='#' className='menu-link px-5'>
-              Billing
-            </a>
-          </div>
-
-          <div className='menu-item px-3'>
-            <a href='#' className='menu-link px-5'>
-              Payments
-            </a>
-          </div>
-
-          <div className='menu-item px-3'>
-            <a href='#' className='menu-link d-flex flex-stack px-5'>
-              Statements
-              <i
-                className='fas fa-exclamation-circle ms-2 fs-7'
-                data-bs-toggle='tooltip'
-                title='View your statements'
-              ></i>
-            </a>
-          </div>
-
-          <div className='separator my-2'></div>
-
-          <div className='menu-item px-3'>
-            <div className='menu-content px-3'>
-              <label className='form-check form-switch form-check-custom form-check-solid'>
-                <input
-                  className='form-check-input w-30px h-20px'
-                  type='checkbox'
-                  value='1'
-                  defaultChecked={true}
-                  name='notifications'
-                />
-                <span className='form-check-label text-muted fs-7'>Notifications</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="menu-item px-5">
-        <Link to="#" className="menu-link px-5">
-          My Statements
-        </Link>
-        <a href="#" className="menu-link px-5">
-          My Statements
-        </a>
-      </div> */}
-
-      {/* <div className="separator my-2"></div> */}
-
-      {/* <Languages /> */}
-
-      {/* <div className="menu-item px-5 my-1">
-        <Link to="#" className="menu-link px-5">
-          Account Settings
-        </Link>
-      </div> */}
-
       <div className="menu-item px-5">
-        <a onClick={logout} className="menu-link px-5">
+        <span onClick={logout} className="menu-link px-5">
           Sign Out
-        </a>
+        </span>
       </div>
     </div>
   );

@@ -79,16 +79,16 @@ export const GET_JUDGE_NAME_BY_ID = "JudgeName/GetJudgeNameById";
 export const GET_OUR_ADVOCATE_BY_ID = "/OurAdvocate/GetOurAdvocateById";
 export const GET_TALUKA_BY_ID = "/Taluka/GetTalukaById";
 
-export const UPDATE_DISTRICT_BY_ID = `District/EditDistrict`;
-export const UPDATE_DEPARTMENT_BY_ID = `Department/EditDepartment`;
-export const UPDATE_BANK_BY_ID = `Bank/EditBank`;
-export const UPDATE_BANK_BRANCH_BY_ID = `BankBranch/EditBankBranch`;
-export const UPDATE_BANK_OFFICER_BY_ID = `BankOfficer/EditBankOfficer`;
-export const UPDATE_ASSOCIATE_ADVOCATE_BY_ID = `AssociateAdvocate/EditAssociateAdvocate`;
-export const UPDATE_EXECUTER_NAME_BY_ID = `ExecuterName/EditExecuterName`;
+export const UPDATE_DISTRICT_BY_ID = `/District/EditDistrict`;
+export const UPDATE_DEPARTMENT_BY_ID = `/Department/EditDepartment`;
+export const UPDATE_BANK_BY_ID = `/Bank/EditBank`;
+export const UPDATE_BANK_BRANCH_BY_ID = `/BankBranch/EditBankBranch`;
+export const UPDATE_BANK_OFFICER_BY_ID = `/BankOfficer/EditBankOfficer`;
+export const UPDATE_ASSOCIATE_ADVOCATE_BY_ID = `/AssociateAdvocate/EditAssociateAdvocate`;
+export const UPDATE_EXECUTER_NAME_BY_ID = `/ExecuterName/EditExecuterName`;
 export const UPDATE_EXECUTING_OFFICER_DESIGNATION_BY_ID = "/ExecutingOfficerDesignation/EditExecutingOfficerDesignation";
 export const UPDATE_FORUM_BY_ID = "/Forum/EditForum";
-export const UPDATE_JUDGE_NAME_BY_ID = "JudgeName/EditJudgeName";
+export const UPDATE_JUDGE_NAME_BY_ID = "/JudgeName/EditJudgeName";
 export const UPDATE_OUR_ADVOCATE_BY_ID = "/OurAdvocate/EditOurAdvocate";
 export const UPDATE_TALUKA_BY_ID = "/Taluka/EditTaluka";
 

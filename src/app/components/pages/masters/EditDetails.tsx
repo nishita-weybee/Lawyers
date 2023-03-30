@@ -30,7 +30,7 @@ import {
   UPDATE_OUR_ADVOCATE_BY_ID,
   UPDATE_TALUKA_BY_ID,
 } from "../../../helpers/config";
-import { ADVOCATE, DISCARD, PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
+import { DISCARD, PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
 import {
   ASSOCIATE_ADVOCATE,
   BANK,
@@ -43,6 +43,7 @@ import {
   FORUM,
   JUDGE,
   TALUKA,
+  ADVOCATE,
 } from "../../../helpers/routesConstant";
 import {
   fetchBankBranchByBankId,
@@ -215,62 +216,62 @@ const EditDetails: React.FC<props> = ({
     if (location.pathname.includes("edit")) {
       switch (params.masters) {
         case "district":
-          updateMastersField(UPDATE_DISTRICT_BY_ID, values, () => {
+          updateMastersField(UPDATE_DISTRICT_BY_ID, params.masters, values, () => {
             navigate(`${DISTRICT}`);
           });
           break;
         case "taluka":
-          updateMastersField(UPDATE_TALUKA_BY_ID, values, () => {
+          updateMastersField(UPDATE_TALUKA_BY_ID, params.masters, values, () => {
             navigate(`${TALUKA}`);
           });
           break;
         case "forum":
-          updateMastersField(UPDATE_FORUM_BY_ID, values, () => {
+          updateMastersField(UPDATE_FORUM_BY_ID, params.masters, values, () => {
             navigate(`${FORUM}`);
           });
           break;
         case "judge":
-          updateMastersField(UPDATE_JUDGE_NAME_BY_ID, values, () => {
+          updateMastersField(UPDATE_JUDGE_NAME_BY_ID, params.masters, values, () => {
             navigate(`${JUDGE}`);
           });
           break;
         case "bank-details":
-          updateMastersField(UPDATE_BANK_BY_ID, values, () => {
+          updateMastersField(UPDATE_BANK_BY_ID, params.masters, values, () => {
             navigate(`${BANK}`);
           });
           break;
         case "department":
-          updateMastersField(UPDATE_DEPARTMENT_BY_ID, values, () => {
+          updateMastersField(UPDATE_DEPARTMENT_BY_ID, params.masters, values, () => {
             navigate(`${DEPARTMENT}`);
           });
           break;
         case "bank-branch":
-          updateMastersField(UPDATE_BANK_BRANCH_BY_ID, values, () => {
+          updateMastersField(UPDATE_BANK_BRANCH_BY_ID, params.masters, values, () => {
             navigate(`${BANK_BRANCH}`);
           });
           break;
         case "bank-officer":
-          updateMastersField(UPDATE_BANK_OFFICER_BY_ID, values, () => {
+          updateMastersField(UPDATE_BANK_OFFICER_BY_ID, params.masters, values, () => {
             navigate(`${BANK_OFFICER}`);
           });
           break;
         case "advocate":
-          updateMastersField(UPDATE_OUR_ADVOCATE_BY_ID, values, () => {
+          updateMastersField(UPDATE_OUR_ADVOCATE_BY_ID, params.masters, values, () => {
             navigate(`${ADVOCATE}`);
           });
           break;
         case "associate-advocate":
-          updateMastersField(UPDATE_ASSOCIATE_ADVOCATE_BY_ID, values, () => {
+          updateMastersField(UPDATE_ASSOCIATE_ADVOCATE_BY_ID, params.masters, values, () => {
             navigate(`${ASSOCIATE_ADVOCATE}`);
           });
           break;
         case "executer":
-          updateMastersField(UPDATE_EXECUTER_NAME_BY_ID, values, () => {
+          updateMastersField(UPDATE_EXECUTER_NAME_BY_ID, params.masters, values, () => {
             navigate(`${EXECUTER}`);
           });
           break;
         case "executive-officer-designation":
-          updateMastersField(UPDATE_EXECUTING_OFFICER_DESIGNATION_BY_ID, values, () => {
+          updateMastersField(UPDATE_EXECUTING_OFFICER_DESIGNATION_BY_ID, params.masters, values, () => {
             navigate(`${EXECUTIVE_OFFICER_DESIGNATION}`);
           });
           break;
@@ -339,19 +340,13 @@ const EditDetails: React.FC<props> = ({
     }
   }, [details?.data]);
 
-  // if (location.pathname.includes("edit") && params.masters === "bank-officer" && details?.data) {
-  //   // getBranchList(details?.data?.bankId);
-  //   console.log(details?.data?.bankId, 'hiii');
-  // }
-
   return (
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
-          <h3 className="fw-bolder m-0 text-capitalize">{`${location.pathname.includes("add") ? "Add" : "Update"} ${params.masters?.replace(
-            /-/,
-            " "
-          )}`}</h3>
+          <h3 className="fw-bolder m-0 text-capitalize">
+            {`${location.pathname.includes("add") ? "Add" : "Update"}`} {params.masters?.replace(/-/g, " ")}
+          </h3>
         </div>
       </div>
 
@@ -570,41 +565,7 @@ const EditDetails: React.FC<props> = ({
                       )}
                     </div>
                   </div>
-                  {/* {location.pathname.includes("edit") && !branchList?.data?.length && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Branch</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Bank Branch`}
-                            type="text"
-                            as="select"
-                            name={"bankBranchId"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.bankBranchId && errors.bankBranchId,
-                              },
-                              {
-                                "is-valid": touched.bankBranchId && !errors.bankBranchId,
-                              }
-                            )}
-                          >
-                            <option value={values?.bankBranchId}>{values?.bankBranch}</option>
-                          </Field>
 
-                          {touched.bankBranchId && errors.bankBranchId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{errors.bankBranchId}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )} */}
                   {branchList?.data && (
                     <div className="row mb-6">
                       <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Branch</label>
@@ -832,7 +793,7 @@ const EditDetails: React.FC<props> = ({
               <button
                 type="button"
                 id="kt_login_password_reset_form_cancel_button"
-                className="btn btn-light me-4"
+                className="btn btn-light me-4 btn-active-light-primary"
                 disabled={loading}
                 onClick={() => navigate(`/masters/${params?.masters?.replace("add-", "")}`)}
               >
@@ -915,7 +876,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getDistrictList: () => dispatch(fetchDistrictForDropdown()),
     getBankList: () => dispatch(fetchBankForDropdown()),
 
-    updateMastersField: (url: any, values: any, callback: Function) => dispatch(updateMasters(url, values, callback)),
+    updateMastersField: (url: any, master: any, values: any, callback: Function) => dispatch(updateMasters(url, master, values, callback)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(EditDetails);

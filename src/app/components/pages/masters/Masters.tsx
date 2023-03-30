@@ -31,9 +31,6 @@ const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
   const location = useLocation();
   const params = useParams();
 
-
-  
-
   useEffect(() => {
     getDetails(params.masters, location.search);
   }, [getDetails, params.masters, location.search]);
@@ -97,7 +94,7 @@ const mapDispatchToProps = (dispatch: any) => {
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
           break;
         default:
-          dispatch(fetchUserList(location));  
+          dispatch(fetchUserList(location));
           break;
       }
     },

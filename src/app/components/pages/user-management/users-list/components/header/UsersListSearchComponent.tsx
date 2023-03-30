@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { initialQueryState, KTSVG, useDebounce } from "../../../../../../../_metronic/helpers";
+import { capitalizeFirstLetter } from "../../../../../../helpers/helperFunction";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 
 const UsersListSearchComponent = () => {
   const { updateState } = useQueryRequest();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const params = useParams();
+  const location = useLocation();
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
   // The goal is to only have the API call fire when user stops typing ...
@@ -39,7 +42,7 @@ const UsersListSearchComponent = () => {
           type="text"
           data-kt-user-table-filter="search"
           className="form-control form-control-solid w-250px ps-14"
-          placeholder="Search user"
+          placeholder={location.pathname === "/view-user" ? "Search User" : `Search ${capitalizeFirstLetter(params.masters?.replace(/-/g, " "))}`}
           value={searchParams.get("Search") || ""}
           onChange={handleSearch}
         />

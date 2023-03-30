@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { KTSVG, toAbsoluteUrl } from "../../../helpers";
 import { useLayout } from "../../core";
 import { Header } from "./Header";
-import { Navbar } from "./Navbar";
+import Navbar from "./Navbar";
 
 export function HeaderWrapper() {
   const { config, classes } = useLayout();

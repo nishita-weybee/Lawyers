@@ -76,7 +76,7 @@ export const postUserDetails = (profileDetails: any, callback: Function) => {
     return editUserDetails(profileDetails).then(
       (result: any) => {
         dispatch(success(EDIT_USER_DETAILS_SUCCESS, result.data));
-        showToastMessageSuccess();
+        showToastMessageSuccess("Profile Updated");
         callback();
       },
       (error: any) => {
@@ -93,7 +93,7 @@ export const activateDeactivateUser = (email: any, status: string, callback: Fun
     return activateDeactivateUserService(email).then(
       (result: any) => {
         dispatch(success(ACTIVATE_DEACTIVATE_USER_SUCCESS, result.data));
-        showToastMessageSuccess(`User ${status} successfully`);
+        showToastMessageSuccess(status);
         callback();
       },
       (error: any) => {

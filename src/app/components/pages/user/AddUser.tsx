@@ -2,11 +2,13 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
-import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
+import { DISCARD, PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
 import { fetchUserRoles } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
 import InputPass from "../../common/inputPass.tsx/inputPass";
 import { registerUser } from "../../../reducers/authReducers/authAction";
+import { useNavigate } from "react-router-dom";
+import { VIEW_USER } from "../../../helpers/routesConstant";
 
 export interface Props {
   loadingRoles: boolean;
@@ -18,6 +20,8 @@ export interface Props {
 }
 
 const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error, postRegisterUser, loading }) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     getUserRoles();
   }, [getUserRoles]);
@@ -43,13 +47,9 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      postRegisterUser(
-        values,
-        () => {
-          resetForm();
-        },
-    
-      );
+      postRegisterUser(values, () => {
+        resetForm();
+      });
     },
   });
 
@@ -75,7 +75,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
             <label className="col-lg-4 col-form-label fw-bold fs-6 required">First name</label>
             <div className="col-lg-8">
               <input
-                placeholder="First name"
+                placeholder="First Name"
                 type="text"
                 autoComplete="off"
                 {...formik.getFieldProps("firstname")}
@@ -102,7 +102,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
             <label className="col-lg-4 col-form-label fw-bold fs-6 required">Last name</label>
             <div className="col-lg-8">
               <input
-                placeholder="Last name"
+                placeholder="Last Name"
                 type="text"
                 autoComplete="off"
                 {...formik.getFieldProps("lastname")}
@@ -178,13 +178,9 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
               <select
                 className="form-select form-select-solid"
                 data-kt-select2="true"
-                // onChange={(e: any) => {
-                //   return setRole(e.target.value);
-                // }}
                 {...formik.getFieldProps("role")}
                 data-placeholder="Select option"
                 data-allow-clear="true"
-                // defaultValue={userRoles[0]}
               >
                 {userRoles?.map((role: string, i: any) => {
                   return (
@@ -195,10 +191,13 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
                 })}
               </select>
             </div>
-          </div>
+          </div> 
         </div>
         <div className="card-footer d-flex justify-content-end py-6 px-9">
-          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading || !formik.isValid}>
+          <button type="button" className="btn btn-light btn-active-light-primary me-4" onClick={() => navigate(`${VIEW_USER}`)}>
+            {DISCARD}
+          </button>
+          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading}>
             <>
               {!loading && <span className="indicator-label">{SUBMIT}</span>}
               {loading && PLEASE_WAIT}
@@ -225,8 +224,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getUserRoles: () => dispatch(fetchUserRoles()),
-    postRegisterUser: (registerUserDetails: any, callbackSuccess: Function) =>
-      dispatch(registerUser(registerUserDetails, callbackSuccess)),
+    postRegisterUser: (registerUserDetails: any, callbackSuccess: Function) => dispatch(registerUser(registerUserDetails, callbackSuccess)),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddUser);

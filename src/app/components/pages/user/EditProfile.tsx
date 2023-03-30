@@ -110,13 +110,13 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
 
               <div className="row mb-6">
                 <label className="col-lg-4 col-form-label fw-bold fs-6">
-                  <span className="required">Contact Phone</span>
+                  <span className="required">Mobile</span>
                 </label>
                 <div className="col-lg-8 fv-row">
                   <input
                     type="tel"
                     className="form-control form-control-lg form-control-solid"
-                    placeholder="Contact phone"
+                    placeholder="Mobile"
                     {...formik.getFieldProps("phoneNumber")}
                   />
                   {formik.touched.phoneNumber && formik.errors.phoneNumber && (

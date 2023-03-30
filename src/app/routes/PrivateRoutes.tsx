@@ -6,15 +6,15 @@ import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
 import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_USER, EDIT_PROFILE, PROFILE, VIEW_USER } from "../helpers/routesConstant";
+import { ADD_CASE, ADD_USER, EDIT_PROFILE, PROFILE, VIEW_USER } from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
-import Profile from "../components/pages/user/Profile";
 import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
 import EditProfile from "../components/pages/user/EditProfile";
 import Masters from "../components/pages/masters/Masters";
-import AddDetails from "../components/pages/masters/AddDetails";
 import EditDetails from "../components/pages/masters/EditDetails";
+import AddCase from "../components/pages/case/AddCase";
+import MyProfile from "../components/pages/user/MyProfile";
 
 const PrivateRoutes = () => {
   return (
@@ -36,8 +36,9 @@ const PrivateRoutes = () => {
         {/* for employee */}
         {/* {hasPermission(actionsRole.ONLY_ADMIN) && ( */}
         <>
-          <Route path={PROFILE} element={<Profile />} />
+          <Route path={PROFILE} element={<MyProfile />} />
           <Route path={EDIT_PROFILE} element={<EditProfile />} />
+          <Route path={ADD_CASE} element={<AddCase />} />
         </>
         {/* )} */}
 

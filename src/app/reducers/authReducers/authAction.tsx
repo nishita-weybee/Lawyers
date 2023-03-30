@@ -47,7 +47,7 @@ export const registerUser = (registerUserDetails: Object, callbackSuccess: Funct
     return registerUserService(registerUserDetails).then(
       (result: any) => {
         dispatch(success(REGISTER_USER_SUCCESS, result.data));
-        showToastMessageSuccess();
+        showToastMessageSuccess('User Added');
         callbackSuccess();
       },
       (error: any) => {
