@@ -108,4 +108,7 @@ export const GET_BANK_BRANCH_BY_BANK_ID = "/BankBranch/GetBankBranchByBankId";
 export const GET_BANK_FOR_DROPDOWN = "/Bank/GetBanksForDropdown";
 export const GET_DISTRICT_FOR_DROPDOWN = "/District/GetDistrictsForDropdown";
 export const GET_FORUM_FOR_DROPDOWN = "/Forum/GetAllForumForDropDown";
-
+export const GET_STAGE_FOR_DROPDOWN = "/Stage/GetStagesForDropdown";
+export const GET_JUDGE_FOR_DROPDOWN = "/JudgeName/GetAllJudgeNameByForumId";
+export const GET_BANK_OFFCIER_FOR_DROPDOWN = "";
+export const GET_PRODUCT_FOR_DROPDOWN = "/Product/GetProductsForDropdown";

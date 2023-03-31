@@ -1,3 +1,7 @@
 .password-icon {
   background-position: right 30px center !important;
 }
+.multiSelectContainer li:hover {
+  background-color: var(--kt-primary-light);
+  color: black;
+}

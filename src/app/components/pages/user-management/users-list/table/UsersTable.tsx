@@ -108,7 +108,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters, location.search);
     });
   };
-  console.log(params.masters);
+
 
   return (
     <KTCardBody className="py-4">
@@ -135,7 +135,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                                 <div className="symbol-label">
                                   <span className={`symbol-label bg-light-primary text-primary fw-bold fs-4`}>
                                     {userDetail?.firstName.charAt(0).toUpperCase()}
-                                    {userDetail.lastName.charAt(0).toUpperCase()}
+                                    {/* {userDetail.lastName.charAt(0).toUpperCase()} */}
                                   </span>
                                 </div>
                               </div>

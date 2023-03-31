@@ -51,6 +51,9 @@ import {
   GET_BANK_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_BANK_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_BANK_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_FAILURE,
+  GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST,
+  GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS,
   GET_BY_ID_MASTERS_FAILURE,
   GET_BY_ID_MASTERS_REQUEST,
   GET_BY_ID_MASTERS_SUCCESS,
@@ -60,6 +63,15 @@ import {
   GET_FORUM_DROPDOWN_MASTERS_FAILURE,
   GET_FORUM_DROPDOWN_MASTERS_REQUEST,
   GET_FORUM_DROPDOWN_MASTERS_SUCCESS,
+  GET_JUDGE_DROPDOWN_MASTERS_FAILURE,
+  GET_JUDGE_DROPDOWN_MASTERS_REQUEST,
+  GET_JUDGE_DROPDOWN_MASTERS_SUCCESS,
+  GET_PRODUCT_FOR_DROPDOWN_MASTERS_FAILURE,
+  GET_PRODUCT_FOR_DROPDOWN_MASTERS_REQUEST,
+  GET_PRODUCT_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE,
+  GET_STAGE_FOR_DROPDOWN_MASTERS_REQUEST,
+  GET_STAGE_FOR_DROPDOWN_MASTERS_SUCCESS,
   POST_MASTER_DATA_FAILURE,
   POST_MASTER_DATA_REQUEST,
   POST_MASTER_DATA_SUCCESS,
@@ -116,6 +128,10 @@ import {
   postProductService,
   postStageService,
   getForumForDropdown,
+  getStageForDropdown,
+  getProductForDropdown,
+  getBankOfficerForDropdown,
+  getJudgeForDropdown,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -844,6 +860,62 @@ export const fetchForumDropdown = () => {
       },
       (error: any) => {
         dispatch(failure(GET_FORUM_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchStageDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_STAGE_FOR_DROPDOWN_MASTERS_REQUEST));
+    return getStageForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_STAGE_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchJudgeDropdown = (id:any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_JUDGE_DROPDOWN_MASTERS_REQUEST));
+    return getJudgeForDropdown(id).then(
+      (result: any) => {
+        dispatch(success(GET_JUDGE_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_JUDGE_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchBankOfficerDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST));
+    return getBankOfficerForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchProductDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_PRODUCT_FOR_DROPDOWN_MASTERS_REQUEST));
+    return getProductForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_PRODUCT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_PRODUCT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
       }
     );
   };

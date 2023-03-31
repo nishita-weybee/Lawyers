@@ -69,7 +69,7 @@ export const ResetPassword: React.FC<props> = ({ postNewPassword, error, loading
           <div className="text-info">
             Password has been successfully changed.
             <Link to="/auth/login" className="text-info">
-              <strong>Login</strong>
+              <strong> Login </strong>
             </Link>
             to continue
           </div>

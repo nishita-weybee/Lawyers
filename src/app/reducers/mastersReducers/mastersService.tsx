@@ -30,8 +30,12 @@ import {
   GET_ALL_TALUKA,
   GET_BANK_BRANCH_BY_BANK_ID,
   GET_BANK_FOR_DROPDOWN,
+  GET_BANK_OFFCIER_FOR_DROPDOWN,
   GET_DISTRICT_FOR_DROPDOWN,
   GET_FORUM_FOR_DROPDOWN,
+  GET_JUDGE_FOR_DROPDOWN,
+  GET_PRODUCT_FOR_DROPDOWN,
+  GET_STAGE_FOR_DROPDOWN,
   POST_ASSOCIATE_ADVOCATE,
   POST_BANK,
   POST_BANK_BRANCH,
@@ -252,5 +256,22 @@ export const getBankForDropdown = async () => {
 
 export const getForumForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_FORUM_FOR_DROPDOWN}`);
+  return res;
+};
+
+export const getStageForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_STAGE_FOR_DROPDOWN}`);
+  return res;
+};
+export const getJudgeForDropdown = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_JUDGE_FOR_DROPDOWN}/${id}`);
+  return res;
+};
+export const getBankOfficerForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_BANK_OFFCIER_FOR_DROPDOWN}`);
+  return res;
+};
+export const getProductForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_PRODUCT_FOR_DROPDOWN}`);
   return res;
 };

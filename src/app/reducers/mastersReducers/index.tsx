@@ -6,6 +6,11 @@ import { updateMasterReducer } from "./updateMastersReducer";
 import { getBankForDropdownReducer } from "./getBankForDropdownReducer";
 import { getDistrictForDropdownReducer } from "./getDistrictForDropdown";
 import { getForumForDropdownReducer } from "./getForumDropdown";
+import { getJudgeForDropdownReducer } from "./getJudgeForDropdown";
+import { getStageForDropdownReducer } from "./getStageForDropdown";
+import { getBankOfficerForDropdownReducer } from "./getBankOfficerForDropdown";
+import { getProductForDropdownReducer } from "./getProductForDropdown";
+
 export default {
   getAllMastersDataReducer,
   postMasterDataReducer,
@@ -15,4 +20,8 @@ export default {
   getBankForDropdownReducer,
   getDistrictForDropdownReducer,
   getForumForDropdownReducer,
+  getJudgeForDropdownReducer,
+  getStageForDropdownReducer,
+  getBankOfficerForDropdownReducer,
+  getProductForDropdownReducer,
 };

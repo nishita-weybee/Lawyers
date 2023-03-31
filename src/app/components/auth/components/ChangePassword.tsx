@@ -31,7 +31,7 @@ const ChangePassword: React.FC<props> = ({ postChangePassDetails, res, error, lo
     initialValues: updatePassword,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+ 
       postChangePassDetails(values);
     },
   });

@@ -20,12 +20,13 @@ const Content = ({children}: WithChildren) => {
         <div
           id='kt_app_content_container'
           className={clsx(
-            'app-container',
+            'app-container container-xxl',
             classes.contentContainer.join(' '),
-            {
-              'container-xxl': appContentContainer === 'fixed',
-              'container-fluid': appContentContainer === 'fluid',
-            }
+            // {
+              
+            //   // 'container-xxl': appContentContainer === 'fixed',
+            //   // 'container-fluid': appContentContainer === 'fluid',
+            // }
           )}
         >
           {children}

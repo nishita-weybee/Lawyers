@@ -1,17 +1,55 @@
 import clsx from "clsx";
 import { Field, FieldArray, Form, Formik } from "formik";
 import Multiselect from "multiselect-react-dropdown";
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { KTSVG } from "../../../../_metronic/helpers";
-import { NEXT } from "../../../helpers/globalConstant";
+import { BACK, NEXT } from "../../../helpers/globalConstant";
+import {
+  fetchBankForDropdown,
+  fetchDistrictForDropdown,
+  fetchForumDropdown,
+  fetchJudgeDropdown,
+  fetchProductDropdown,
+  fetchStageDropdown,
+} from "../../../reducers/mastersReducers/mastersAction";
 
-export interface props {}
+export interface props {
+  getProductList: Function;
+  getForumList: Function;
+  getStageList: Function;
+  getJudgeList: Function;
+  // getBankOfficerList: Function;
+  getDistrictList: Function;
+  getBankList: Function;
+  forumList: any;
+  stageList: any;
+  bankOfficerList: any;
+  districtList: any;
+  bankList: any;
+  productList: any;
+  judgeList: any;
+}
 
-const AddCase: React.FC<props> = () => {
+const AddCase: React.FC<props> = ({
+  forumList,
+  districtList,
+  getBankList,
+  getDistrictList,
+  // getBankOfficerList,
+  getForumList,
+  getProductList,
+  getStageList,
+  getJudgeList,
+  stageList,
+  bankOfficerList,
+  bankList,
+  productList,
+  judgeList,
+}) => {
   const onSubmit = (values: any, resetForm: any) => {
     console.log(values.temp, "submit");
     resetForm();
-    // e.preventDefault();
   };
   const onSelect = (selectedList: any, selectedItem: any) => {
     // console.log(selectedList, selectedItem, "select");
@@ -23,26 +61,21 @@ const AddCase: React.FC<props> = () => {
   const style = {
     // multiselectContainer: {},
     searchBox: {
-      //   border: "none",
-      //   fontSize: "10px",
-      //   minHeight: "50px",
+      marginTop: 0,
+      padding: "7.5px",
     },
     inputField: {
       // To change input field position or margin
-      //   margin: "5px",
     },
     chips: {
       // To change css chips(Selected options)
-      // background: "red",
+
+      marginBottom: 0,
     },
     optionContainer: {
       // To change css for option container
-      //   border: "2px solid",
     },
     option: {
-      // To change css for dropdown options
-      color: "black",
-      backgroundColor: "white",
       hover: {
         color: "blue",
         backgroundColor: "white",
@@ -52,6 +85,19 @@ const AddCase: React.FC<props> = () => {
       // To chanage group heading style
     },
   };
+
+  useEffect(() => {
+    // getBankOfficerList();
+    getDistrictList();
+    getForumList();
+    getProductList();
+    getStageList();
+    getBankList();
+  }, [getDistrictList, getForumList, getProductList, getStageList, getBankList]);
+
+  useEffect(() => {
+    // getJudgeList();
+  }, []);
 
   const initialValues = [
     {
@@ -69,7 +115,6 @@ const AddCase: React.FC<props> = () => {
       ],
     },
     { key: "Property Details", value: [{ proDetails: [{ location: "", owner: "", description: "" }] }] },
-
     { key: "Court Details", value: [{ cnrNumber: "" }, { forumId: "" }, { judgeId: "" }, { stageId: "" }, { date: "" }, { fillingDate: "" }] },
     { key: "Bank Officer Details", value: [{ bankOfficerId: "" }] },
   ];
@@ -110,9 +155,12 @@ const AddCase: React.FC<props> = () => {
                             <div className="col-lg-8">
                               <Field as="select" name={`temp.${i}.value.${1}.bankId`} className={clsx("form-control bg-transparent form-select")}>
                                 <option value={""}>Select Bank</option>
-                                <option value={"1"}>Bob</option>
-                                <option value={"2"}>Kotak</option>
-                                <option value={"3"}>Icici</option>
+
+                                {bankList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
                               </Field>
                             </div>
                           </div>
@@ -122,10 +170,14 @@ const AddCase: React.FC<props> = () => {
                             </label>
                             <div className="col-lg-8">
                               <Field as="select" name={`temp.${i}.value.${3}.districtId`} className={clsx("form-control bg-transparent form-select")}>
-                                <option value={""}>Select District</option>
-                                <option value={"1"}>Mumbai</option>
-                                <option value={"2"}>Ahmedabad</option>
-                                <option value={"3"}>Banglore</option>
+                                <option value={""} disabled>
+                                  Select District
+                                </option>
+                                {districtList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
                               </Field>
                             </div>
                           </div>
@@ -184,10 +236,14 @@ const AddCase: React.FC<props> = () => {
                                             name={`temp.${i}.value.${8}.bowDetail.${index}.productId`}
                                             className={clsx("form-control bg-transparent form-select")}
                                           >
-                                            <option value={""}>Select Product</option>
-                                            <option value={"1"}>Perfumes</option>
-                                            <option value={"2"}>Bags</option>
-                                            <option value={"3"}>Cosmetics</option>
+                                            <option value={""} disabled>
+                                              Select Product
+                                            </option>
+                                            {productList?.data?.map((list: any, i: any) => (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            ))}
                                           </Field>
                                         </div>
                                       </div>
@@ -204,14 +260,6 @@ const AddCase: React.FC<props> = () => {
                                       )}
                                     </div>
                                   ))}
-
-                                  {/* <button
-                                      type="button"
-                                      className="btn btn-sm btn-light btn-active-light-primary d-flex justify-content-end mt-4"
-                                      onClick={() => push({})}
-                                    >
-                                      <KTSVG path="/media/icons/duotune/arrows/arr075.svg" className="svg-icon-2" /> Add
-                                    </button> */}
 
                                   <div className="d-flex justify-content-end mt-2">
                                     <button type="button" className="btn btn-light btn-sm btn-active-light-primary" onClick={() => push({})}>
@@ -390,37 +438,58 @@ const AddCase: React.FC<props> = () => {
                               Forum
                             </label>
                             <div className="col-lg-8">
-                              <Field as="select" name={`temp.${i}.value.${1}.forumId`} className={clsx("form-control bg-transparent form-select")}>
-                                <option>Select Forum</option>
-                                <option value={"1"}> Forum 1</option>
-                                <option value={"2"}> Forum 2</option>
-                                <option value={"3"}> Forum 3</option>
+                              <Field
+                                as="select"
+                                name={`temp.${i}.value.${1}.forumId`}
+                                className={clsx("form-control bg-transparent form-select")}
+                                onChange={(e: any) => getJudgeList(e.target.value)}
+                              >
+                                <option value={""} disabled>
+                                  Select Forum
+                                </option>
+                                {forumList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
                               </Field>
                             </div>
                           </div>
-                          <div className="row mb-6">
-                            <label htmlFor={`temp.${i}.value.${2}.judgeId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                              Judge
-                            </label>
-                            <div className="col-lg-8">
-                              <Field as="select" name={`temp.${i}.value.${2}.judgeId`} className={clsx("form-control bg-transparent form-select")}>
-                                <option>Select Judge</option>
-                                <option value={"1"}> Judge 1</option>
-                                <option value={"2"}> Judge 2</option>
-                                <option value={"3"}> Judge 3</option>
-                              </Field>
+                          {judgeList?.data && (
+                            <div className="row mb-6">
+                              <label htmlFor={`temp.${i}.value.${2}.judgeId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                Judge
+                              </label>
+                              <div className="col-lg-8">
+                                <Field as="select" name={`temp.${i}.value.${2}.judgeId`} className={clsx("form-control bg-transparent form-select")}>
+                                  <option value={""} disabled>
+                                    Select Judge
+                                  </option>
+                                  {judgeList.data.map((list: any, i: any) => {
+                                    return (
+                                      <option value={list.id} disabled>
+                                        {list.name}
+                                      </option>
+                                    );
+                                  })}
+                                </Field>
+                              </div>
                             </div>
-                          </div>
+                          )}
                           <div className="row mb-6">
                             <label htmlFor={`temp.${i}.value.${3}.stageId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
                               Stage
                             </label>
                             <div className="col-lg-8">
                               <Field as="select" name={`temp.${i}.value.${3}.stageId`} className={clsx("form-control bg-transparent form-select")}>
-                                <option value={""}>Select Stage</option>
-                                <option value={"1"}> Stage 1</option>
-                                <option value={"2"}> Stage 2</option>
-                                <option value={"3"}> Stage 3</option>
+                                <option value={""} disabled>
+                                  Select Stage
+                                </option>
+                                {stageList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
                               </Field>
                             </div>
                           </div>
@@ -473,6 +542,10 @@ const AddCase: React.FC<props> = () => {
                                 placeholder={"Select Bank Officer"}
                                 loading={false}
                                 style={style}
+                                showArrow={true}
+                                customArrow={""}
+                                avoidHighlightFirstOption={true}
+                                hidePlaceholder={true}
                               />
                             </div>
                           </div>
@@ -481,7 +554,23 @@ const AddCase: React.FC<props> = () => {
                     </div>
 
                     <div className="card-footer d-flex justify-content-end py-6 px-9">
-                      <button type={i === values.temp.length - 1 ? "submit" : "button"} className="btn btn-primary d-flex align-items-center">
+                      {i !== 0 && (
+                        <button
+                          type="button"
+                          data-bs-target={`#kt_accordion_1_body_${i - 1}`}
+                          data-bs-toggle="collapse"
+                          className="btn btn-light btn-active-light-primary d-flex align-items-center me-4"
+                        >
+                          {BACK}
+                        </button>
+                      )}
+
+                      <button
+                        type={i === values.temp.length - 1 ? "submit" : "button"}
+                        data-bs-target={`#kt_accordion_1_body_${i + 1}`}
+                        data-bs-toggle="collapse"
+                        className="btn btn-primary d-flex align-items-center"
+                      >
                         {i === values.temp.length - 1 ? "Save Changes" : NEXT}
                       </button>
                     </div>
@@ -496,4 +585,28 @@ const AddCase: React.FC<props> = () => {
   );
 };
 
-export default AddCase;
+const mapStateToProps = (state: any) => {
+  return {
+    forumList: state.getForumForDropdownReducer.forumList,
+    stageList: state.getStageForDropdownReducer.stageList,
+    bankOfficerList: state.getBankOfficerForDropdownReducer.bankOfficer,
+    districtList: state.getDistrictForDropdownReducer.districtList,
+    bankList: state.getBankForDropdownReducer.bankList,
+    productList: state.getProductForDropdownReducer.productList,
+    judgeList: state.getJudgeForDropdownReducer.judgeList,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getForumList: () => dispatch(fetchForumDropdown()),
+    getStageList: () => dispatch(fetchStageDropdown()),
+    getJudgeList: (id: any) => dispatch(fetchJudgeDropdown(id)),
+    // getBankOfficerList: () => dispatch(fetchBankOfficerDropdown()),
+    getDistrictList: () => dispatch(fetchDistrictForDropdown()),
+    getBankList: () => dispatch(fetchBankForDropdown()),
+    getProductList: () => dispatch(fetchProductDropdown()),
+  };
+};
+const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddCase);
+export default connectComponent;
