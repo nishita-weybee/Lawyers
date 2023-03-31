@@ -12,8 +12,11 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_REQUEST,
 } from "../actionTypes";
-import { forgotPasswordService, loginService, registerUserService, resetPasswordService } from "./authService";
+import { changePasswordService, forgotPasswordService, loginService, registerUserService, resetPasswordService } from "./authService";
 
 const request = (type: string) => {
   return { type: type };
@@ -47,7 +50,7 @@ export const registerUser = (registerUserDetails: Object, callbackSuccess: Funct
     return registerUserService(registerUserDetails).then(
       (result: any) => {
         dispatch(success(REGISTER_USER_SUCCESS, result.data));
-        showToastMessageSuccess('User Added');
+        showToastMessageSuccess("User Added");
         callbackSuccess();
       },
       (error: any) => {
@@ -81,6 +84,22 @@ export const resetPassword = (newPassword: Object) => {
       },
       (error: any) => {
         dispatch(failure(RESET_PASSWORD_FAILURE, error.response.data.error.errorMessage));
+      }
+    );
+  };
+};
+
+export const changePassword = (newPassword: Object) => {
+  return (dispatch: any) => {
+    dispatch(request(CHANGE_PASSWORD_REQUEST));
+    return changePasswordService(newPassword).then(
+      (result: any) => {
+        dispatch(success(CHANGE_PASSWORD_SUCCESS, result.data));
+        showToastMessageSuccess("Password Updated");
+      },
+      (error: any) => {
+        dispatch(failure(CHANGE_PASSWORD_FAILURE, error.response.data.error.errorMessage));
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };

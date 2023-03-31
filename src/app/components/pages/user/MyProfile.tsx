@@ -1,4 +1,4 @@
-import { ChangePassword } from "../../auth/components/ChangePassword";
+import ChangePassword from "../../auth/components/ChangePassword";
 import ProfileDetails from "./ProfileDetails";
 
 export interface Props {}

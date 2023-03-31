@@ -5,6 +5,7 @@ import { getByIdReducer } from "./getByIdReducer";
 import { updateMasterReducer } from "./updateMastersReducer";
 import { getBankForDropdownReducer } from "./getBankForDropdownReducer";
 import { getDistrictForDropdownReducer } from "./getDistrictForDropdown";
+import { getForumForDropdownReducer } from "./getForumDropdown";
 export default {
   getAllMastersDataReducer,
   postMasterDataReducer,
@@ -13,4 +14,5 @@ export default {
   updateMasterReducer,
   getBankForDropdownReducer,
   getDistrictForDropdownReducer,
+  getForumForDropdownReducer,
 };

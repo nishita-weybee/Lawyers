@@ -36,6 +36,12 @@ import {
   GET_ALL_OUR_ADVOCATE_FAILURE,
   GET_ALL_OUR_ADVOCATE_REQUEST,
   GET_ALL_OUR_ADVOCATE_SUCCESS,
+  GET_ALL_PRODUCT_FAILURE,
+  GET_ALL_PRODUCT_REQUEST,
+  GET_ALL_PRODUCT_SUCCESS,
+  GET_ALL_STAGE_FAILURE,
+  GET_ALL_STAGE_REQUEST,
+  GET_ALL_STAGE_SUCCESS,
   GET_ALL_TALUKA_FAILURE,
   GET_ALL_TALUKA_REQUEST,
   GET_ALL_TALUKA_SUCCESS,
@@ -51,6 +57,9 @@ import {
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_FORUM_DROPDOWN_MASTERS_FAILURE,
+  GET_FORUM_DROPDOWN_MASTERS_REQUEST,
+  GET_FORUM_DROPDOWN_MASTERS_SUCCESS,
   POST_MASTER_DATA_FAILURE,
   POST_MASTER_DATA_REQUEST,
   POST_MASTER_DATA_SUCCESS,
@@ -100,6 +109,13 @@ import {
   updateMastersService,
   getBankForDropdown,
   getDistrictForDropdown,
+  getAllProduct,
+  getAllStage,
+  activeDeactiveProductService,
+  activeDeactiveStageService,
+  postProductService,
+  postStageService,
+  getForumForDropdown,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -263,6 +279,34 @@ export const fetchAllTaluka = (master: any, location: any) => {
       },
       (error: any) => {
         dispatch(failure(GET_ALL_TALUKA_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllProduct = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_PRODUCT_REQUEST));
+    return getAllProduct(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_PRODUCT_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_PRODUCT_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllStage = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_STAGE_REQUEST));
+    return getAllStage(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_STAGE_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_STAGE_FAILURE, error.message));
       }
     );
   };
@@ -432,7 +476,7 @@ export const postAssociateAdvocate = (detail: any, callback: Function) => {
     return postAssociateAdvocateService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Associate Advocate added`);
+        showToastMessageSuccess(`Associate Advocate Added`);
         callback();
       },
       (error: any) => {
@@ -448,7 +492,7 @@ export const postExecuterName = (detail: any, callback: Function) => {
     return postExecuterNameService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Executer Advocate`);
+        showToastMessageSuccess(`Executer Added`);
         callback();
       },
       (error: any) => {
@@ -464,11 +508,43 @@ export const postExecutingOfficerDesignation = (detail: any, callback: Function)
     return postExecutingOfficerDesignationService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Designation Advocate`);
+        showToastMessageSuccess(`Designation Added`);
         callback();
       },
       (error: any) => {
-        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const postStage = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postStageService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Stage Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const postProduct = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postProductService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Product Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
         showToastMessageFailure();
       }
     );
@@ -666,6 +742,39 @@ export const activeDeactiveExecutingOfficerDesignation = (id: any, status: strin
     );
   };
 };
+export const activeDeactiveProducts = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveProductService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+
+export const activeDeactiveStage = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveStageService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
 
 export const getById = (url: any, id: any) => {
   return (dispatch: any) => {
@@ -682,8 +791,6 @@ export const getById = (url: any, id: any) => {
 };
 
 export const updateMasters = (url: any, masters: any, values: any, callback: Function) => {
-  console.log(masters);
-
   return (dispatch: any) => {
     dispatch(request(UPDATE_MASTERS_REQUEST));
     return updateMastersService(url, values).then(
@@ -723,6 +830,20 @@ export const fetchDistrictForDropdown = () => {
       },
       (error: any) => {
         dispatch(failure(GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchForumDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_FORUM_DROPDOWN_MASTERS_REQUEST));
+    return getForumForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_FORUM_DROPDOWN_MASTERS_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_FORUM_DROPDOWN_MASTERS_FAILURE, error.message));
       }
     );
   };

@@ -1,5 +1,6 @@
+import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { toAbsoluteUrl } from "../../../helpers";
+import { KTSVG, toAbsoluteUrl } from "../../../helpers";
 import { useLayout } from "../../core";
 
 const SidebarLogo = () => {
@@ -24,21 +25,21 @@ const SidebarLogo = () => {
         <img alt="Logo" src={toAbsoluteUrl("/media/logos/logo.png")} className="h-20px app-sidebar-logo-minimize" />
       </Link>
 
-      {/* {(appSidebarDefaultMinimizeDesktopEnabled || appSidebarDefaultCollapseDesktopEnabled) && (
+      {(appSidebarDefaultMinimizeDesktopEnabled || appSidebarDefaultCollapseDesktopEnabled) && (
         <div
-          id='kt_app_sidebar_toggle'
+          id="kt_app_sidebar_toggle"
           className={clsx(
-            'app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate',
-            {active: appSidebarDefaultMinimizeDefault}
+            "app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate",
+            { active: appSidebarDefaultMinimizeDefault }
           )}
-          data-kt-toggle='true'
+          data-kt-toggle="true"
           data-kt-toggle-state={toggleState}
-          data-kt-toggle-target='body'
+          data-kt-toggle-target="body"
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <KTSVG path='/media/icons/duotune/arrows/arr079.svg' className='svg-icon-2 rotate-180' />
+          <KTSVG path="/media/icons/duotune/arrows/arr079.svg" className="svg-icon-2 rotate-180" />
         </div>
-      )} */}
+      )}
     </div>
   );
 };

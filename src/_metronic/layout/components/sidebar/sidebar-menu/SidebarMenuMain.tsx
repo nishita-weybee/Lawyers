@@ -12,6 +12,8 @@ import {
   FORUM,
   JUDGE,
   MASTERS,
+  PRODUCTS,
+  STAGE,
   TALUKA,
   VIEW_USER,
 } from "../../../../../app/helpers/routesConstant";
@@ -32,6 +34,8 @@ const SidebarMenuMain = () => {
     { to: ASSOCIATE_ADVOCATE, title: "Associate Advocate" },
     { to: EXECUTER, title: "Executer" },
     { to: EXECUTIVE_OFFICER_DESIGNATION, title: "Executive Officer Designation" },
+    { to: PRODUCTS, title: "Products" },
+    { to: STAGE, title: "Stage" },
   ];
 
   return (
@@ -53,7 +57,7 @@ const SidebarMenuMain = () => {
         </>
       )}
 
-      <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/art/art002.svg"} title="Case" fontIcon="bi-app-indicator">
+      <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/abstract/abs027.svg"} title="Case" fontIcon="bi-app-indicator">
         <SidebarMenuItem to={`case/add-case`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
       </SidebarMenuItemWithSub>
 

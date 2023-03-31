@@ -14,6 +14,8 @@ import {
   fetchAllForum,
   fetchAllJudgeName,
   fetchAllOurAdvocate,
+  fetchAllProduct,
+  fetchAllStage,
   fetchAllTaluka,
 } from "../../../reducers/mastersReducers/mastersAction";
 import { fetchUserList } from "../../../reducers/userReducers/userAction";
@@ -34,6 +36,7 @@ const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
   useEffect(() => {
     getDetails(params.masters, location.search);
   }, [getDetails, params.masters, location.search]);
+  console.log(params.masters);
 
   return (
     <>
@@ -92,6 +95,12 @@ const mapDispatchToProps = (dispatch: any) => {
           break;
         case "executive-officer-designation":
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
+          break;
+        case "products":
+          dispatch(fetchAllProduct(masters, location));
+          break;
+        case "stage":
+          dispatch(fetchAllStage(masters, location));
           break;
         default:
           dispatch(fetchUserList(location));

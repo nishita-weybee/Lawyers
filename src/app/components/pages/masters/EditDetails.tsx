@@ -16,6 +16,8 @@ import {
   GET_FORUM_BY_ID,
   GET_JUDGE_NAME_BY_ID,
   GET_OUR_ADVOCATE_BY_ID,
+  GET_PRODUCT_BY_ID,
+  GET_STAGE_BY_ID,
   GET_TALUKA_BY_ID,
   UPDATE_ASSOCIATE_ADVOCATE_BY_ID,
   UPDATE_BANK_BRANCH_BY_ID,
@@ -28,6 +30,8 @@ import {
   UPDATE_FORUM_BY_ID,
   UPDATE_JUDGE_NAME_BY_ID,
   UPDATE_OUR_ADVOCATE_BY_ID,
+  UPDATE_PRODUCT_BY_ID,
+  UPDATE_STAGE_BY_ID,
   UPDATE_TALUKA_BY_ID,
 } from "../../../helpers/config";
 import { DISCARD, PLEASE_WAIT, SUBMIT } from "../../../helpers/globalConstant";
@@ -44,6 +48,8 @@ import {
   JUDGE,
   TALUKA,
   ADVOCATE,
+  PRODUCTS,
+  STAGE,
 } from "../../../helpers/routesConstant";
 import {
   fetchBankBranchByBankId,
@@ -63,6 +69,9 @@ import {
   postAssociateAdvocate,
   postExecuterName,
   postExecutingOfficerDesignation,
+  postStage,
+  postProduct,
+  fetchForumDropdown,
 } from "../../../reducers/mastersReducers/mastersAction";
 
 export interface props {
@@ -72,6 +81,7 @@ export interface props {
   error: any;
   branchList: any;
   districtList: any;
+  forumList: any;
   bankList: any;
   getByIdFields: Function;
   getBankList: Function;
@@ -79,6 +89,7 @@ export interface props {
   getBranchList: Function;
   updateMastersField: Function;
   postDetails: Function;
+  getForumList: Function;
 }
 
 const EditDetails: React.FC<props> = ({
@@ -94,6 +105,8 @@ const EditDetails: React.FC<props> = ({
   getBranchList,
   loadingPost,
   loadingPut,
+  forumList,
+  getForumList,
 }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -198,6 +211,18 @@ const EditDetails: React.FC<props> = ({
         name: Yup.string().required("Required"),
       });
       break;
+    case "products":
+      num = 0;
+      validateFun = Yup.object().shape({
+        name: Yup.string().required("Required"),
+      });
+      break;
+    case "stage":
+      num = 0;
+      validateFun = Yup.object().shape({
+        name: Yup.string().required("Required"),
+      });
+      break;
     default:
       break;
   }
@@ -210,6 +235,7 @@ const EditDetails: React.FC<props> = ({
     { name: "", mobile: "" },
     { name: "", mobile: "", email: "" },
     { name: "", districtId: "select" },
+    { name: "", forumId: "select" },
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
@@ -275,6 +301,17 @@ const EditDetails: React.FC<props> = ({
             navigate(`${EXECUTIVE_OFFICER_DESIGNATION}`);
           });
           break;
+        case "products":
+          updateMastersField(UPDATE_PRODUCT_BY_ID, params.masters, values, () => {
+            navigate(`${PRODUCTS}`);
+          });
+          break;
+        case "stage":
+          updateMastersField(UPDATE_STAGE_BY_ID, params.masters, values, () => {
+            navigate(`${STAGE}`);
+          });
+          break;
+
         default:
           break;
       }
@@ -325,6 +362,12 @@ const EditDetails: React.FC<props> = ({
         case "executive-officer-designation":
           getByIdFields(GET_EXECUTING_OFFICER_DESIGNATION_BY_ID, params.id);
           break;
+        case "products":
+          getByIdFields(GET_PRODUCT_BY_ID, params.id);
+          break;
+        case "stage":
+          getByIdFields(GET_STAGE_BY_ID, params.id);
+          break;
         default:
           break;
       }
@@ -332,6 +375,7 @@ const EditDetails: React.FC<props> = ({
     params.masters === "taluka" && getDistrictList();
     params.masters === "bank-branch" && getBankList();
     params.masters === "bank-officer" && getBankList();
+    params.masters === "judge" && getForumList();
   }, []);
 
   useEffect(() => {
@@ -406,16 +450,75 @@ const EditDetails: React.FC<props> = ({
                       <option value="select" disabled>
                         Select District
                       </option>
-
+                      {!districtList?.data && "Loading..."}
                       {districtList?.data?.map((list: any, i: any) => {
                         return (
-                          <option key={i} value={list.id}>
-                            {list.name}
-                          </option>
+                          <>
+                            {location.pathname.includes("add") && list.isActive === true && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                            {location.pathname.includes("edit") && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                          </>
                         );
                       })}
                     </Field>
                     {touched.districtId && errors.districtId && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span role="alert">{errors.name}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {params.masters === "judge" && (
+                <div className="row mb-6">
+                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Judge</label>
+                  <div className="col-lg-8">
+                    <Field
+                      as="select"
+                      name={"forumId"}
+                      className={clsx(
+                        "form-control bg-transparent form-select",
+                        {
+                          "is-invalid": touched.forumId && errors.forumId,
+                        },
+                        {
+                          "is-valid": touched.forumId && !errors.forumId,
+                        }
+                      )}
+                      onChange={(e: any) => setFieldValue("forumId", e.target.value)}
+                    >
+                      <option value="select" disabled>
+                        Select Forum
+                      </option>
+
+                      {!forumList.data && "Loading..."}
+                      {forumList?.data?.map((list: any, i: any) => {
+                        return (
+                          <>
+                            {location.pathname.includes("add") && list.isActive === true && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                            {location.pathname.includes("edit") && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                          </>
+                        );
+                      })}
+                    </Field>
+                    {touched.forumId && errors.forumId && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
                           <span role="alert">{errors.name}</span>
@@ -446,12 +549,21 @@ const EditDetails: React.FC<props> = ({
                       <option value="select" disabled>
                         Select Bank
                       </option>
-
+                      {!bankList?.data && "Loading..."}
                       {bankList?.data?.map((list: any, i: any) => {
                         return (
-                          <option key={i} value={list.id}>
-                            {list.name}
-                          </option>
+                          <>
+                            {location.pathname.includes("add") && list.isActive === true && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                            {location.pathname.includes("edit") && (
+                              <option key={i} value={list.id}>
+                                {list.name}
+                              </option>
+                            )}
+                          </>
                         );
                       })}
                     </Field>
@@ -547,11 +659,21 @@ const EditDetails: React.FC<props> = ({
                         <option value="select" disabled>
                           Select Bank
                         </option>
+                        {!bankList?.data && "Loading..."}
                         {bankList?.data?.map((list: any, i: any) => {
                           return (
-                            <option key={i} value={list.id}>
-                              {list.name}
-                            </option>
+                            <>
+                              {location.pathname.includes("add") && list.isActive === true && (
+                                <option key={i} value={list.id}>
+                                  {list.name}
+                                </option>
+                              )}
+                              {location.pathname.includes("edit") && (
+                                <option key={i} value={list.id}>
+                                  {list.name}
+                                </option>
+                              )}
+                            </>
                           );
                         })}
                       </Field>
@@ -593,12 +715,22 @@ const EditDetails: React.FC<props> = ({
                             Select Bank Branch
                           </option>
                           <>
+                            {!branchList?.data && "Loading..."}
                             {!branchList?.data?.length && <option>No Data Found</option>}
                             {branchList?.data?.map((list: any, i: any) => {
                               return (
-                                <option key={i} value={list.id}>
-                                  {list.name}
-                                </option>
+                                <>
+                                  {location.pathname.includes("add") && list.isActive === true && (
+                                    <option key={i} value={list.id}>
+                                      {list.name}
+                                    </option>
+                                  )}
+                                  {location.pathname.includes("edit") && (
+                                    <option key={i} value={list.id}>
+                                      {list.name}
+                                    </option>
+                                  )}
+                                </>
                               );
                             })}
                           </>
@@ -820,6 +952,7 @@ const mapStateToProps = (state: any) => {
     bankList: state.getBankForDropdownReducer.bankList,
     districtList: state.getDistrictForDropdownReducer.districtList,
     branchList: state.getBankBranchByBankIdReducer.branchList,
+    forumList: state.getForumForDropdownReducer.forumList,
 
     loadingPost: state.postMasterDataReducer.loading,
     loadingPut: state.updateMasterReducer.loading,
@@ -867,6 +1000,12 @@ const mapDispatchToProps = (dispatch: any) => {
         case "executive-officer-designation":
           dispatch(postExecutingOfficerDesignation(detail, callback));
           break;
+        case "products":
+          dispatch(postProduct(detail, callback));
+          break;
+        case "stage":
+          dispatch(postStage(detail, callback));
+          break;
         default:
           break;
       }
@@ -875,6 +1014,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getBranchList: (id: any) => dispatch(fetchBankBranchByBankId(id)),
     getDistrictList: () => dispatch(fetchDistrictForDropdown()),
     getBankList: () => dispatch(fetchBankForDropdown()),
+    getForumList: () => dispatch(fetchForumDropdown()),
 
     updateMastersField: (url: any, master: any, values: any, callback: Function) => dispatch(updateMasters(url, master, values, callback)),
   };

@@ -1,36 +1,38 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-// import {KTSVG} from '../../../../../../_metronic/helpers'
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { IUpdatePassword, updatePassword } from "../../common/SettingsModal";
 import { DISCARD, REQUIRED } from "../../../helpers/globalConstant";
+import { connect } from "react-redux";
+import { changePassword } from "../../../reducers/authReducers/authAction";
 
 const validationSchema = Yup.object().shape({
   currentPassword: Yup.string().required(REQUIRED),
-  newPassword: Yup.string().required(REQUIRED),
+  newPassword: Yup.string()
+    .required(REQUIRED)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Wrong password format")
+    .notOneOf([Yup.ref("currentPassword"), null], "New password must be different from current password"),
   passwordConfirmation: Yup.string()
     .required(REQUIRED)
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
 });
 
-const ChangePassword: React.FC = () => {
-  const [passwordUpdateData, setPasswordUpdateData] = useState<IUpdatePassword>(updatePassword);
+export interface props {
+  postChangePassDetails: Function;
+  res: any;
+  error: any;
+  loading: boolean;
+}
+const ChangePassword: React.FC<props> = ({ postChangePassDetails, res, error, loading }) => {
   const [showPasswordForm, setPasswordForm] = useState<boolean>(false);
-  const [loading2, setLoading2] = useState(false);
 
   const formik2 = useFormik<IUpdatePassword>({
-    initialValues: {
-      ...passwordUpdateData,
-    },
+    initialValues: updatePassword,
     validationSchema,
     onSubmit: (values) => {
-      setLoading2(true);
-      setTimeout((values: any) => {
-        setPasswordUpdateData(values);
-        setLoading2(false);
-        setPasswordForm(false);
-      }, 1000);
+      console.log(values);
+      postChangePassDetails(values);
     },
   });
 
@@ -45,6 +47,11 @@ const ChangePassword: React.FC = () => {
       <div id="kt_account_signin_method" className="collapse show">
         <div className="card-body border-top p-9">
           <div className="d-flex flex-wrap align-items-center mb-10">
+            {/* {error && (
+              <div className="mb-lg-8 alert alert-danger">
+                <div className="alert-text font-weight-bold">{error}</div>
+              </div>
+            )} */}
             <div id="kt_signin_password" className={" " + (showPasswordForm && "d-none")}>
               <div className="fs-6 fw-bolder mb-1">Password</div>
               <div className="fw-bold text-gray-600">************</div>
@@ -125,8 +132,8 @@ const ChangePassword: React.FC = () => {
                     {DISCARD}
                   </button>
                   <button id="kt_password_submit" type="submit" className="btn btn-primary  px-6">
-                    {!loading2 && "Update Password"}
-                    {loading2 && (
+                    {!loading && "Update Password"}
+                    {loading && (
                       <span className="indicator-progress" style={{ display: "block" }}>
                         Please wait... <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                       </span>
@@ -154,3 +161,18 @@ const ChangePassword: React.FC = () => {
 };
 
 export { ChangePassword };
+const mapStateToProps = (state: any) => {
+  return {
+    loading: state.changePasswordReducer.loading,
+    error: state.changePasswordReducer.error,
+    res: state.changePasswordReducer.res,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    postChangePassDetails: (newPass: any) => dispatch(changePassword(newPass)),
+  };
+};
+const connectComponent = connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
+export default connectComponent;

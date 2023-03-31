@@ -14,6 +14,7 @@ import {
   bankOfficerColumns,
   commonColumns,
   executiveColumns,
+  judgeColumns,
   talukaColumns,
   usersColumns,
 } from "./columns/_columns";
@@ -42,6 +43,10 @@ import {
   fetchAllOurAdvocate,
   fetchAllBankOfficer,
   fetchAllBankBranch,
+  fetchAllStage,
+  fetchAllProduct,
+  activeDeactiveProducts,
+  activeDeactiveStage,
 } from "../../../../../reducers/mastersReducers/mastersAction";
 
 export interface Props {
@@ -65,7 +70,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       case "forum":
         return commonColumns;
       case "judge":
-        return commonColumns;
+        return judgeColumns;
       case "bank-details":
         return commonColumns;
       case "department":
@@ -81,6 +86,10 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       case "executer":
         return executiveColumns;
       case "executive-officer-designation":
+        return commonColumns;
+      case "products":
+        return commonColumns;
+      case "stage":
         return commonColumns;
       default:
         return usersColumns;
@@ -99,6 +108,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters, location.search);
     });
   };
+  console.log(params.masters);
 
   return (
     <KTCardBody className="py-4">
@@ -124,7 +134,8 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                 <div className="symbol-label">
                                   <span className={`symbol-label bg-light-primary text-primary fw-bold fs-4`}>
-                                    {userDetail?.firstName.charAt(0).toUpperCase()}{userDetail.lastName.charAt(0).toUpperCase()}
+                                    {userDetail?.firstName.charAt(0).toUpperCase()}
+                                    {userDetail.lastName.charAt(0).toUpperCase()}
                                   </span>
                                 </div>
                               </div>
@@ -190,6 +201,14 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             <>
                               <td role="cell" className="">
                                 {userDetail.bank}
+                              </td>
+                            </>
+                          )}
+
+                          {params.masters === "judge" && (
+                            <>
+                              <td role="cell" className="">
+                                {userDetail.forum}
                               </td>
                             </>
                           )}
@@ -300,6 +319,12 @@ const mapDispatchToProps = (dispatch: any) => {
         case "executive-officer-designation":
           dispatch(activeDeactiveExecutingOfficerDesignation(id, `Designation ${status}`, callback));
           break;
+        case "products":
+          dispatch(activeDeactiveProducts(id, `Product ${status}`, callback));
+          break;
+        case "stage":
+          dispatch(activeDeactiveStage(id, `Stage ${status}`, callback));
+          break;
         default:
           dispatch(activateDeactivateUser(id, `User ${status}`, callback));
           break;
@@ -342,6 +367,12 @@ const mapDispatchToProps = (dispatch: any) => {
           break;
         case "executive-officer-designation":
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
+          break;
+        case "products":
+          dispatch(fetchAllProduct(masters, location));
+          break;
+        case "stage":
+          dispatch(fetchAllStage(masters, location));
           break;
         default:
           dispatch(fetchUserList(location));

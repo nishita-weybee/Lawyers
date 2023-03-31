@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../helpers/apiRequest";
-import { FORGOT_PASSWORD, LOGIN, REGISTER, RESET_PASSWORD } from "../../helpers/config";
+import { CHANGE_PASSWORD, FORGOT_PASSWORD, LOGIN, REGISTER, RESET_PASSWORD } from "../../helpers/config";
 
 export const loginService = (loginDetails: any) => {
   const res = axiosInstance.post(LOGIN, loginDetails);
@@ -20,4 +20,8 @@ export const forgotPasswordService = async (email: string) => {
 
 export const registerUserService = (registerUserDetails: Object) => {
   return axiosInstance.post(REGISTER, registerUserDetails);
+};
+
+export const changePasswordService = async (newPass: Object) => {
+  return axiosInstance.put(CHANGE_PASSWORD, newPass, {});
 };

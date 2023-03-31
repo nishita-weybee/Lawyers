@@ -8,6 +8,7 @@ export const REGISTER = `${AUTH_BASE_URL}/RegisterUser`;
 export const FORGOT_PASSWORD = `${AUTH_BASE_URL}/ForgotPassword`;
 export const RESET_PASSWORD = `${AUTH_BASE_URL}/ResetPassword`;
 
+export const CHANGE_PASSWORD = `${USER_BASE_URL}/ChangePassword`;
 export const USER_LIST = `${USER_BASE_URL}/GetAllUsersDetails`;
 export const USER_DETAILS = `${USER_BASE_URL}/GetUserDetails`;
 export const EDIT_USER_DETAILS = `${USER_BASE_URL}/EditUserDetails`;
@@ -26,6 +27,8 @@ export const GET_ALL_FORUM = "/Forum/GetAllForum";
 export const GET_ALL_JUDGE_NAME = "JudgeName/GetAllJudgeName";
 export const GET_ALL_OUR_ADVOCATE = "/OurAdvocate/GetAllOurAdvocate";
 export const GET_ALL_TALUKA = "/Taluka/GetAllTaluka";
+export const GET_ALL_PRODUCT = "/Product/GetAllProduct";
+export const GET_ALL_STAGE = "/Stage/GetAllStage";
 
 export const GET_BY_ID_DISTRICT = `District/GetDistrictById`;
 export const GET_BY_ID_DEPARTMENT = `Department/GetDepartmentById`;
@@ -52,6 +55,8 @@ export const POST_FORUM = "/Forum/AddForum";
 export const POST_JUDGE_NAME = "/JudgeName/AddJudgeName";
 export const POST_OUR_ADVOCATE = "/OurAdvocate/AddOurAdvocate";
 export const POST_TALUKA = "/Taluka/AddTaluka";
+export const POST_PRODUCT = "/Product/AddProduct";
+export const POST_STAGE = "/Stage/AddStage";
 
 export const ACTIVE_DEACTIVE_DISTRICT = "/District/ActiveDeactivateDistrict";
 export const ACTIVE_DEACTIVE_DEPARTMENT = "Department/ActiveDeactivateDepartment";
@@ -65,6 +70,8 @@ export const ACTIVE_DEACTIVE_FORUM = "/Forum/ActiveDeactivateForum";
 export const ACTIVE_DEACTIVE_JUDGE_NAME = "/JudgeName/ActiveDeactivateJudgeName";
 export const ACTIVE_DEACTIVE_OUR_ADVOCATE = "/OurAdvocate/ActiveDeactivateOurAdvocate";
 export const ACTIVE_DEACTIVE_TALUKA = "/Taluka/ActiveDeactivateTaluka";
+export const ACTIVE_DEACTIVE_PRODUCT = "/Product/ActiveDeactivateProduct";
+export const ACTIVE_DEACTIVE_STAGE = "/Stage/ActiveDeactivateStage";
 
 export const GET_DISTRICT_BY_ID = `District/GetDistrictById`;
 export const GET_DEPARTMENT_BY_ID = `Department/GetDepartmentById`;
@@ -78,6 +85,8 @@ export const GET_FORUM_BY_ID = "/Forum/GetForumById";
 export const GET_JUDGE_NAME_BY_ID = "JudgeName/GetJudgeNameById";
 export const GET_OUR_ADVOCATE_BY_ID = "/OurAdvocate/GetOurAdvocateById";
 export const GET_TALUKA_BY_ID = "/Taluka/GetTalukaById";
+export const GET_PRODUCT_BY_ID = "/Product/GetProductById";
+export const GET_STAGE_BY_ID = "/Stage/GetStageById";
 
 export const UPDATE_DISTRICT_BY_ID = `/District/EditDistrict`;
 export const UPDATE_DEPARTMENT_BY_ID = `/Department/EditDepartment`;
@@ -91,8 +100,12 @@ export const UPDATE_FORUM_BY_ID = "/Forum/EditForum";
 export const UPDATE_JUDGE_NAME_BY_ID = "/JudgeName/EditJudgeName";
 export const UPDATE_OUR_ADVOCATE_BY_ID = "/OurAdvocate/EditOurAdvocate";
 export const UPDATE_TALUKA_BY_ID = "/Taluka/EditTaluka";
+export const UPDATE_STAGE_BY_ID = "/Stage/EditStage";
+export const UPDATE_PRODUCT_BY_ID = "/Product/EditProduct";
 
 // dropdown
 export const GET_BANK_BRANCH_BY_BANK_ID = "/BankBranch/GetBankBranchByBankId";
 export const GET_BANK_FOR_DROPDOWN = "/Bank/GetBanksForDropdown";
 export const GET_DISTRICT_FOR_DROPDOWN = "/District/GetDistrictsForDropdown";
+export const GET_FORUM_FOR_DROPDOWN = "/Forum/GetAllForumForDropDown";
+

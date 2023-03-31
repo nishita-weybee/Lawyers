@@ -15,7 +15,7 @@ export interface props {
 
 const ForgotPassword: React.FC<props> = ({ postForgotPassDetails, error, loading, res }) => {
   const navigate = useNavigate();
-  
+
   const initialValues = {
     email: "",
   };
@@ -46,7 +46,7 @@ const ForgotPassword: React.FC<props> = ({ postForgotPassDetails, error, loading
       </div>
 
       {error && (
-        <div className="mb-lg-15 alert alert-danger">
+        <div className="mb-lg-8 alert alert-danger">
           <div className="alert-text font-weight-bold">{error}</div>
         </div>
       )}

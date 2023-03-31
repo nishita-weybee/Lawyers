@@ -11,6 +11,8 @@ import {
   ACTIVE_DEACTIVE_FORUM,
   ACTIVE_DEACTIVE_JUDGE_NAME,
   ACTIVE_DEACTIVE_OUR_ADVOCATE,
+  ACTIVE_DEACTIVE_PRODUCT,
+  ACTIVE_DEACTIVE_STAGE,
   ACTIVE_DEACTIVE_TALUKA,
   GET_ALL_ASSOCIATE_ADVOCATE,
   GET_ALL_BANK,
@@ -23,10 +25,13 @@ import {
   GET_ALL_FORUM,
   GET_ALL_JUDGE_NAME,
   GET_ALL_OUR_ADVOCATE,
+  GET_ALL_PRODUCT,
+  GET_ALL_STAGE,
   GET_ALL_TALUKA,
   GET_BANK_BRANCH_BY_BANK_ID,
   GET_BANK_FOR_DROPDOWN,
   GET_DISTRICT_FOR_DROPDOWN,
+  GET_FORUM_FOR_DROPDOWN,
   POST_ASSOCIATE_ADVOCATE,
   POST_BANK,
   POST_BANK_BRANCH,
@@ -38,6 +43,8 @@ import {
   POST_FORUM,
   POST_JUDGE_NAME,
   POST_OUR_ADVOCATE,
+  POST_PRODUCT,
+  POST_STAGE,
   POST_TALUKA,
 } from "../../helpers/config";
 
@@ -90,6 +97,14 @@ export const getAllTaluka = async (location: any) => {
   const res = await axiosInstance.get(`${GET_ALL_TALUKA}${location}`);
   return res;
 };
+export const getAllProduct = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_PRODUCT}${location}`);
+  return res;
+};
+export const getAllStage = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_STAGE}${location}`);
+  return res;
+};
 
 // Add Masters
 export const postDistrictService = async (detail: any) => {
@@ -138,6 +153,14 @@ export const postExecuterNameService = async (detail: any) => {
 };
 export const postExecutingOfficerDesignationService = async (detail: any) => {
   const res = await axiosInstance.post(`${POST_EXECUTING_OFFICER_OFFICER_DESIGNATION}`, detail);
+  return res;
+};
+export const postProductService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_PRODUCT}`, detail);
+  return res;
+};
+export const postStageService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_STAGE}`, detail);
   return res;
 };
 
@@ -190,6 +213,14 @@ export const activeDeactiveExecutingOfficerDesignationService = async (id: any) 
   const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_EXECUTING_OFFICER_OFFICER_DESIGNATION}/${id}`, id);
   return res;
 };
+export const activeDeactiveProductService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_PRODUCT}/${id}`, id);
+  return res;
+};
+export const activeDeactiveStageService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_STAGE}/${id}`, id);
+  return res;
+};
 
 //update --> fill input fields
 export const getByIdService = async (url: any, id: any) => {
@@ -216,5 +247,10 @@ export const getDistrictForDropdown = async () => {
 
 export const getBankForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_BANK_FOR_DROPDOWN}`);
+  return res;
+};
+
+export const getForumForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_FORUM_FOR_DROPDOWN}`);
   return res;
 };

@@ -22,6 +22,8 @@ export const ADVOCATE = "/masters/advocate";
 export const ASSOCIATE_ADVOCATE = "/masters/associate-advocate";
 export const EXECUTER = "/masters/executer";
 export const EXECUTIVE_OFFICER_DESIGNATION = "/masters/executive-officer-designation";
+export const PRODUCTS = "/masters/products";
+export const STAGE = "/masters/stage";
 
 // Add Masters
 export const ADD_DISTRICT = "/masters/add-district";

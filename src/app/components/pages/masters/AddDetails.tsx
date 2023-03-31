@@ -19,6 +19,8 @@ import {
   postForum,
   postJudgeName,
   postOurAdvocate,
+  postProduct,
+  postStage,
   postTaluka,
 } from "../../../reducers/mastersReducers/mastersAction";
 
@@ -76,6 +78,12 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
     case "executive-officer-designation":
       num = 0;
       break;
+    case "stage":
+      num = 0;
+      break;
+    case "products":
+      num = 0;
+      break;
     default:
       break;
   }
@@ -94,7 +102,6 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
     params.masters === "bank-branch" && getBankList();
     params.masters === "bank-officer" && getBankList();
   }, [params.masters, getDistrictList, getBankList]);
-
 
   const onSubmit = async (values: any, resetForm: any) => {
     await postDetails(params?.masters, values, () => {
@@ -208,7 +215,6 @@ const AddDetails: React.FC<props> = ({ postDetails, loading, branchList, distric
                         className={clsx("form-control bg-transparent form-select")}
                         onChange={(e: any) => {
                           getBranchList(e.target.value);
-               
                         }}
                       >
                         {bankList?.data?.map((list: any, i: any) => {
@@ -374,6 +380,12 @@ const mapDispatchToProps = (dispatch: any) => {
           break;
         case "executive-officer-designation":
           dispatch(postExecutingOfficerDesignation(detail, callback));
+          break;
+        case "products":
+          dispatch(postProduct(detail, callback));
+          break;
+        case "stage":
+          dispatch(postStage(detail, callback));
           break;
         default:
           break;

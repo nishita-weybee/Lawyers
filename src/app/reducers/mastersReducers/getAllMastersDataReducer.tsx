@@ -32,6 +32,12 @@ import {
   GET_ALL_OUR_ADVOCATE_FAILURE,
   GET_ALL_OUR_ADVOCATE_REQUEST,
   GET_ALL_OUR_ADVOCATE_SUCCESS,
+  GET_ALL_PRODUCT_FAILURE,
+  GET_ALL_PRODUCT_REQUEST,
+  GET_ALL_PRODUCT_SUCCESS,
+  GET_ALL_STAGE_FAILURE,
+  GET_ALL_STAGE_REQUEST,
+  GET_ALL_STAGE_SUCCESS,
   GET_ALL_TALUKA_FAILURE,
   GET_ALL_TALUKA_REQUEST,
   GET_ALL_TALUKA_SUCCESS,
@@ -376,6 +382,64 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           };
 
         case GET_ALL_EXECUTING_OFFICER_DESIGNATION_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+
+    case "products":
+      switch (action.type) {
+        case GET_ALL_PRODUCT_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_PRODUCT_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_PRODUCT_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+
+    case "stage":
+      switch (action.type) {
+        case GET_ALL_STAGE_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_STAGE_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_STAGE_FAILURE:
           return {
             ...state,
             loading: false,

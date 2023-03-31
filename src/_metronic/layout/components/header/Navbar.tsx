@@ -22,7 +22,7 @@ const Navbar: React.FC<props> = ({ getUserDetails, loading, error, userDetails }
   useEffect(() => {
     getUserDetails();
   }, [getUserDetails]);
-  console.log(userDetails);
+
   return (
     <div className="app-navbar flex-shrink-0">
       <div className={clsx("app-navbar-item", itemClass)}>

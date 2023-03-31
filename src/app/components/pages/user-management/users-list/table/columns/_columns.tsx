@@ -149,3 +149,19 @@ export const talukaColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
+
+export const judgeColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Judge" className="text-capitalize min-w-125px" />,
+    id: "Judge",
+  },
+
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
