@@ -22,3 +22,5 @@ export const PLEASE_WAIT = (
     Please wait...<span className="spinner-border spinner-border-sm align-middle ms-2"></span>
   </>
 );
+
+export const NO_RECORDS_FOUND = 'No Records Found';

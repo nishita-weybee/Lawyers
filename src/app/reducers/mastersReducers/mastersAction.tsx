@@ -879,7 +879,7 @@ export const fetchStageDropdown = () => {
   };
 };
 
-export const fetchJudgeDropdown = (id:any) => {
+export const fetchJudgeDropdown = (id: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_JUDGE_DROPDOWN_MASTERS_REQUEST));
     return getJudgeForDropdown(id).then(
@@ -893,10 +893,10 @@ export const fetchJudgeDropdown = (id:any) => {
   };
 };
 
-export const fetchBankOfficerDropdown = () => {
+export const fetchBankOfficerByBranchId = (id:any) => {
   return (dispatch: any) => {
     dispatch(request(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST));
-    return getBankOfficerForDropdown().then(
+    return getBankOfficerForDropdown(id).then(
       (result: any) => {
         dispatch(success(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
       },

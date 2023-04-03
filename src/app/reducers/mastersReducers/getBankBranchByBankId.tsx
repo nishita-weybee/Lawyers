@@ -14,7 +14,6 @@ export interface action {
 const getBankBranchByBankIdReducer = (state = initialState, action: action) => {
   switch (action.type) {
     case GET_BANK_BRANCH_BY_BANK_ID_REQUEST:
-
       return {
         loading: true,
         branchList: {},
@@ -22,7 +21,6 @@ const getBankBranchByBankIdReducer = (state = initialState, action: action) => {
       };
 
     case GET_BANK_BRANCH_BY_BANK_ID_SUCCESS:
-
       return {
         ...state,
         loading: false,
@@ -30,7 +28,6 @@ const getBankBranchByBankIdReducer = (state = initialState, action: action) => {
       };
 
     case GET_BANK_BRANCH_BY_BANK_ID_FAILURE:
- 
       return {
         ...state,
         loading: false,

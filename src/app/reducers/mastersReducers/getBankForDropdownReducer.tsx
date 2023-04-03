@@ -36,7 +36,7 @@ const getBankForDropdownReducer = (state = initialState, action: action) => {
       };
 
     default: {
-      return state;
+      return { ...state };
     }
   }
 };

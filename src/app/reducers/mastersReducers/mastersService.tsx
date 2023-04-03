@@ -263,12 +263,12 @@ export const getStageForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_STAGE_FOR_DROPDOWN}`);
   return res;
 };
-export const getJudgeForDropdown = async (id:any) => {
+export const getJudgeForDropdown = async (id: any) => {
   const res = await axiosInstance.get(`${GET_JUDGE_FOR_DROPDOWN}/${id}`);
   return res;
 };
-export const getBankOfficerForDropdown = async () => {
-  const res = await axiosInstance.get(`${GET_BANK_OFFCIER_FOR_DROPDOWN}`);
+export const getBankOfficerForDropdown = async (id: any) => {
+  const res = await axiosInstance.get(`${GET_BANK_OFFCIER_FOR_DROPDOWN}/${id}`);
   return res;
 };
 export const getProductForDropdown = async () => {
