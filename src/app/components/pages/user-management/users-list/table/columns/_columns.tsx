@@ -152,14 +152,42 @@ export const talukaColumns: ReadonlyArray<Column<User>> = [
 
 export const judgeColumns: ReadonlyArray<Column<User>> = [
   {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
+    Header: (props) => <UserCustomHeader tableProps={props} title="Judge" className="text-capitalize min-w-125px" />,
     id: "Name",
   },
   {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Judge" className="text-capitalize min-w-125px" />,
-    id: "Judge",
+    Header: (props) => <UserCustomHeader tableProps={props} title="Forum" className="text-capitalize min-w-125px" />,
+    id: "Forum",
   },
 
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+
+export const caseColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize min-w-125px" />,
+    id: "Bank",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Borrowers" className="text-capitalize min-w-125px" />,
+    id: "Borrowers",
+  },
+
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="CNR No" className="text-capitalize min-w-100px" />,
+    id: "CnrNo",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Filing Date" className="text-capitalize min-w-100px" />,
+    id: "FilingDate",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="NPA Amount" className="text-capitalize min-w-100px" />,
+    id: "NpaAmount",
+  },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
     id: "actions",

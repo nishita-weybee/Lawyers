@@ -10,7 +10,7 @@ import * as Yup from "yup";
 export interface Props {
   posting: boolean;
   postRes: any;
-  error: string;
+  // error: string;
   postUserDetails: Function;
   userDetails: any;
   getUserDetailError: any;
@@ -18,21 +18,22 @@ export interface Props {
   getUserDetails: Function;
 }
 
-const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error, getUserDetails, userDetails }) => {
+const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUserDetails, userDetails }) => {
   const initialValues = {
-    firstName: userDetails?.data?.firstName,
-    lastName: userDetails?.data?.lastName,
-    phoneNumber: userDetails?.data?.phoneNumber,
-    middleName: userDetails?.data?.middleName,
+    firstName: userDetails?.data?.firstName || "",
+    lastName: userDetails?.data?.lastName || "",
+    phoneNumber: userDetails?.data?.phoneNumber || "",
+    middleName: userDetails?.data?.middleName || "",
   };
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
     lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
-    middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
+    // middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
     phoneNumber: Yup.string()
+      .nullable()
       .required(REQUIRED)
-      .matches(/^\d{10}$/, "Wrong contact format"),
+      .matches(/^[0-9]{10}$/, "Wrong contact format"),
   });
   const navigate = useNavigate();
   useEffect(() => {
@@ -43,10 +44,12 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
     initialValues,
     enableReinitialize: true,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
+      console.log(values);
       postUserDetails(values, () => navigate(PROFILE));
     },
   });
+  console.log(formik.values);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -72,7 +75,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                       />
                       {formik.touched.firstName && formik.errors.firstName && (
                         <div className="fv-plugins-message-container">
-                          <div className="fv-help-block">{formik.errors.firstName}</div>
+                          <div className="fv-help-block">{`${formik.errors.firstName}`}</div>
                         </div>
                       )}
                     </div>
@@ -86,7 +89,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                       />
                       {formik.touched.lastName && formik.errors.lastName && (
                         <div className="fv-plugins-message-container">
-                          <div className="fv-help-block">{formik.errors.lastName}</div>
+                          <div className="fv-help-block">{`${formik.errors.lastName}`}</div>
                         </div>
                       )}
                     </div>
@@ -121,7 +124,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, error
                   />
                   {formik.touched.phoneNumber && formik.errors.phoneNumber && (
                     <div className="fv-plugins-message-container">
-                      <div className="fv-help-block">{formik.errors.phoneNumber}</div>
+                      <div className="fv-help-block">{`${formik.errors.phoneNumber}`}</div>
                     </div>
                   )}
                 </div>

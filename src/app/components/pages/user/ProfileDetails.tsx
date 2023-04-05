@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchUserDetails } from "../../../reducers/userReducers/userAction";
 import { useNavigate } from "react-router-dom";
 import { EDIT_PROFILE } from "../../../helpers/routesConstant";
 
@@ -8,14 +7,17 @@ export interface props {
   loading: boolean;
   userDetails: any;
   error: string;
-  getUserDetails: any;
+  // getUserDetails: any;
 }
 
-const ProfileDetails: React.FC<props> = ({ getUserDetails, loading, error, userDetails }) => {
+const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
   const navigate = useNavigate();
   useEffect(() => {
-    getUserDetails();
-  }, [getUserDetails]);
+    // getUserDetails();
+  }, []);
+
+  console.log(userDetails);
+
   return (
     <div className="card mb-5 mb-xl-10">
       <div
@@ -77,6 +79,8 @@ const ProfileDetails: React.FC<props> = ({ getUserDetails, loading, error, userD
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
+
   return {
     loading: state.userDetailsReducer.loading,
     error: state.userDetailsReducer.error,
@@ -86,7 +90,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getUserDetails: () => dispatch(fetchUserDetails()),
+    // getUserDetails: () => dispatch(fetchUserDetails()),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

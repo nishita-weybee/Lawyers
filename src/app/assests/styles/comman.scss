@@ -5,3 +5,15 @@
   background-color: var(--kt-primary-light);
   color: black;
 }
+
+.toast-message {
+  .Toastify__toast-body {
+    .Toastify__toast-icon {
+      // color: #50cd89 !important;
+    }
+  }
+
+  .Toastify__progress-bar--error {
+    // background: #50cd89 !important;
+  }
+}

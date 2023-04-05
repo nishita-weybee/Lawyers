@@ -112,3 +112,10 @@ export const GET_STAGE_FOR_DROPDOWN = "/Stage/GetStagesForDropdown";
 export const GET_JUDGE_FOR_DROPDOWN = "/JudgeName/GetAllJudgeNameByForumId";
 export const GET_BANK_OFFCIER_FOR_DROPDOWN = "BankOfficer/GetBankOfficerByBankBranchId";
 export const GET_PRODUCT_FOR_DROPDOWN = "/Product/GetProductsForDropdown";
+
+// Case
+export const ADD_CASE = "/Case/AddCase";
+export const GET_ALL_CASE = "/Case/GetAllCase";
+export const GET_CASE_BY_ID = "Case/GetCaseById";
+export const EDIT_CASE = "Case/EditCase";
+export const ACIVATE_DEACTIVE_CASE = "Case/ActiveDeactivateCase";

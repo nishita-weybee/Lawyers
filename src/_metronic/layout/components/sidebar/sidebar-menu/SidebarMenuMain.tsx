@@ -1,5 +1,6 @@
 import hasPermission, { actionsRole } from "../../../../../app/components/auth/core/hasPermissions";
 import {
+  ADD_CASE,
   ADVOCATE,
   ASSOCIATE_ADVOCATE,
   BANK,
@@ -15,6 +16,7 @@ import {
   PRODUCTS,
   STAGE,
   TALUKA,
+  VIEW_CASE,
   VIEW_USER,
 } from "../../../../../app/helpers/routesConstant";
 import { SidebarMenuItem } from "./SidebarMenuItem";
@@ -58,7 +60,10 @@ const SidebarMenuMain = () => {
       )}
 
       <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/abstract/abs027.svg"} title="Case" fontIcon="bi-app-indicator">
-        <SidebarMenuItem to={`case/add-case`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
+        <SidebarMenuItem to={`${ADD_CASE}`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
+        <SidebarMenuItem to={`${VIEW_CASE}`} title={"View Cases"} fontIcon="bi-layers" hasBullet={true} />
+        
+        
       </SidebarMenuItemWithSub>
 
       {/* for employee

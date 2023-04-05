@@ -353,7 +353,7 @@ export const postDistrict = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -369,7 +369,7 @@ export const postTaluka = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -385,7 +385,7 @@ export const postForum = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -401,7 +401,7 @@ export const postJudgeName = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -417,7 +417,7 @@ export const postBank = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -433,7 +433,7 @@ export const postDepartment = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -449,7 +449,7 @@ export const postBankBranch = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -465,7 +465,7 @@ export const postBankOfficer = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -481,7 +481,7 @@ export const postOurAdvocate = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -497,7 +497,7 @@ export const postAssociateAdvocate = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -513,7 +513,7 @@ export const postExecuterName = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -529,7 +529,7 @@ export const postExecutingOfficerDesignation = (detail: any, callback: Function)
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -545,7 +545,7 @@ export const postStage = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -561,7 +561,7 @@ export const postProduct = (detail: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -816,8 +816,10 @@ export const updateMasters = (url: any, masters: any, values: any, callback: Fun
         callback();
       },
       (error: any) => {
-        dispatch(failure(UPDATE_MASTERS_FAILURE, error.message));
-        showToastMessageFailure();
+        console.log(error.response.data.error.errorMessage, 'pp');
+
+        dispatch(failure(UPDATE_MASTERS_FAILURE, error.response.data.error.errorMessage));
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };
@@ -893,7 +895,7 @@ export const fetchJudgeDropdown = (id: any) => {
   };
 };
 
-export const fetchBankOfficerByBranchId = (id:any) => {
+export const fetchBankOfficerByBranchId = (id: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST));
     return getBankOfficerForDropdown(id).then(

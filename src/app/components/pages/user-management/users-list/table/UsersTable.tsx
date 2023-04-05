@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ColumnInstance, useTable } from "react-table";
 import { useQueryResponseData } from "../core/QueryResponseProvider";
-import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { KTCardBody, KTSVG } from "../../../../../../_metronic/helpers";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { User } from "../core/_models";
 import { connect } from "react-redux";
@@ -12,6 +12,7 @@ import {
   associateAdvocateColumns,
   bankBranchColumns,
   bankOfficerColumns,
+  caseColumns,
   commonColumns,
   executiveColumns,
   judgeColumns,
@@ -48,6 +49,9 @@ import {
   activeDeactiveProducts,
   activeDeactiveStage,
 } from "../../../../../reducers/mastersReducers/mastersAction";
+import { activeDeactiveCase, getAllCase } from "../../../../../reducers/caseReducers/caseAction";
+import { EDIT_CASE } from "../../../../../helpers/routesConstant";
+import { convert } from "../../../../../helpers/helperFunction";
 
 export interface Props {
   userList?: any;
@@ -62,7 +66,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
   const users = useQueryResponseData();
   const data = useMemo(() => users, [users]);
   const columns = useMemo(() => {
-    switch (params.masters) {
+    switch (params.masters || params["*"]) {
       case "district":
         return commonColumns;
       case "taluka":
@@ -91,6 +95,8 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
         return commonColumns;
       case "stage":
         return commonColumns;
+      case "case/view-cases":
+        return caseColumns;
       default:
         return usersColumns;
     }
@@ -100,15 +106,14 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
     data,
   });
   const color = ["primary", "danger", "success", "warning", "info"];
-  const [activeBtn, setActiveBtn] = useState(false);
 
   const activateDeactivateUser = (id: any, status: any) => {
-    setActiveBtn(!activeBtn);
-    accountStatus(params.masters, id, status, () => {
-      getUserList(params.masters, location.search);
+    accountStatus(params.masters || params["*"], id, status, () => {
+      getUserList(params.masters || params["*"], location.search);
     });
   };
-
+  console.log(userList);
+  console.log(location.pathname);
 
   return (
     <KTCardBody className="py-4">
@@ -133,7 +138,11 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             <div className="d-flex align-items-center">
                               <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                 <div className="symbol-label">
-                                  <span className={`symbol-label bg-light-primary text-primary fw-bold fs-4`}>
+                                  <span
+                                    className={`symbol-label bg-light-${color[i > 4 ? userList.length - 1 - i : i]} text-${
+                                      color[i > 4 ? userList.length - 1 - i : i]
+                                    } fw-bold fs-4`}
+                                  >
                                     {userDetail?.firstName.charAt(0).toUpperCase()}
                                     {/* {userDetail.lastName.charAt(0).toUpperCase()} */}
                                   </span>
@@ -156,9 +165,11 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         </>
                       ) : (
                         <>
-                          <td role="cell" className="">
-                            {userDetail.name}
-                          </td>
+                          {params.masters && (
+                            <td role="cell" className="">
+                              {userDetail.name}
+                            </td>
+                          )}
 
                           {params.masters === "taluka" && (
                             <td role="cell" className="">
@@ -232,15 +243,46 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         </>
                       )}
 
-                      <td role="cell" className="text-end min-w-100px">
+                      {location.pathname === "/case/view-cases" && (
+                        <>
+                          <td role="cell" className="">
+                            {userDetail.bank}
+                          </td>
+
+                          <td role="cell" className="">
+                            {userDetail.borrowers.map((x: any) => (
+                              <div className="d-flex align-items-center">
+                                <span className="bullet bg-primary me-3"></span> {x.name}
+                              </div>
+                            ))}
+                          </td>
+
+                          <td role="cell" className="">
+                            {userDetail.cnrNo}
+                          </td>
+
+                          <td role="cell" className="">
+                            {convert(userDetail.filingDate)}
+                          </td>
+
+                          <td role="cell" className="">
+                            {userDetail.npaAmount}
+                          </td>
+                        </>
+                      )}
+
+                      <td role="cell" className="text-end min-w-100px AAA">
                         {location.pathname !== "/view-user" && (
                           <span
                             className="btn btn-sm btn-icon btn-light-primary me-4"
-                            onClick={() => navigate(`/masters/edit-${params.masters}/${userDetail.id}`)}
+                            onClick={() =>
+                              navigate(params.masters ? `/masters/edit-${params.masters}/${userDetail.id}` : `${EDIT_CASE}/${userDetail.id}`)
+                            }
                           >
-                            <span className="svg-icon svg-icon-2">
+                            {/* <span className="svg-icon svg-icon-2">
                               <i className="fa-solid fa-pen-to-square"></i>
-                            </span>
+                            </span> */}
+                            <KTSVG path="/media/icons/duotune/art/art005.svg" className="svg-icon-3" />
                           </span>
                         )}
 
@@ -276,6 +318,7 @@ const mapStateToProps = (state: any) => {
     loading: state.activateDeactivateUserReducer.loading,
     error: state.activateDeactivateUserReducer.error,
     res: state.activateDeactivateUserReducer,
+    cases: state.getAllCaseReducer.case,
   };
 };
 
@@ -324,6 +367,9 @@ const mapDispatchToProps = (dispatch: any) => {
           break;
         case "stage":
           dispatch(activeDeactiveStage(id, `Stage ${status}`, callback));
+          break;
+        case "case/view-cases":
+          dispatch(activeDeactiveCase(id, `Case ${status}`, callback));
           break;
         default:
           dispatch(activateDeactivateUser(id, `User ${status}`, callback));
@@ -374,6 +420,10 @@ const mapDispatchToProps = (dispatch: any) => {
         case "stage":
           dispatch(fetchAllStage(masters, location));
           break;
+        case "case/view-cases":
+          dispatch(getAllCase(location));
+          break;
+
         default:
           dispatch(fetchUserList(location));
           break;

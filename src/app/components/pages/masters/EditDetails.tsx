@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Field, Form, Formik } from "formik";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import {
   GET_ASSOCIATE_ADVOCATE_BY_ID,
@@ -110,8 +110,8 @@ const EditDetails: React.FC<props> = ({
 }) => {
   const params = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const loading = location.pathname.includes("edit") ? loadingPut : loadingPost;
+  // const location = useLocation();
+  const loading = params.id ? loadingPut : loadingPost;
 
   let num = 0;
   let validateFun = Yup.object().shape({
@@ -230,16 +230,16 @@ const EditDetails: React.FC<props> = ({
   const initialValuesArr = [
     { name: "" },
     { name: "", mobile: "", email: "", postalAddress: "" },
-    { name: "", bankId: "select" },
-    { name: "", mobile: "", email: "", bankBranchId: "select", bankId: "select" },
+    { name: "", bankId: "" },
+    { name: "", mobile: "", email: "", bankBranchId: "", bankId: "" },
     { name: "", mobile: "" },
     { name: "", mobile: "", email: "" },
-    { name: "", districtId: "select" },
-    { name: "", forumId: "select" },
+    { name: "", districtId: "" },
+    { name: "", forumId: "" },
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
-    if (location.pathname.includes("edit")) {
+    if (params.id) {
       switch (params.masters) {
         case "district":
           updateMastersField(UPDATE_DISTRICT_BY_ID, params.masters, values, () => {
@@ -324,7 +324,7 @@ const EditDetails: React.FC<props> = ({
   };
 
   useEffect(() => {
-    if (location.pathname.includes("edit")) {
+    if (params.id) {
       switch (params.masters) {
         case "district":
           getByIdFields(GET_DISTRICT_BY_ID, params.id);
@@ -379,23 +379,23 @@ const EditDetails: React.FC<props> = ({
   }, []);
 
   useEffect(() => {
-    if (params.id && params.masters === "bank-officer" && details?.data) {
+    if (params.id && params.masters === "bank-officer" && details.data) {
       getBranchList(details?.data?.bankId);
     }
-  }, [details?.data]);
+  }, [details?.data, params.id, params.masters, getBranchList]);
 
   return (
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
           <h3 className="fw-bolder m-0 text-capitalize">
-            {`${location.pathname.includes("add") ? "Add" : "Update"}`} {params.masters?.replace(/-/g, " ")}
+            {`${params.id ? "Update " : "Add"}`} {params.masters?.replace(/-/g, " ")}
           </h3>
         </div>
       </div>
 
       <Formik
-        initialValues={location.pathname.includes("edit") ? details?.data : initialValuesArr[num]}
+        initialValues={params.id ? details?.data : initialValuesArr[num]}
         onSubmit={(values: any, { resetForm }) => onSubmit(values, resetForm)}
         enableReinitialize={true}
         validationSchema={validateFun}
@@ -423,7 +423,7 @@ const EditDetails: React.FC<props> = ({
                   {touched.name && errors.name && (
                     <div className="fv-plugins-message-container">
                       <div className="fv-help-block">
-                        <span role="alert">{errors.name}</span>
+                        <span role="alert">{`${errors.name}`}</span>
                       </div>
                     </div>
                   )}
@@ -447,19 +447,19 @@ const EditDetails: React.FC<props> = ({
                       )}
                       onChange={(e: any) => setFieldValue("districtId", e.target.value)}
                     >
-                      <option value="select" disabled>
+                      <option value="" disabled>
                         Select District
                       </option>
                       {!districtList?.data && "Loading..."}
                       {districtList?.data?.map((list: any, i: any) => {
                         return (
                           <>
-                            {location.pathname.includes("add") && list.isActive === true && (
+                            {!params.id && list.isActive === true && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
                             )}
-                            {location.pathname.includes("edit") && (
+                            {params.id && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
@@ -471,7 +471,7 @@ const EditDetails: React.FC<props> = ({
                     {touched.districtId && errors.districtId && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
-                          <span role="alert">{errors.name}</span>
+                          <span role="alert">{`${errors.name}`}</span>
                         </div>
                       </div>
                     )}
@@ -480,7 +480,7 @@ const EditDetails: React.FC<props> = ({
               )}
               {params.masters === "judge" && (
                 <div className="row mb-6">
-                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Judge</label>
+                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Forum</label>
                   <div className="col-lg-8">
                     <Field
                       as="select"
@@ -496,7 +496,7 @@ const EditDetails: React.FC<props> = ({
                       )}
                       onChange={(e: any) => setFieldValue("forumId", e.target.value)}
                     >
-                      <option value="select" disabled>
+                      <option value="" disabled>
                         Select Forum
                       </option>
 
@@ -504,12 +504,12 @@ const EditDetails: React.FC<props> = ({
                       {forumList?.data?.map((list: any, i: any) => {
                         return (
                           <>
-                            {location.pathname.includes("add") && list.isActive === true && (
+                            {!params.id && list.isActive === true && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
                             )}
-                            {location.pathname.includes("edit") && (
+                            {params.id && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
@@ -521,7 +521,7 @@ const EditDetails: React.FC<props> = ({
                     {touched.forumId && errors.forumId && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
-                          <span role="alert">{errors.name}</span>
+                          <span role="alert">{`${errors.name}`}</span>
                         </div>
                       </div>
                     )}
@@ -546,19 +546,19 @@ const EditDetails: React.FC<props> = ({
                       )}
                       onChange={(e: any) => setFieldValue("bankId", e.target.value)}
                     >
-                      <option value="select" disabled>
+                      <option value="" disabled>
                         Select Bank
                       </option>
                       {!bankList?.data && "Loading..."}
                       {bankList?.data?.map((list: any, i: any) => {
                         return (
                           <>
-                            {location.pathname.includes("add") && list.isActive === true && (
+                            {!params.id && list.isActive === true && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
                             )}
-                            {location.pathname.includes("edit") && (
+                            {params.id && (
                               <option key={i} value={list.id}>
                                 {list.name}
                               </option>
@@ -570,7 +570,7 @@ const EditDetails: React.FC<props> = ({
                     {touched.bankId && errors.bankId && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
-                          <span role="alert">{errors.name}</span>
+                          <span role="alert">{`${errors.name}`}</span>
                         </div>
                       </div>
                     )}
@@ -600,7 +600,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.mobile && errors.mobile && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.mobile}</span>
+                            <span role="alert">{`${errors.mobile}`}</span>
                           </div>
                         </div>
                       )}
@@ -627,7 +627,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.email && errors.email && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.email}</span>
+                            <span role="alert">{`${errors.email}`}</span>
                           </div>
                         </div>
                       )}
@@ -654,21 +654,22 @@ const EditDetails: React.FC<props> = ({
                         onChange={(e: any) => {
                           getBranchList(e.target.value);
                           setFieldValue("bankId", e.target.value);
+                          setFieldValue("bankBranchId", "");
                         }}
                       >
-                        <option value="select" disabled>
+                        <option value="" disabled>
                           Select Bank
                         </option>
                         {!bankList?.data && "Loading..."}
                         {bankList?.data?.map((list: any, i: any) => {
                           return (
                             <>
-                              {location.pathname.includes("add") && list.isActive === true && (
+                              {!params.id && list.isActive === true && (
                                 <option key={i} value={list.id}>
                                   {list.name}
                                 </option>
                               )}
-                              {location.pathname.includes("edit") && (
+                              {params.id && (
                                 <option key={i} value={list.id}>
                                   {list.name}
                                 </option>
@@ -681,7 +682,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.bankId && errors.bankId && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.bankId}</span>
+                            <span role="alert">{`${errors.bankId}`}</span>
                           </div>
                         </div>
                       )}
@@ -711,7 +712,7 @@ const EditDetails: React.FC<props> = ({
                             setFieldValue("bankBranchId", e.target.value);
                           }}
                         >
-                          <option value="select" disabled>
+                          <option value="" disabled>
                             Select Bank Branch
                           </option>
                           <>
@@ -720,12 +721,12 @@ const EditDetails: React.FC<props> = ({
                             {branchList?.data?.map((list: any, i: any) => {
                               return (
                                 <>
-                                  {location.pathname.includes("add") && list.isActive === true && (
+                                  {!params.id && list.isActive === true && (
                                     <option key={i} value={list.id}>
                                       {list.name}
                                     </option>
                                   )}
-                                  {location.pathname.includes("edit") && (
+                                  {params.id && (
                                     <option key={i} value={list.id}>
                                       {list.name}
                                     </option>
@@ -738,7 +739,7 @@ const EditDetails: React.FC<props> = ({
                         {touched.bankBranchId && errors.bankBranchId && (
                           <div className="fv-plugins-message-container">
                             <div className="fv-help-block">
-                              <span role="alert">{errors.bankBranchId}</span>
+                              <span role="alert">{`${errors.bankBranchId}`}</span>
                             </div>
                           </div>
                         )}
@@ -770,7 +771,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.mobile && errors.mobile && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.mobile}</span>
+                            <span role="alert">{`${errors.mobile}`}</span>
                           </div>
                         </div>
                       )}
@@ -797,7 +798,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.email && errors.email && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.email}</span>
+                            <span role="alert">{`${errors.email}`}</span>
                           </div>
                         </div>
                       )}
@@ -828,7 +829,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.mobile && errors.mobile && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.mobile}</span>
+                            <span role="alert">{`${errors.mobile}`}</span>
                           </div>
                         </div>
                       )}
@@ -855,7 +856,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.email && errors.email && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.email}</span>
+                            <span role="alert">{`${errors.email}`}</span>
                           </div>
                         </div>
                       )}
@@ -882,7 +883,7 @@ const EditDetails: React.FC<props> = ({
                       {touched.postalAddress && errors.postalAddress && (
                         <div className="fv-plugins-message-container">
                           <div className="fv-help-block">
-                            <span role="alert">{errors.postalAddress}</span>
+                            <span role="alert">{`${errors.postalAddress}`}</span>
                           </div>
                         </div>
                       )}
@@ -912,7 +913,7 @@ const EditDetails: React.FC<props> = ({
                     {touched.mobile && errors.mobile && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
-                          <span role="alert">{errors.mobile}</span>
+                          <span role="alert">{`${errors.mobile}`}</span>
                         </div>
                       </div>
                     )}

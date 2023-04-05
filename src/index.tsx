@@ -44,7 +44,7 @@ if (container) {
         <Provider store={store}>
           <AuthProvider>
             <AppRoutes />
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            <ToastContainer position="top-right" autoClose={10000} hideProgressBar={false} />
           </AuthProvider>
         </Provider>
       </MetronicI18nProvider>

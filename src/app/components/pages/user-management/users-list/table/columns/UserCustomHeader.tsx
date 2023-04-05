@@ -17,7 +17,7 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
   const params = useParams();
 
   const sortColumn = async () => {
-    if (id !== "NULL" && id !== "actions" && id !== "contact" && id !== "Mobile" && id !== "Address") {
+    if (id !== "NULL" && id !== "actions" && id !== "contact" && id !== "Mobile" && id !== "Address" && id!== 'Borrowers') {
       let orderby = searchParam.get("OrderBy") == null ? "asc" : searchParam.get("OrderBy") === "asc" ? "desc" : "asc";
       setSearchParam({
         ...searchObj,
@@ -27,7 +27,6 @@ const UserCustomHeader: FC<Props> = ({ className, title, tableProps }) => {
       });
     }
   };
-
 
   return (
     <th
