@@ -38,7 +38,7 @@ const HeaderUserMenu: React.FC<props> = ({ userDetails }) => {
 
       <div className="menu-item px-5">
         <Link to={PROFILE} className="menu-link px-5">
-          My Profile
+          Profile
         </Link>
       </div>
 
