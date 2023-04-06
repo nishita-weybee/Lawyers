@@ -17,3 +17,16 @@
     // background: #50cd89 !important;
   }
 }
+
+.search-bar {
+  width: 250px;
+  @media screen and #{$break-xs} {
+    width: 180px;
+  }
+}
+
+.app-header {
+  @media screen and #{$break-md-close} {
+    background-color: white !important;
+  }
+}

@@ -40,7 +40,7 @@ const ChangePassword: React.FC<props> = ({ postChangePassDetails, res, error, lo
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
         <div className="card-title m-0">
-          <h3 className="fw-bolder m-0">Change Password</h3>
+          <h3 className="fw-bolder m-0">Update Password</h3>
         </div>
       </div>
 

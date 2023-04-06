@@ -43,8 +43,10 @@ const UsersListSearchComponent = () => {
         <input
           type="text"
           data-kt-user-table-filter="search"
-          className="form-control form-control-solid w-250px ps-14"
-          placeholder={location.pathname === "/view-user" ? "Search User" : `Search ${capitalizeFirstLetter(params?.masters?.replace(/-/g, " ")) || 'Case'}`}
+          className="form-control form-control-solid search-bar ps-14"
+          placeholder={
+            location.pathname === "/view-user" ? "Search User" : `Search ${capitalizeFirstLetter(params?.masters?.replace(/-/g, " ")) || "Case"}`
+          }
           value={searchParams.get("Search") || ""}
           onChange={handleSearch}
         />
