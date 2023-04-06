@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PROFILE } from "../../../helpers/routesConstant";
 import { useEffect } from "react";
 import * as Yup from "yup";
+import Loader from "../../common/loader/Loader";
 
 export interface Props {
   posting: boolean;
@@ -18,7 +19,7 @@ export interface Props {
   getUserDetails: Function;
 }
 
-const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUserDetails, userDetails }) => {
+const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUserDetails, userDetails, loading }) => {
   const initialValues = {
     firstName: userDetails?.data?.firstName || "",
     lastName: userDetails?.data?.lastName || "",
@@ -49,7 +50,6 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
       postUserDetails(values, () => navigate(PROFILE));
     },
   });
-  console.log(formik.values);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -58,6 +58,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
           <h3 className="fw-bolder m-0">Profile Details</h3>
         </div>
       </div>
+      {loading && <Loader />}
       {userDetails.data && (
         <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
           <div className="card-body border-top p-9">
