@@ -6,7 +6,7 @@ export const FORGOT_PASSWORD = "forgot-password";
 // Users
 export const DASHBOARD = "/dashboard";
 export const ADD_USER = "/add-user";
-export const VIEW_USER = "/view-user";
+export const VIEW_USER = "/user/view-user";
 
 // Masters
 export const MASTERS = "/masters";

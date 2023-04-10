@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { useAuth } from "../core/Auth";
 import { login } from "../../../reducers/authReducers/authAction";
 import { DASHBOARD } from "../../../helpers/routesConstant";
-import InputPass from "../../common/inputPass.tsx/inputPass";
+import InputPass from "../../common/inputPass/inputPass";
 import { CONTINUE, PLEASE_WAIT, REQUIRED } from "../../../helpers/globalConstant";
 
 export interface props {

@@ -46,7 +46,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+    
       postUserDetails(values, () => navigate(PROFILE));
     },
   });

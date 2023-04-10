@@ -16,7 +16,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
     // getUserDetails();
   }, []);
 
-  console.log(userDetails);
+
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -79,8 +79,6 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
-
   return {
     loading: state.userDetailsReducer.loading,
     error: state.userDetailsReducer.error,

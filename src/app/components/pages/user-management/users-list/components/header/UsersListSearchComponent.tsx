@@ -4,6 +4,7 @@ import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { initialQueryState, KTSVG, useDebounce } from "../../../../../../../_metronic/helpers";
 import { capitalizeFirstLetter } from "../../../../../../helpers/helperFunction";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
+import { VIEW_USER } from "../../../../../../helpers/routesConstant";
 
 const UsersListSearchComponent = () => {
   const { updateState } = useQueryRequest();
@@ -34,7 +35,7 @@ const UsersListSearchComponent = () => {
     });
   };
 
-  // console.log(params, location);
+
 
   return (
     <div className="card-title">
@@ -45,7 +46,7 @@ const UsersListSearchComponent = () => {
           data-kt-user-table-filter="search"
           className="form-control form-control-solid search-bar ps-14"
           placeholder={
-            location.pathname === "/view-user" ? "Search User" : `Search ${capitalizeFirstLetter(params?.masters?.replace(/-/g, " ")) || "Case"}`
+            location.pathname === VIEW_USER ? "Search User" : `Search ${capitalizeFirstLetter(params?.masters?.replace(/-/g, " ")) || "Case"}`
           }
           value={searchParams.get("Search") || ""}
           onChange={handleSearch}

@@ -161,7 +161,7 @@ const AddCase: React.FC<props> = ({
       enableReinitialize={true}
     >
       {({ setFieldValue, isSubmitting, resetForm, values, touched, errors }) => (
-        // console.log(values, "values"),
+      
         (
           <Form className="form">
             <div className="accordion " id="kt_accordion_1">
@@ -689,7 +689,7 @@ const AddCase: React.FC<props> = ({
                             )}
 
                             {bankOfficerList?.data &&
-                              (console.log(values.caseBankOfficers, 'aa'),
+                              (
                               (
                                 <div className="row mb-6">
                                   <label htmlFor={`caseBankOfficers.${0}.bankOfficerId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
@@ -700,7 +700,7 @@ const AddCase: React.FC<props> = ({
                                     <Multiselect
                                       options={bankOfficerList?.data}
                                       onSelect={(selectedList: any) => {
-                                        console.log(selectedList);
+                                        
 
                                         setFieldValue(
                                           `caseBankOfficers`,
@@ -710,7 +710,7 @@ const AddCase: React.FC<props> = ({
                                         );
                                       }}
                                       onRemove={(selectedList: any) => {
-                                        console.log(selectedList);
+                                    
                                         setFieldValue(
                                           `caseBankOfficers`,
                                           selectedList.map((x: any, i: any) => {

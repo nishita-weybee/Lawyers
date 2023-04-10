@@ -5,9 +5,9 @@ import clsx from "clsx";
 import { DISCARD, PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
 import { fetchUserRoles } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
-import InputPass from "../../common/inputPass.tsx/inputPass";
+import InputPass from "../../common/inputPass/inputPass";
 import { registerUser } from "../../../reducers/authReducers/authAction";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { VIEW_USER } from "../../../helpers/routesConstant";
 
 export interface Props {
@@ -191,7 +191,7 @@ const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error
                 })}
               </select>
             </div>
-          </div> 
+          </div>
         </div>
         <div className="card-footer d-flex justify-content-end py-6 px-9">
           <button type="button" className="btn btn-light btn-active-light-primary me-4" onClick={() => navigate(`${VIEW_USER}`)}>

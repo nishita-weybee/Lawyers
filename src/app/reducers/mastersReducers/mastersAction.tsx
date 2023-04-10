@@ -816,7 +816,7 @@ export const updateMasters = (url: any, masters: any, values: any, callback: Fun
         callback();
       },
       (error: any) => {
-        console.log(error.response.data.error.errorMessage, 'pp');
+
 
         dispatch(failure(UPDATE_MASTERS_FAILURE, error.response.data.error.errorMessage));
         showToastMessageFailure(error.response.data.error.errorMessage);

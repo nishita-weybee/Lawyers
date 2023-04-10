@@ -71,8 +71,6 @@ export const fetchUserDetails = () => {
 };
 
 export const postUserDetails = (profileDetails: any, callback: Function) => {
-  console.log('edit');
-  
   return (dispatch: any) => {
     dispatch(request(EDIT_USER_DETAILS_REQUEST));
     return editUserDetails(profileDetails).then(

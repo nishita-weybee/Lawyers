@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import { PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
-import InputPass from "../../common/inputPass.tsx/inputPass";
+import InputPass from "../../common/inputPass/inputPass";
 import { connect } from "react-redux";
 import { resetPassword } from "../../../reducers/authReducers/authAction";
 

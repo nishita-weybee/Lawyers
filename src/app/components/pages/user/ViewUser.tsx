@@ -6,6 +6,7 @@ import { UsersListHeader } from "../user-management/users-list/components/header
 import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { useLocation } from "react-router-dom";
 import { ADD_USER } from "../../../helpers/routesConstant";
+import Title from "../../common/Breadcrumbs/Title";
 
 export interface Props {
   error: string;
@@ -21,9 +22,9 @@ const ViewUser: React.FC<Props> = ({ getUserList, loadingList, userList, error }
     getUserList(location.search);
   }, [getUserList, location.search]);
 
-
   return (
     <>
+      <Title title={'User'} />
       <KTCard>
         <UsersListHeader path={ADD_USER} />
         {userList && <PaginatedItems itemsPerPage={10} userList={userList} />}
@@ -37,7 +38,7 @@ const mapStateToProps = (state: any) => {
     loadingList: state.userListReducer.loading,
     error: state.userListReducer.error,
     userList: state.userListReducer.userList?.data,
-  };  
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

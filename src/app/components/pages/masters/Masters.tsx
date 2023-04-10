@@ -21,6 +21,9 @@ import {
 import { fetchUserList } from "../../../reducers/userReducers/userAction";
 import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
+import { PageLink } from "../../../../_metronic/layout/core";
+import Title from "../../common/Breadcrumbs/Title";
+import Loader from "../../common/loader/Loader";
 
 export interface props {
   getDetails: Function;
@@ -37,11 +40,28 @@ const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
     getDetails(params.masters, location.search);
   }, [getDetails, params.masters, location.search]);
 
+  const usersBreadcrumbs: Array<PageLink> = [
+    {
+      title: "District",
+      path: "/masters/district",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
 
   return (
     <>
+      <Title title={params.masters} />
       <KTCard>
         <UsersListHeader path={`/masters/add-${params.masters}`} />
+        {!details?.data && <Loader />}
         <PaginatedItems itemsPerPage={10} userList={details?.data} />
       </KTCard>
     </>

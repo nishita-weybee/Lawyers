@@ -50,7 +50,7 @@ import {
   activeDeactiveStage,
 } from "../../../../../reducers/mastersReducers/mastersAction";
 import { activeDeactiveCase, getAllCase } from "../../../../../reducers/caseReducers/caseAction";
-import { EDIT_CASE } from "../../../../../helpers/routesConstant";
+import { EDIT_CASE, VIEW_USER } from "../../../../../helpers/routesConstant";
 import { convert } from "../../../../../helpers/helperFunction";
 
 export interface Props {
@@ -112,8 +112,6 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters || params["*"], location.search);
     });
   };
-  console.log(userList);
-  console.log(location.pathname);
 
   return (
     <KTCardBody className="py-4">
@@ -129,10 +127,10 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
           <tbody className="text-gray-600 fw-bold" {...getTableBodyProps()}>
             {userList.length ? (
               <>
-                {userList.map((userDetail: any, i: any) => {
+                {userList?.map((userDetail: any, i: any) => {
                   return (
                     <tr role="row" key={i}>
-                      {location.pathname === "/view-user" ? (
+                      {location.pathname === VIEW_USER ? (
                         <>
                           <td role="cell" className="">
                             <div className="d-flex align-items-center">
@@ -272,7 +270,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                       )}
 
                       <td role="cell" className="text-end min-w-100px AAA">
-                        {location.pathname !== "/view-user" && (
+                        {location.pathname !== VIEW_USER && (
                           <span
                             className="btn btn-sm btn-icon btn-light-primary me-4"
                             onClick={() =>
@@ -302,7 +300,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
             ) : (
               <tr>
                 <td colSpan={7}>
-                  <div className="d-flex text-center w-100 align-content-center justify-content-center">No matching records found</div>
+                  <div className="d-flex text-center w-100 align-content-center justify-content-center">No Records Found</div>
                 </td>
               </tr>
             )}
