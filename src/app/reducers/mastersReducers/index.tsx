@@ -10,6 +10,11 @@ import { getJudgeForDropdownReducer } from "./getJudgeForDropdown";
 import { getStageForDropdownReducer } from "./getStageForDropdown";
 import { getBankOfficerForDropdownReducer } from "./getBankOfficerForDropdown";
 import { getProductForDropdownReducer } from "./getProductForDropdown";
+import { activeDeactiveReducer } from "./activeDeactiveReducer";
+import { getDesignationForDropdownReducer } from "./getDesingationForDropdown";
+import { getTalukaByDistrictIdReducer } from "./getTalukaByDistrictIdReducer";
+import { getCaseCatForDropdownReducer } from "./getCaseCatForDropdown";
+import { getExeOffDesignationDropdownReducer } from "./getExeOffDesignationReducer";
 
 export default {
   getAllMastersDataReducer,
@@ -24,4 +29,9 @@ export default {
   getStageForDropdownReducer,
   getBankOfficerForDropdownReducer,
   getProductForDropdownReducer,
+  activeDeactiveReducer,
+  getDesignationForDropdownReducer,
+  getTalukaByDistrictIdReducer,
+  getCaseCatForDropdownReducer,
+  getExeOffDesignationDropdownReducer,
 };

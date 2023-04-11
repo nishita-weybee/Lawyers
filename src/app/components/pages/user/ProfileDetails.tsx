@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EDIT_PROFILE } from "../../../helpers/routesConstant";
+import Loader from "../../common/loader/Loader";
 
 export interface props {
   loading: boolean;
@@ -15,7 +16,6 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
   useEffect(() => {
     // getUserDetails();
   }, []);
-
 
 
   return (
@@ -45,6 +45,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
       <div id="kt_account_profile_details" className="collapse show">
         <form noValidate className="form">
           <div className="card-body border-top p-9">
+            {loading && <Loader />}
             {userDetails.data && (
               <>
                 <div className="row mb-7">

@@ -7,12 +7,17 @@ import {
   fetchAllBank,
   fetchAllBankBranch,
   fetchAllBankOfficer,
+  fetchAllCaseCategory,
+  fetchAllCaseType,
   fetchAllDepartment,
+  fetchAllDesignation,
+  fetchAllDisposal,
   fetchAllDistrict,
   fetchAllExecuterName,
   fetchAllExecutingOfficerDesignation,
   fetchAllForum,
   fetchAllJudgeName,
+  fetchAllOppositeAdvocate,
   fetchAllOurAdvocate,
   fetchAllProduct,
   fetchAllStage,
@@ -24,6 +29,28 @@ import { UsersListHeader } from "../user-management/users-list/components/header
 import { PageLink } from "../../../../_metronic/layout/core";
 import Title from "../../common/Breadcrumbs/Title";
 import Loader from "../../common/loader/Loader";
+
+import {
+  BANK_OFFICER_CONST,
+  CASE_CATEGORY_CONST,
+  CASE_TYPE_CONST,
+  DESIGNATION_CONST,
+  DISPOSAL_CONST,
+  OPPOSITE_ADVOCATE_CONST,
+  TALUKA_CONST,
+  FORUM_CONST,
+  JUDGE_CONST,
+  BANK_CONST,
+  DEPARTMENT_CONST,
+  BANK_BRANCH_CONST,
+  ADVOCATE_CONST,
+  ASSOCIATE_ADVOCATE_CONST,
+  EXECUTIVE_OFFICER_DESIGNATION_CONST,
+  PRODUCTS_CONST,
+  EXECUTER_CONST,
+  STAGE_CONST,
+  DISTRICT_CONST,
+} from "../../../helpers/globalConstant";
 
 export interface props {
   getDetails: Function;
@@ -55,7 +82,6 @@ const Masters: React.FC<props> = ({ getDetails, loading, details, error }) => {
     },
   ];
 
-
   return (
     <>
       <Title title={params.masters} />
@@ -80,47 +106,62 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getDetails: (masters: string, location: any) => {
       switch (masters) {
-        case "district":
+        case DISTRICT_CONST:
           dispatch(fetchAllDistrict(masters, location));
           break;
-        case "taluka":
+        case TALUKA_CONST:
           dispatch(fetchAllTaluka(masters, location));
           break;
-        case "forum":
+        case FORUM_CONST:
           dispatch(fetchAllForum(masters, location));
           break;
-        case "judge":
+        case JUDGE_CONST:
           dispatch(fetchAllJudgeName(masters, location));
           break;
-        case "bank-details":
+        case BANK_CONST:
           dispatch(fetchAllBank(masters, location));
           break;
-        case "department":
+        case DEPARTMENT_CONST:
           dispatch(fetchAllDepartment(masters, location));
           break;
-        case "bank-branch":
+        case BANK_BRANCH_CONST:
           dispatch(fetchAllBankBranch(masters, location));
           break;
-        case "bank-officer":
+        case BANK_OFFICER_CONST:
           dispatch(fetchAllBankOfficer(masters, location));
           break;
-        case "advocate":
+        case ADVOCATE_CONST:
           dispatch(fetchAllOurAdvocate(masters, location));
           break;
-        case "associate-advocate":
+        case ASSOCIATE_ADVOCATE_CONST:
           dispatch(fetchAllAssociateAdvocate(masters, location));
           break;
-        case "executer":
+        case EXECUTER_CONST:
           dispatch(fetchAllExecuterName(masters, location));
           break;
-        case "executive-officer-designation":
+        case EXECUTIVE_OFFICER_DESIGNATION_CONST:
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
           break;
-        case "products":
+        case PRODUCTS_CONST:
           dispatch(fetchAllProduct(masters, location));
           break;
-        case "stage":
+        case STAGE_CONST:
           dispatch(fetchAllStage(masters, location));
+          break;
+        case DESIGNATION_CONST:
+          dispatch(fetchAllDesignation(masters, location));
+          break;
+        case OPPOSITE_ADVOCATE_CONST:
+          dispatch(fetchAllOppositeAdvocate(masters, location));
+          break;
+        case DISPOSAL_CONST:
+          dispatch(fetchAllDisposal(masters, location));
+          break;
+        case CASE_TYPE_CONST:
+          dispatch(fetchAllCaseType(masters, location));
+          break;
+        case CASE_CATEGORY_CONST:
+          dispatch(fetchAllCaseCategory(masters, location));
           break;
         default:
           dispatch(fetchUserList(location));

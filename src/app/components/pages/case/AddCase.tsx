@@ -1,7 +1,9 @@
 import clsx from "clsx";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 import { Field, FieldArray, Form, Formik } from "formik";
 import Multiselect from "multiselect-react-dropdown";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { KTSVG } from "../../../../_metronic/helpers";
 import { BACK, NEXT, NO_RECORDS_FOUND } from "../../../helpers/globalConstant";
@@ -14,6 +16,7 @@ import {
   fetchJudgeDropdown,
   fetchProductDropdown,
   fetchStageDropdown,
+  fetchTalukaByDistrictId,
 } from "../../../reducers/mastersReducers/mastersAction";
 import { editCaseDetails, getCaseById, postCaseDetails } from "../../../reducers/caseReducers/caseAction";
 import { useLocation, useParams } from "react-router-dom";
@@ -41,6 +44,8 @@ export interface props {
   caseDetailById: any;
   getCaseById: Function;
   editCase: Function;
+  getTalukaList: Function;
+  talukaList: any;
 }
 
 const AddCase: React.FC<props> = ({
@@ -65,9 +70,12 @@ const AddCase: React.FC<props> = ({
   getCaseById,
   caseDetailById,
   editCase,
+  getTalukaList,
+  talukaList,
 }) => {
   const location = useLocation();
   const params = useParams();
+  const [startDate, setStartDate] = useState(new Date());
 
   const onSubmit = (values: any, resetForm: any) => {
     resetForm();
@@ -111,9 +119,12 @@ const AddCase: React.FC<props> = ({
       getBankOfficerList(caseDetailById?.data?.caseBankOfficers[0].bankBranchId);
     }
   }, [caseDetailById, params.id, getJudgeList, getBranchList, getBankOfficerList]);
-  const stepper = ["Account Details", "Property Details", "Court Details", "Bank Officer Details"];
+  const stepper = ["Account Details", "Property Details", "Court Details"];
 
   const initialValues = {
+    remarks: '',
+    caseTypeId: "",
+    filed: false,
     cnrNo: "",
     bankId: "",
     npaAmount: "",
@@ -121,6 +132,7 @@ const AddCase: React.FC<props> = ({
     "13(4)": "",
     "13(2)": "",
     filingDate: "",
+    caseNo: "",
     caseProducts: [
       {
         accountNo: "",
@@ -133,6 +145,8 @@ const AddCase: React.FC<props> = ({
         description: "",
         location: "",
         owner: "",
+        districtId: "",
+        talukaId: "",
       },
     ],
     borrowers: [
@@ -143,7 +157,7 @@ const AddCase: React.FC<props> = ({
     filing: {
       judgeId: "",
       stageId: "",
-      date: "",
+      nextDate: "",
     },
     forumId: "",
     caseBankOfficers: [],
@@ -151,7 +165,8 @@ const AddCase: React.FC<props> = ({
       bankId: "",
       branchId: "",
     },
-    // districtId: "",
+    districtId: "",
+    talukaId: "",
   };
 
   return (
@@ -161,7 +176,7 @@ const AddCase: React.FC<props> = ({
       enableReinitialize={true}
     >
       {({ setFieldValue, isSubmitting, resetForm, values, touched, errors }) => (
-      
+        console.log(values),
         (
           <Form className="form">
             <div className="accordion " id="kt_accordion_1">
@@ -194,7 +209,12 @@ const AddCase: React.FC<props> = ({
                                 Bank
                               </label>
                               <div className="col-lg-8">
-                                <Field as="select" name={"bankId"} className={clsx("form-control bg-transparent form-select")}>
+                                <Field
+                                  as="select"
+                                  name={"bankId"}
+                                  className={clsx("form-control bg-transparent form-select")}
+                                  onChange={(e: any) => console.log(e.target.value)}
+                                >
                                   <option value={""} disabled>
                                     Select Bank
                                   </option>
@@ -208,24 +228,47 @@ const AddCase: React.FC<props> = ({
                               </div>
                             </div>
 
-                            {/* <div className="row mb-6">
-                            <label htmlFor={`districtId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                              District
-                            </label>
-                            <div className="col-lg-8">
-                              <Field as="select" name={`districtId`} className={clsx("form-control bg-transparent form-select")}>
-                                <option value={""} disabled>
-                                  Select District
-                                </option>
-                                {!districtList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                {districtList?.data?.map((list: any, i: any) => (
-                                  <option key={i} value={list.id}>
-                                    {list.name}
-                                  </option>
-                                ))}
-                              </Field>
-                            </div>
-                          </div> */}
+                            {bankOfficerList?.data && (
+                              <div className="row mb-6">
+                                <label htmlFor={`caseBankOfficers.${0}.bankOfficerId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                  Bank Officer
+                                </label>
+
+                                <div className="col-lg-8">
+                                  <Multiselect
+                                    options={bankOfficerList?.data}
+                                    onSelect={(selectedList: any) => {
+                                      setFieldValue(
+                                        `caseBankOfficers`,
+                                        selectedList.map((x: any, i: any) => {
+                                          return { caseId: i, bankOfficerId: x.id, name: x.name };
+                                        })
+                                      );
+                                    }}
+                                    onRemove={(selectedList: any) => {
+                                      setFieldValue(
+                                        `caseBankOfficers`,
+                                        selectedList.map((x: any, i: any) => {
+                                          return { caseId: i, bankOfficerId: x.id };
+                                        })
+                                      );
+                                    }}
+                                    displayValue="name"
+                                    showCheckbox={true}
+                                    emptyRecordMsg={NO_RECORDS_FOUND}
+                                    closeIcon={"cancel"}
+                                    placeholder={"Select Bank Officer"}
+                                    loading={false}
+                                    style={style}
+                                    showArrow={true}
+                                    customArrow={""}
+                                    avoidHighlightFirstOption={true}
+                                    hidePlaceholder={true}
+                                    selectedValues={params.id && values.caseBankOfficers}
+                                  />
+                                </div>
+                              </div>
+                            )}
 
                             <div className="">
                               <FieldArray
@@ -430,6 +473,78 @@ const AddCase: React.FC<props> = ({
                                 {values?.properties?.map((details: any, index: any) => (
                                   <div className="p-4 mt-7 border position-relative" key={index}>
                                     <div className="row mb-6">
+                                      <label className="col-lg-4 col-form-label fw-bold fs-6 required" htmlFor={`properties.${index}.districtId`}>
+                                        District Name
+                                      </label>
+                                      <div className="col-lg-8">
+                                        <Field
+                                          as="select"
+                                          name={`properties.${index}.districtId`}
+                                          className={clsx("form-control bg-transparent form-select")}
+                                          onChange={(e: any) => {
+                                            getTalukaList(e.target.value);
+                                            setFieldValue(`properties.${index}.districtId`, e.target.value);
+                                            setFieldValue(`properties.${index}.talukaId`, "");
+                                          }}
+                                        >
+                                          <option value="" disabled>
+                                            Select District
+                                          </option>
+                                          {!districtList?.data && "Loading..."}
+                                          {districtList?.data?.map((list: any, i: any) => {
+                                            return (
+                                              <>
+                                                {!params.id && list.isActive === true && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                                {params.id && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                              </>
+                                            );
+                                          })}
+                                        </Field>
+                                      </div>
+                                    </div>
+                                    <div className="row mb-6">
+                                      <label className="col-lg-4 col-form-label fw-bold fs-6 required" htmlFor={`properties.${index}.talukaId`}>
+                                        Taluka Name
+                                      </label>
+                                      <div className="col-lg-8">
+                                        <Field
+                                          as="select"
+                                          name={`properties.${index}.talukaId`}
+                                          className={clsx("form-control bg-transparent form-select")}
+                                          onChange={(e: any) => setFieldValue(`properties.${index}.talukaId`, e.target.value)}
+                                        >
+                                          <option value="" disabled>
+                                            Select Taluka
+                                          </option>
+                                          {/* {!talukaList?.data && "Loading..."} */}
+                                          {talukaList?.data?.map((list: any, i: any) => {
+                                            return (
+                                              <>
+                                                {!params.id && list.isActive === true && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                                {params.id && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                              </>
+                                            );
+                                          })}
+                                        </Field>
+                                      </div>
+                                    </div>
+                                    <div className="row mb-6">
                                       <label htmlFor={`properties.${index}.location`} className="col-lg-4 col-form-label fw-bold fs-6 required">
                                         Location
                                       </label>
@@ -493,6 +608,8 @@ const AddCase: React.FC<props> = ({
                                         owener: "",
                                         description: "",
                                         caseId: 1,
+                                        districtId: "",
+                                        talukaId: "",
                                       });
                                     }}
                                   >
@@ -507,235 +624,387 @@ const AddCase: React.FC<props> = ({
                         {step === "Court Details" && (
                           <>
                             <div className="row mb-6">
-                              <label htmlFor={`cnrNo`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                CNR Number
+                              <label htmlFor={``} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                Filed
                               </label>
-                              <div className="col-lg-8">
-                                <Field
-                                  placeholder={`CNR Number`}
-                                  type="text"
-                                  name={`cnrNo`}
-                                  autoComplete="off"
-                                  className={clsx("form-control bg-transparent")}
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-6">
-                              <label htmlFor={`forumId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                Forum
-                              </label>
-                              <div className="col-lg-8">
-                                <Field
-                                  as="select"
-                                  name={`forumId`}
-                                  className={clsx("form-control bg-transparent form-select")}
-                                  onChange={(e: any) => {
-                                    getJudgeList(e.target.value);
-                                    setFieldValue(`forumId`, e.target.value);
-                                    setFieldValue(`filing.judgeId`, "");
-                                  }}
-                                >
-                                  <option value={""} disabled>
-                                    Select Forum
-                                  </option>
-                                  {!forumList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                  {forumList?.data?.map((list: any, i: any) => (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  ))}
-                                </Field>
-                              </div>
-                            </div>
-                            {judgeList?.data && (
-                              <div className="row mb-6">
-                                <label htmlFor={`filing.judgeId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                  Judge
-                                </label>
-                                <div className="col-lg-8">
-                                  <Field
-                                    as="select"
-                                    name={`filing.judgeId`}
-                                    className={clsx("form-control bg-transparent form-select")}
-                                    // onChange={(e: any) => setFieldValue("filing.judgeId", e.target.value)}
-                                  >
-                                    <option value={""} disabled>
-                                      Select Judge
-                                    </option>
-                                    {!judgeList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                    {judgeList?.data?.map((list: any, i: any) => {
-                                      return (
-                                        <option key={i} value={list.id}>
-                                          {list.name}
-                                        </option>
-                                      );
-                                    })}
-                                  </Field>
+                              <div className="col-lg-8 d-flex align-items-center">
+                                <div className="form-check form-check-solid form-switch form-check-custom fv-row">
+                                  <Field className="form-check-input w-45px h-30px" type="checkbox" name="filed" />
+                                  <label className="form-check-label"></label>
                                 </div>
-                              </div>
-                            )}
-                            <div className="row mb-6">
-                              <label htmlFor={`filing.stageId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                Stage
-                              </label>
-                              <div className="col-lg-8">
-                                <Field as="select" name={`filing.stageId`} className={clsx("form-control bg-transparent form-select")}>
-                                  <option value={""} disabled>
-                                    Select Stage
-                                  </option>
-                                  {!stageList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                  {stageList?.data?.map((list: any, i: any) => (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  ))}
-                                </Field>
-                              </div>
-                            </div>
-                            <div className="row mb-6">
-                              <label htmlFor={`filing.date`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                Date
-                              </label>
-                              <div className="col-lg-8">
-                                <Field
-                                  type="date"
-                                  name={`filing.date`}
-                                  autoComplete="off"
-                                  className={clsx("form-control bg-transparent")}
-                                  value={convert(values?.filing.date) || ""}
-                                />
-                              </div>
-                            </div>
-                            <div className="row mb-6">
-                              <label htmlFor={`filingDate`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                Filling Date
-                              </label>
-                              <div className="col-lg-8">
-                                <Field
-                                  type="date"
-                                  name={`filingDate`}
-                                  autoComplete="off"
-                                  className={clsx("form-control bg-transparent")}
-                                  value={convert(values?.filingDate) || ""}
-                                />
-                              </div>
-                            </div>
-                          </>
-                        )}
-                        {step === "Bank Officer Details" && (
-                          <>
-                            <div className="row mb-6">
-                              <label
-                                htmlFor={params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId"}
-                                className="col-lg-4 col-form-label fw-bold fs-6 required"
-                              >
-                                Bank
-                              </label>
-                              <div className="col-lg-8">
-                                <Field
-                                  as="select"
-                                  name={params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId"}
-                                  className={clsx("form-control bg-transparent form-select")}
-                                  onChange={(e: any) => {
-                                    getBranchList(e.target.value);
-                                    setFieldValue(params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId", e.target.value);
-                                    setFieldValue(params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId", "");
-                                    // setFieldValue(`caseBankOfficers`, { caseId: "", bankOfficerId: "" });
-                                  }}
-                                >
-                                  <option value={""} disabled>
-                                    Select Bank
-                                  </option>
-                                  {!bankList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                  {bankList?.data?.map((list: any, i: any) => (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  ))}
-                                </Field>
                               </div>
                             </div>
 
-                            {branchList?.data && (
-                              <div className="row mb-6">
-                                <label
-                                  htmlFor={params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId"}
-                                  className="col-lg-4 col-form-label fw-bold fs-6 required"
-                                >
-                                  Bank Branch
-                                </label>
-                                <div className="col-lg-8">
-                                  <Field
-                                    as="select"
-                                    name={params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId"}
-                                    className={clsx("form-control bg-transparent form-select")}
-                                    onChange={(e: any) => {
-                                      getBankOfficerList(e.target.value);
-                                      setFieldValue(`bankOfficer.branchId`, e.target.value);
-                                    }}
-                                  >
-                                    <option value={""} disabled>
-                                      Select Bank Branch
-                                    </option>
-                                    {!branchList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                    {branchList?.data?.map((list: any, i: any) => (
-                                      <option key={i} value={list.id}>
-                                        {list.name}
-                                      </option>
-                                    ))}
-                                  </Field>
-                                </div>
-                              </div>
-                            )}
-
-                            {bankOfficerList?.data &&
-                              (
-                              (
+                            {values.filed && (
+                              <>
                                 <div className="row mb-6">
-                                  <label htmlFor={`caseBankOfficers.${0}.bankOfficerId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
-                                    Bank Officer
+                                  <label htmlFor={`caseNo`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    Case Number
                                   </label>
-
                                   <div className="col-lg-8">
-                                    <Multiselect
-                                      options={bankOfficerList?.data}
-                                      onSelect={(selectedList: any) => {
-                                        
-
-                                        setFieldValue(
-                                          `caseBankOfficers`,
-                                          selectedList.map((x: any, i: any) => {
-                                            return { caseId: i, bankOfficerId: x.id, name: x.name };
-                                          })
-                                        );
-                                      }}
-                                      onRemove={(selectedList: any) => {
-                                    
-                                        setFieldValue(
-                                          `caseBankOfficers`,
-                                          selectedList.map((x: any, i: any) => {
-                                            return { caseId: i, bankOfficerId: x.id };
-                                          })
-                                        );
-                                      }}
-                                      displayValue="name"
-                                      showCheckbox={true}
-                                      emptyRecordMsg={NO_RECORDS_FOUND}
-                                      closeIcon={"cancel"}
-                                      placeholder={"Select Bank Officer"}
-                                      loading={false}
-                                      style={style}
-                                      showArrow={true}
-                                      customArrow={""}
-                                      avoidHighlightFirstOption={true}
-                                      hidePlaceholder={true}
-                                      selectedValues={params.id && values.caseBankOfficers}
+                                    <Field
+                                      placeholder={`Case Number`}
+                                      type="text"
+                                      name={`caseNo`}
+                                      autoComplete="off"
+                                      className={clsx("form-control bg-transparent")}
                                     />
                                   </div>
                                 </div>
-                              ))}
+                                <div className="row mb-6">
+                                  <label htmlFor={`caseNo`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    Year
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <DatePicker
+                                      selected={startDate}
+                                      className="form-control bg-transparent"
+                                      onChange={(date: any) => setStartDate(date)}
+                                      showYearPicker
+                                      dateFormat="yyyy"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label htmlFor={`cnrNo`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    CNR Number
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      placeholder={`CNR Number`}
+                                      type="text"
+                                      name={`cnrNo`}
+                                      autoComplete="off"
+                                      className={clsx("form-control bg-transparent")}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label className="col-lg-4 col-form-label fw-bold fs-6 required" htmlFor={`districtId`}>
+                                    District Name
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      as="select"
+                                      name={`districtId`}
+                                      className={clsx("form-control bg-transparent form-select")}
+                                      onChange={(e: any) => {
+                                        getTalukaList(e.target.value);
+                                        setFieldValue(`districtId`, e.target.value);
+                                        setFieldValue(`talukaId`, "");
+                                      }}
+                                    >
+                                      <option value="" disabled>
+                                        Select District
+                                      </option>
+                                      {!districtList?.data && "Loading..."}
+                                      {districtList?.data?.map((list: any, i: any) => {
+                                        return (
+                                          <>
+                                            {!params.id && list.isActive === true && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                            {params.id && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                          </>
+                                        );
+                                      })}
+                                    </Field>
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label className="col-lg-4 col-form-label fw-bold fs-6 required" htmlFor={`talukaId`}>
+                                    Taluka Name
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      as="select"
+                                      name={`talukaId`}
+                                      className={clsx("form-control bg-transparent form-select")}
+                                      onChange={(e: any) => setFieldValue(`talukaId`, e.target.value)}
+                                    >
+                                      <option value="" disabled>
+                                        Select Taluka
+                                      </option>
+                                      {/* {!talukaList?.data && "Loading..."} */}
+                                      {talukaList?.data?.map((list: any, i: any) => {
+                                        return (
+                                          <>
+                                            {!params.id && list.isActive === true && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                            {params.id && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                          </>
+                                        );
+                                      })}
+                                    </Field>
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Forum</label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      placeholder={`Forum`}
+                                      type={"text"}
+                                      name={"forum"}
+                                      className={clsx(
+                                        "form-control bg-transparent",
+                                        {
+                                          "is-invalid": touched.forum && errors.forum,
+                                        },
+                                        {
+                                          "is-valid": touched.forum && !errors.forum,
+                                        }
+                                      )}
+                                    />
+                                    {touched.forum && errors.forum && (
+                                      <div className="fv-plugins-message-container">
+                                        <div className="fv-help-block">
+                                          <span role="alert">{`${errors.name}`}</span>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                                                          
+                                <div className="row mb-6">
+                                  <label htmlFor={`filingDate`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    Filling Date
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      type="date"
+                                      name={`filingDate`}
+                                      autoComplete="off"
+                                      className={clsx("form-control bg-transparent")}
+                                      value={convert(values?.filingDate) || ""}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label htmlFor={`filing.nextDate`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    Next Date
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      type="date"
+                                      name={`filing.nextDate`}
+                                      autoComplete="off"
+                                      className={clsx("form-control bg-transparent")}
+                                      value={convert(values?.filing.nextDate) || ""}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="row mb-6">
+                                  <label htmlFor={`filing.stageId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                    Stage
+                                  </label>
+                                  <div className="col-lg-8">
+                                    <Field as="select" name={`filing.stageId`} className={clsx("form-control bg-transparent form-select")}>
+                                      <option value={""} disabled>
+                                        Select Stage
+                                      </option>
+                                      {!stageList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
+                                      {stageList?.data?.map((list: any, i: any) => (
+                                        <option key={i} value={list.id}>
+                                          {list.name}
+                                        </option>
+                                      ))}
+                                    </Field>
+                                  </div>
+                                </div>  
+                                <div className="row mb-6">
+                                  <label className="col-lg-4 col-form-label fw-bold fs-6 required">Remarks</label>
+                                  <div className="col-lg-8">
+                                    <Field
+                                      placeholder={`Remarks`}
+                                      type={"text"}
+                                      name={"remarks"}
+                                      className={clsx(
+                                        "form-control bg-transparent"
+                                      )}
+                                    />
+                                 
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            {/* <div className="row mb-6">
+                            <label htmlFor={`forumId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                              Forum
+                            </label>
+                            <div className="col-lg-8">
+                              <Field
+                                as="select"
+                                name={`forumId`}
+                                className={clsx("form-control bg-transparent form-select")}
+                                onChange={(e: any) => {
+                                  getJudgeList(e.target.value);
+                                  setFieldValue(`forumId`, e.target.value);
+                                  setFieldValue(`filing.judgeId`, "");
+                                }}
+                              >
+                                <option value={""} disabled>
+                                  Select Forum
+                                </option>
+                                {!forumList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
+                                {forumList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
+                              </Field>
+                            </div>
+                          </div> */}
+                            {/* {judgeList?.data && (
+                            <div className="row mb-6">
+                              <label htmlFor={`filing.judgeId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                Judge
+                              </label>
+                              <div className="col-lg-8">
+                                <Field
+                                  as="select"
+                                  name={`filing.judgeId`}
+                                  className={clsx("form-control bg-transparent form-select")}
+                                  // onChange={(e: any) => setFieldValue("filing.judgeId", e.target.value)}
+                                >
+                                  <option value={""} disabled>
+                                    Select Judge
+                                  </option>
+                                  {!judgeList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
+                                  {judgeList?.data?.map((list: any, i: any) => {
+                                    return (
+                                      <option key={i} value={list.id}>
+                                        {list.name}
+                                      </option>
+                                    );
+                                  })}
+                                </Field>
+                              </div>
+                            </div>
+                          )} */}
                           </>
                         )}
+                        {/* {step === "Bank Officer Details" && (
+                        <>
+                          <div className="row mb-6">
+                            <label
+                              htmlFor={params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId"}
+                              className="col-lg-4 col-form-label fw-bold fs-6 required"
+                            >
+                              Bank
+                            </label>
+                            <div className="col-lg-8">
+                              <Field
+                                as="select"
+                                name={params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId"}
+                                className={clsx("form-control bg-transparent form-select")}
+                                onChange={(e: any) => {
+                                  getBranchList(e.target.value);
+                                  setFieldValue(params.id ? `caseBankOfficers.${0}.bankId` : "bankOfficer.bankId", e.target.value);
+                                  setFieldValue(params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId", "");
+                                  // setFieldValue(`caseBankOfficers`, { caseId: "", bankOfficerId: "" });
+                                }}
+                              >
+                                <option value={""} disabled>
+                                  Select Bank
+                                </option>
+                                {!bankList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
+                                {bankList?.data?.map((list: any, i: any) => (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                ))}
+                              </Field>
+                            </div>
+                          </div>
+
+                          {branchList?.data && (
+                            <div className="row mb-6">
+                              <label
+                                htmlFor={params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId"}
+                                className="col-lg-4 col-form-label fw-bold fs-6 required"
+                              >
+                                Bank Branch
+                              </label>
+                              <div className="col-lg-8">
+                                <Field
+                                  as="select"
+                                  name={params.id ? `caseBankOfficers.${0}.bankBranchId` : "bankOfficer.branchId"}
+                                  className={clsx("form-control bg-transparent form-select")}
+                                  onChange={(e: any) => {
+                                    getBankOfficerList(e.target.value);
+                                    setFieldValue(`bankOfficer.branchId`, e.target.value);
+                                  }}
+                                >
+                                  <option value={""} disabled>
+                                    Select Bank Branch
+                                  </option>
+                                  {!branchList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
+                                  {branchList?.data?.map((list: any, i: any) => (
+                                    <option key={i} value={list.id}>
+                                      {list.name}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
+                            </div>
+                          )}
+
+                          {bankOfficerList?.data && (
+                            <div className="row mb-6">
+                              <label htmlFor={`caseBankOfficers.${0}.bankOfficerId`} className="col-lg-4 col-form-label fw-bold fs-6 required">
+                                Bank Officer
+                              </label>
+
+                              <div className="col-lg-8">
+                                <Multiselect
+                                  options={bankOfficerList?.data}
+                                  onSelect={(selectedList: any) => {
+                                    setFieldValue(
+                                      `caseBankOfficers`,
+                                      selectedList.map((x: any, i: any) => {
+                                        return { caseId: i, bankOfficerId: x.id, name: x.name };
+                                      })
+                                    );
+                                  }}
+                                  onRemove={(selectedList: any) => {
+                                    setFieldValue(
+                                      `caseBankOfficers`,
+                                      selectedList.map((x: any, i: any) => {
+                                        return { caseId: i, bankOfficerId: x.id };
+                                      })
+                                    );
+                                  }}
+                                  displayValue="name"
+                                  showCheckbox={true}
+                                  emptyRecordMsg={NO_RECORDS_FOUND}
+                                  closeIcon={"cancel"}
+                                  placeholder={"Select Bank Officer"}
+                                  loading={false}
+                                  style={style}
+                                  showArrow={true}
+                                  customArrow={""}
+                                  avoidHighlightFirstOption={true}
+                                  hidePlaceholder={true}
+                                  selectedValues={params.id && values.caseBankOfficers}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )} */}
                       </div>
 
                       <div className="card-footer d-flex justify-content-end py-6 px-9">
@@ -749,7 +1018,6 @@ const AddCase: React.FC<props> = ({
                             {BACK}
                           </button>
                         )}
-
                         <button
                           type={i === stepper.length - 1 ? "submit" : "button"}
                           data-bs-target={`#kt_accordion_1_body_${i + 1}`}
@@ -782,6 +1050,7 @@ const mapStateToProps = (state: any) => {
     productList: state.getProductForDropdownReducer.productList,
     judgeList: state.getJudgeForDropdownReducer.judgeList,
     branchList: state.getBankBranchByBankIdReducer.branchList,
+    talukaList: state.getTalukaByDistrictIdReducer.talukaList,
 
     caseDetailById: state.getCaseByIdCaseReducer.caseDetails,
 
@@ -803,6 +1072,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getDistrictList: () => dispatch(fetchDistrictForDropdown()),
     getBankList: () => dispatch(fetchBankForDropdown()),
     getProductList: () => dispatch(fetchProductDropdown()),
+    getTalukaList: (id: any) => dispatch(fetchTalukaByDistrictId(id)),
 
     getCaseById: (id: any) => dispatch(getCaseById(id)),
 

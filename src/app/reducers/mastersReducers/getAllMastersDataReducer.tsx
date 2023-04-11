@@ -1,4 +1,28 @@
 import {
+  BANK_OFFICER_CONST,
+  CASE_CATEGORY_CONST,
+  CASE_TYPE_CONST,
+  DESIGNATION_CONST,
+  DISPOSAL_CONST,
+  OPPOSITE_ADVOCATE_CONST,
+  DISCARD,
+  PLEASE_WAIT,
+  SUBMIT,
+  TALUKA_CONST,
+  FORUM_CONST,
+  JUDGE_CONST,
+  BANK_CONST,
+  DEPARTMENT_CONST,
+  BANK_BRANCH_CONST,
+  ADVOCATE_CONST,
+  ASSOCIATE_ADVOCATE_CONST,
+  EXECUTIVE_OFFICER_DESIGNATION_CONST,
+  PRODUCTS_CONST,
+  EXECUTER_CONST,
+  STAGE_CONST,
+  DISTRICT_CONST,
+} from "../../helpers/globalConstant";
+import {
   GET_ALL_ASSOCIATE_ADVOCATE_FAILURE,
   GET_ALL_ASSOCIATE_ADVOCATE_REQUEST,
   GET_ALL_ASSOCIATE_ADVOCATE_SUCCESS,
@@ -11,9 +35,21 @@ import {
   GET_ALL_BANK_OFFICER_SUCCESS,
   GET_ALL_BANK_REQUEST,
   GET_ALL_BANK_SUCCESS,
+  GET_ALL_CASE_CATEGORY_FAILURE,
+  GET_ALL_CASE_CATEGORY_REQUEST,
+  GET_ALL_CASE_CATEGORY_SUCCESS,
+  GET_ALL_CASE_TYPE_FAILURE,
+  GET_ALL_CASE_TYPE_REQUEST,
+  GET_ALL_CASE_TYPE_SUCCESS,
   GET_ALL_DEPARTMENT_FAILURE,
   GET_ALL_DEPARTMENT_REQUEST,
   GET_ALL_DEPARTMENT_SUCCESS,
+  GET_ALL_DESIGNATION_FAILURE,
+  GET_ALL_DESIGNATION_REQUEST,
+  GET_ALL_DESIGNATION_SUCCESS,
+  GET_ALL_DISPOSAL_FAILURE,
+  GET_ALL_DISPOSAL_REQUEST,
+  GET_ALL_DISPOSAL_SUCCESS,
   GET_ALL_DISTRICT_FAILURE,
   GET_ALL_DISTRICT_REQUEST,
   GET_ALL_DISTRICT_SUCCESS,
@@ -29,6 +65,9 @@ import {
   GET_ALL_JUDGE_NAME_FAILURE,
   GET_ALL_JUDGE_NAME_REQUEST,
   GET_ALL_JUDGE_NAME_SUCCESS,
+  GET_ALL_OPPSITE_ADVOCATE_FAILURE,
+  GET_ALL_OPPSITE_ADVOCATE_REQUEST,
+  GET_ALL_OPPSITE_ADVOCATE_SUCCESS,
   GET_ALL_OUR_ADVOCATE_FAILURE,
   GET_ALL_OUR_ADVOCATE_REQUEST,
   GET_ALL_OUR_ADVOCATE_SUCCESS,
@@ -57,7 +96,7 @@ export interface action {
 
 const getAllMastersDataReducer = (state = initialState, action: action) => {
   switch (action.master) {
-    case "district":
+    case DISTRICT_CONST:
       switch (action.type) {
         case GET_ALL_DISTRICT_REQUEST:
           return {
@@ -85,7 +124,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "taluka":
+    case TALUKA_CONST:
       switch (action.type) {
         case GET_ALL_TALUKA_REQUEST:
           return {
@@ -113,7 +152,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "forum":
+    case FORUM_CONST:
       switch (action.type) {
         case GET_ALL_FORUM_REQUEST:
           return {
@@ -141,7 +180,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "judge":
+    case JUDGE_CONST:
       switch (action.type) {
         case GET_ALL_JUDGE_NAME_REQUEST:
           return {
@@ -169,7 +208,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "bank-details":
+    case BANK_CONST:
       switch (action.type) {
         case GET_ALL_BANK_REQUEST:
           return {
@@ -197,7 +236,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "department":
+    case DEPARTMENT_CONST:
       switch (action.type) {
         case GET_ALL_DEPARTMENT_REQUEST:
           return {
@@ -225,7 +264,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "bank-branch":
+    case BANK_BRANCH_CONST:
       switch (action.type) {
         case GET_ALL_BANK_BRANCH_REQUEST:
           return {
@@ -253,7 +292,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "bank-officer":
+    case BANK_OFFICER_CONST:
       switch (action.type) {
         case GET_ALL_BANK_OFFICER_REQUEST:
           return {
@@ -281,7 +320,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "advocate":
+    case ADVOCATE_CONST:
       switch (action.type) {
         case GET_ALL_OUR_ADVOCATE_REQUEST:
           return {
@@ -309,7 +348,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "associate-advocate":
+    case ASSOCIATE_ADVOCATE_CONST:
       switch (action.type) {
         case GET_ALL_ASSOCIATE_ADVOCATE_REQUEST:
           return {
@@ -337,7 +376,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "executer":
+    case EXECUTER_CONST:
       switch (action.type) {
         case GET_ALL_EXECUTER_NAME_REQUEST:
           return {
@@ -365,7 +404,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-    case "executive-officer-designation":
+    case EXECUTIVE_OFFICER_DESIGNATION_CONST:
       switch (action.type) {
         case GET_ALL_EXECUTING_OFFICER_DESIGNATION_REQUEST:
           return {
@@ -393,8 +432,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-
-    case "products":
+    case PRODUCTS_CONST:
       switch (action.type) {
         case GET_ALL_PRODUCT_REQUEST:
           return {
@@ -422,8 +460,7 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           return state;
         }
       }
-
-    case "stage":
+    case STAGE_CONST:
       switch (action.type) {
         case GET_ALL_STAGE_REQUEST:
           return {
@@ -440,6 +477,146 @@ const getAllMastersDataReducer = (state = initialState, action: action) => {
           };
 
         case GET_ALL_STAGE_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+    case DESIGNATION_CONST:
+      switch (action.type) {
+        case GET_ALL_DESIGNATION_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_DESIGNATION_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_DESIGNATION_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+    case OPPOSITE_ADVOCATE_CONST:
+      switch (action.type) {
+        case GET_ALL_OPPSITE_ADVOCATE_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_OPPSITE_ADVOCATE_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_OPPSITE_ADVOCATE_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+    case DISPOSAL_CONST:
+      switch (action.type) {
+        case GET_ALL_DISPOSAL_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_DISPOSAL_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_DISPOSAL_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+    case CASE_TYPE_CONST:
+      switch (action.type) {
+        case GET_ALL_CASE_TYPE_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_CASE_TYPE_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_CASE_TYPE_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: {},
+            error: action.payload,
+          };
+
+        default: {
+          return state;
+        }
+      }
+    case CASE_CATEGORY_CONST:
+      switch (action.type) {
+        case GET_ALL_CASE_CATEGORY_REQUEST:
+          return {
+            loading: true,
+            getAllDetails: {},
+            error: "",
+          };
+
+        case GET_ALL_CASE_CATEGORY_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            getAllDetails: action.payload,
+          };
+
+        case GET_ALL_CASE_CATEGORY_FAILURE:
           return {
             ...state,
             loading: false,

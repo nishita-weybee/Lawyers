@@ -29,6 +29,11 @@ export const GET_ALL_OUR_ADVOCATE = "/OurAdvocate/GetAllOurAdvocate";
 export const GET_ALL_TALUKA = "/Taluka/GetAllTaluka";
 export const GET_ALL_PRODUCT = "/Product/GetAllProduct";
 export const GET_ALL_STAGE = "/Stage/GetAllStage";
+export const GET_ALL_DESGINATION = "/Designation/GetAllDesignation";
+export const GET_ALL_CASE_TYPE = "/CaseType/GetAllCaseType";
+export const GET_ALL_CASE_CATEGORY = "/CaseCategory/GetAllCaseCategory";
+export const GET_ALL_DISPOSAL = "/DisposalMode/GetAllDisposalMode";
+export const GET_ALL_OPPOSITE_ADVOCATE = "/OppositeAdvocate/GetAllOppositeAdvocate";
 
 export const GET_BY_ID_DISTRICT = `District/GetDistrictById`;
 export const GET_BY_ID_DEPARTMENT = `Department/GetDepartmentById`;
@@ -57,6 +62,11 @@ export const POST_OUR_ADVOCATE = "/OurAdvocate/AddOurAdvocate";
 export const POST_TALUKA = "/Taluka/AddTaluka";
 export const POST_PRODUCT = "/Product/AddProduct";
 export const POST_STAGE = "/Stage/AddStage";
+export const POST_DESIGNATION = "/Designation/AddDesignation";
+export const POST_CASE_CATEGORY = "/CaseCategory/AddCaseCategory";
+export const POST_DISPOSAL = "/DisposalMode/AddDisposalMode";
+export const POST_CASE_TYPE = "/CaseType/AddCaseType";
+export const POST_OPPOSITE_ADVOCATE = "/OppositeAdvocate/AddOppositeAdvocate";
 
 export const ACTIVE_DEACTIVE_DISTRICT = "/District/ActiveDeactivateDistrict";
 export const ACTIVE_DEACTIVE_DEPARTMENT = "Department/ActiveDeactivateDepartment";
@@ -72,6 +82,11 @@ export const ACTIVE_DEACTIVE_OUR_ADVOCATE = "/OurAdvocate/ActiveDeactivateOurAdv
 export const ACTIVE_DEACTIVE_TALUKA = "/Taluka/ActiveDeactivateTaluka";
 export const ACTIVE_DEACTIVE_PRODUCT = "/Product/ActiveDeactivateProduct";
 export const ACTIVE_DEACTIVE_STAGE = "/Stage/ActiveDeactivateStage";
+export const ACTIVE_DEACTIVE_OPPOSITE_ADVOCATE = "/OppositeAdvocate/ActiveDeactivateOppositeAdvocate/1'";
+export const ACTIVE_DEACTIVE_CASE_TYPE = "/CaseType/ActiveDeactivateCaseType";
+export const ACTIVE_DEACTIVE_DISPOSAL = "/DisposalMode/ActiveDeactivateDisposalMode";
+export const ACTIVE_DEACTIVE_CASE_CATEGORY = "/CaseCategory/ActiveDeactivateCaseCategory";
+export const ACTIVE_DEACTIVE_DESIGNATION = "/Designation/ActiveDeactivateDesignation";
 
 export const GET_DISTRICT_BY_ID = `District/GetDistrictById`;
 export const GET_DEPARTMENT_BY_ID = `Department/GetDepartmentById`;
@@ -87,6 +102,11 @@ export const GET_OUR_ADVOCATE_BY_ID = "/OurAdvocate/GetOurAdvocateById";
 export const GET_TALUKA_BY_ID = "/Taluka/GetTalukaById";
 export const GET_PRODUCT_BY_ID = "/Product/GetProductById";
 export const GET_STAGE_BY_ID = "/Stage/GetStageById";
+export const GET_DESIGNATION_BY_ID = "/Designation/GetDesignationById";
+export const GET_OPPOSITE_ADVOCATE_BY_ID = "/OppositeAdvocate/ActiveDeactivateOppositeAdvocate";
+export const GET_DISPOSAL_BY_ID = "/DisposalMode/GetDisposalModeById";
+export const GET_CASE_TYPE_BY_ID = "/CaseType/GetCaseTypeById";
+export const GET_CASE_CATEGORY_BY_ID = "/CaseCategory/GetCaseCategoryById";
 
 export const UPDATE_DISTRICT_BY_ID = `/District/EditDistrict`;
 export const UPDATE_DEPARTMENT_BY_ID = `/Department/EditDepartment`;
@@ -102,16 +122,25 @@ export const UPDATE_OUR_ADVOCATE_BY_ID = "/OurAdvocate/EditOurAdvocate";
 export const UPDATE_TALUKA_BY_ID = "/Taluka/EditTaluka";
 export const UPDATE_STAGE_BY_ID = "/Stage/EditStage";
 export const UPDATE_PRODUCT_BY_ID = "/Product/EditProduct";
+export const UPDATE_OPPOSITE_ADVOCATE_BY_ID = "/OppositeAdvocate/EditOppositeAdvocate";
+export const UPDATE_DISPOSAL_BY_ID = "/DisposalMode/EditDisposalMode";
+export const UPDATE_CASE_TYPE_BY_ID = "/CaseType/EditCaseType";
+export const UPDATE_CASE_CATEGORY_BY_ID = "/CaseCategory/EditCaseCategory";
+export const UPDATE_DESIGNATION_BY_ID = "/Designation/EditDesignation";
 
 // dropdown
 export const GET_BANK_BRANCH_BY_BANK_ID = "/BankBranch/GetBankBranchByBankId";
+export const GET_TALUKA_BY_DISTRICT_ID = "/Taluka/GetTalukaByDistrict";
 export const GET_BANK_FOR_DROPDOWN = "/Bank/GetBanksForDropdown";
-export const GET_DISTRICT_FOR_DROPDOWN = "/District/GetDistrictsForDropdown";
+export const GET_DISTRICT_FOR_DROPDOWN = "/District/GetAllDistrictForDropDown";
 export const GET_FORUM_FOR_DROPDOWN = "/Forum/GetAllForumForDropDown";
 export const GET_STAGE_FOR_DROPDOWN = "/Stage/GetStagesForDropdown";
 export const GET_JUDGE_FOR_DROPDOWN = "/JudgeName/GetAllJudgeNameByForumId";
 export const GET_BANK_OFFCIER_FOR_DROPDOWN = "BankOfficer/GetBankOfficerByBankBranchId";
 export const GET_PRODUCT_FOR_DROPDOWN = "/Product/GetProductsForDropdown";
+export const GET_DESIGNATION_FOR_DROPDOWN = "/Designation/GetDesignationsForDropDown";
+export const GET_CASE_CATEGORY_FOR_DROPDOWN = "/CaseCategory/GetCaseCategorysForDropDown";
+export const GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN = "/ExecutingOfficerDesignation/GetAllExecutingOfficerDesignationForDropDown";
 
 // Case
 export const ADD_CASE = "/Case/AddCase";

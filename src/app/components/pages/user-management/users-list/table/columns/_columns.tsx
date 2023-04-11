@@ -21,7 +21,6 @@ export const usersColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const commonColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Name" className="text-capitalize min-w-125px" />,
@@ -32,7 +31,6 @@ export const commonColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const bankBranchColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank Branch" className="text-capitalize min-w-125px" />,
@@ -48,7 +46,6 @@ export const bankBranchColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const bankOfficerColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank Officer" className="text-capitalize min-w-125px" />,
@@ -67,20 +64,28 @@ export const bankOfficerColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize  min-w-100px" />,
     id: "Bank",
   },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Bank Branch" className="text-capitalize  min-w-100px" />,
-    id: "BankBranch",
-  },
+
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
     id: "actions",
   },
 ];
-
 export const executiveColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Executive" className="text-capitalize min-w-125px" />,
     id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="District" className="text-capitalize min-w-125px" />,
+    id: "District",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
+    id: "Taluka",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Exe Officer Designation" className="text-capitalize min-w-125px" />,
+    id: "ExeOfficerDesignation",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Mobile" className="text-capitalize  min-w-100px" />,
@@ -91,7 +96,6 @@ export const executiveColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const advocateColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Advocate" className="text-capitalize min-w-125px" />,
@@ -110,11 +114,18 @@ export const advocateColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const associateAdvocateColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Associate Advocate" className="text-capitalize min-w-125px" />,
     id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="District" className="text-capitalize min-w-125px" />,
+    id: "District",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
+    id: "Taluka",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Mobile" className="text-capitalize  min-w-100px" />,
@@ -133,7 +144,6 @@ export const associateAdvocateColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const talukaColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
@@ -149,11 +159,18 @@ export const talukaColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const judgeColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Judge" className="text-capitalize min-w-125px" />,
     id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="District" className="text-capitalize min-w-125px" />,
+    id: "District",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Taluka" className="text-capitalize min-w-125px" />,
+    id: "Taluka",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Forum" className="text-capitalize min-w-125px" />,
@@ -165,7 +182,6 @@ export const judgeColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-
 export const caseColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize min-w-125px" />,
@@ -193,3 +209,74 @@ export const caseColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
+export const executiveOfficerDesignationColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Executive Officer Designation" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Designation" className="text-capitalize  min-w-100px" />,
+    id: "Designation",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+export const productColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Product" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize  min-w-100px" />,
+    id: "Bank",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+export const oppAdvocateColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Oppsite Advocate" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Mobile" className="text-capitalize  min-w-100px" />,
+    id: "Mobile",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+export const departmentColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Department" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize  min-w-100px" />,
+    id: "Bank",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+export const caseTypeColumns: ReadonlyArray<Column<User>> = [
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Case Type" className="text-capitalize min-w-125px" />,
+    id: "Name",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Case Category" className="text-capitalize  min-w-100px" />,
+    id: "CaseCategory",
+  },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
+    id: "actions",
+  },
+];
+

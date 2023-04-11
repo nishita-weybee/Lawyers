@@ -7,11 +7,13 @@ import { ADD_CASE } from "../../../helpers/routesConstant";
 import { UsersListHeader } from "../user-management/users-list/components/header/UsersListHeader";
 import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import Title from "../../common/Breadcrumbs/Title";
+import Loader from "../../common/loader/Loader";
 export interface props {
   fetchAllCase: Function;
   cases: any;
+  loading: boolean;
 }
-const ViewCase: React.FC<props> = ({ fetchAllCase, cases }) => {
+const ViewCase: React.FC<props> = ({ fetchAllCase, cases, loading }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,9 +25,10 @@ const ViewCase: React.FC<props> = ({ fetchAllCase, cases }) => {
 
   return (
     <>
-      <Title title={'Case'} />
+      <Title title={"Case"} />
       <KTCard>
         <UsersListHeader path={ADD_CASE} />
+        {!cases?.data && <Loader />}
         <PaginatedItems itemsPerPage={10} userList={cases?.data} />
       </KTCard>
     </>

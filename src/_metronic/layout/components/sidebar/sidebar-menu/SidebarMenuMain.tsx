@@ -6,13 +6,18 @@ import {
   BANK,
   BANK_BRANCH,
   BANK_OFFICER,
+  CASE_CATEGROY,
+  CASE_TYPE,
   DEPARTMENT,
+  DESIGNATION,
+  DISPOSAL,
   DISTRICT,
   EXECUTER,
   EXECUTIVE_OFFICER_DESIGNATION,
   FORUM,
   JUDGE,
   MASTERS,
+  OPPOSITE_ADVOCATE,
   PRODUCTS,
   STAGE,
   TALUKA,
@@ -29,15 +34,20 @@ const SidebarMenuMain = () => {
     { to: FORUM, title: "Forum" },
     { to: JUDGE, title: "Judge" },
     { to: BANK, title: "Bank" },
-    { to: DEPARTMENT, title: "Department" },
     { to: BANK_BRANCH, title: "Bank Branch" },
     { to: BANK_OFFICER, title: "Bank Officer" },
-    { to: ADVOCATE, title: "Advocate" },
+    { to: DEPARTMENT, title: "Department" },
+    // { to: ADVOCATE, title: "Advocate" },
     { to: ASSOCIATE_ADVOCATE, title: "Associate Advocate" },
-    { to: EXECUTER, title: "Executer" },
     { to: EXECUTIVE_OFFICER_DESIGNATION, title: "Executive Officer Designation" },
+    { to: EXECUTER, title: "Executer" },
     { to: PRODUCTS, title: "Products" },
     { to: STAGE, title: "Stage" },
+    { to: DESIGNATION, title: "Designation" },
+    { to: OPPOSITE_ADVOCATE, title: "Opposite Advocate" },
+    { to: DISPOSAL, title: "Disposal" },
+    { to: CASE_CATEGROY, title: "Case Category" },
+    { to: CASE_TYPE, title: "Case Type" },
   ];
 
   return (
@@ -62,8 +72,6 @@ const SidebarMenuMain = () => {
       <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/abstract/abs027.svg"} title="Case" fontIcon="bi-app-indicator">
         <SidebarMenuItem to={`${ADD_CASE}`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
         <SidebarMenuItem to={`${VIEW_CASE}`} title={"View Cases"} fontIcon="bi-layers" hasBullet={true} />
-        
-        
       </SidebarMenuItemWithSub>
 
       {/* for employee

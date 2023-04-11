@@ -11,7 +11,7 @@ export interface action {
   payload: any;
 }
 
-const postMasterDataReducer = (state = initialState, action: action) => {
+const activeDeactiveReducer = (state = initialState, action: action) => {
   switch (action.type) {
     case ACTIVE_DEACTIVE_MASTERS_REQUEST:
       return {
@@ -40,4 +40,4 @@ const postMasterDataReducer = (state = initialState, action: action) => {
   }
 };
 
-export { postMasterDataReducer };
+export { activeDeactiveReducer };

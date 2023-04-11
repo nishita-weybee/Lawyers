@@ -14,7 +14,7 @@ export const DISTRICT = "/masters/district";
 export const TALUKA = "/masters/taluka";
 export const FORUM = "/masters/forum";
 export const JUDGE = "/masters/judge";
-export const BANK = "/masters/bank-details";
+export const BANK = "/masters/banks";
 export const DEPARTMENT = "/masters/department";
 export const BANK_BRANCH = "/masters/bank-branch";
 export const BANK_OFFICER = "/masters/bank-officer";
@@ -22,8 +22,13 @@ export const ADVOCATE = "/masters/advocate";
 export const ASSOCIATE_ADVOCATE = "/masters/associate-advocate";
 export const EXECUTER = "/masters/executer";
 export const EXECUTIVE_OFFICER_DESIGNATION = "/masters/executive-officer-designation";
-export const PRODUCTS = "/masters/products";
+export const PRODUCTS = "/masters/product";
 export const STAGE = "/masters/stage";
+export const DESIGNATION = "/masters/designation";
+export const OPPOSITE_ADVOCATE = "/masters/opposite-advocate";
+export const DISPOSAL = "/masters/disposal";
+export const CASE_TYPE = "/masters/case-type";
+export const CASE_CATEGROY = "/masters/case-category";
 
 // Add Masters
 export const ADD_DISTRICT = "/masters/add-district";

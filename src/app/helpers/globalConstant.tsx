@@ -23,4 +23,24 @@ export const PLEASE_WAIT = (
   </>
 );
 
-export const NO_RECORDS_FOUND = 'No Records Found';
+export const NO_RECORDS_FOUND = "No Records Found";
+
+export const DISTRICT_CONST = "district";
+export const TALUKA_CONST = "taluka";
+export const FORUM_CONST = "forum";
+export const JUDGE_CONST = "judge";
+export const BANK_CONST = "banks";
+export const DEPARTMENT_CONST = "department";
+export const BANK_BRANCH_CONST = "bank-branch";
+export const BANK_OFFICER_CONST = "bank-officer";
+export const ADVOCATE_CONST = "advocate";
+export const ASSOCIATE_ADVOCATE_CONST = "associate-advocate";
+export const EXECUTER_CONST = "executer";
+export const EXECUTIVE_OFFICER_DESIGNATION_CONST = "executive-officer-designation";
+export const PRODUCTS_CONST = "product";
+export const STAGE_CONST = "stage";
+export const DESIGNATION_CONST = "designation";
+export const OPPOSITE_ADVOCATE_CONST = "opposite-advocate";
+export const DISPOSAL_CONST = "disposal";
+export const CASE_TYPE_CONST = "case-type";
+export const CASE_CATEGORY_CONST = "case-category";

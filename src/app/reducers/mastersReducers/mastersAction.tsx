@@ -15,9 +15,21 @@ import {
   GET_ALL_BANK_OFFICER_SUCCESS,
   GET_ALL_BANK_REQUEST,
   GET_ALL_BANK_SUCCESS,
+  GET_ALL_CASE_CATEGORY_FAILURE,
+  GET_ALL_CASE_CATEGORY_REQUEST,
+  GET_ALL_CASE_CATEGORY_SUCCESS,
+  GET_ALL_CASE_TYPE_FAILURE,
+  GET_ALL_CASE_TYPE_REQUEST,
+  GET_ALL_CASE_TYPE_SUCCESS,
   GET_ALL_DEPARTMENT_FAILURE,
   GET_ALL_DEPARTMENT_REQUEST,
   GET_ALL_DEPARTMENT_SUCCESS,
+  GET_ALL_DESIGNATION_FAILURE,
+  GET_ALL_DESIGNATION_REQUEST,
+  GET_ALL_DESIGNATION_SUCCESS,
+  GET_ALL_DISPOSAL_FAILURE,
+  GET_ALL_DISPOSAL_REQUEST,
+  GET_ALL_DISPOSAL_SUCCESS,
   GET_ALL_DISTRICT_FAILURE,
   GET_ALL_DISTRICT_REQUEST,
   GET_ALL_DISTRICT_SUCCESS,
@@ -33,6 +45,9 @@ import {
   GET_ALL_JUDGE_NAME_FAILURE,
   GET_ALL_JUDGE_NAME_REQUEST,
   GET_ALL_JUDGE_NAME_SUCCESS,
+  GET_ALL_OPPSITE_ADVOCATE_FAILURE,
+  GET_ALL_OPPSITE_ADVOCATE_REQUEST,
+  GET_ALL_OPPSITE_ADVOCATE_SUCCESS,
   GET_ALL_OUR_ADVOCATE_FAILURE,
   GET_ALL_OUR_ADVOCATE_REQUEST,
   GET_ALL_OUR_ADVOCATE_SUCCESS,
@@ -57,9 +72,18 @@ import {
   GET_BY_ID_MASTERS_FAILURE,
   GET_BY_ID_MASTERS_REQUEST,
   GET_BY_ID_MASTERS_SUCCESS,
+  GET_CASE_CAT_FOR_DROPDOWN_FAILURE,
+  GET_CASE_CAT_FOR_DROPDOWN_REQUEST,
+  GET_CASE_CAT_FOR_DROPDOWN_SUCCESS,
+  GET_DESIGNATION_FOR_DROPDOWN_FAILURE,
+  GET_DESIGNATION_FOR_DROPDOWN_REQUEST,
+  GET_DESIGNATION_FOR_DROPDOWN_SUCCESS,
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_FAILURE,
+  GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_REQUEST,
+  GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_SUCCESS,
   GET_FORUM_DROPDOWN_MASTERS_FAILURE,
   GET_FORUM_DROPDOWN_MASTERS_REQUEST,
   GET_FORUM_DROPDOWN_MASTERS_SUCCESS,
@@ -72,6 +96,9 @@ import {
   GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_STAGE_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_STAGE_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_TALUKA_BY_DISTRICT_ID_FAILURE,
+  GET_TALUKA_BY_DISTRICT_ID_REQUEST,
+  GET_TALUKA_BY_DISTRICT_ID_SUCCESS,
   POST_MASTER_DATA_FAILURE,
   POST_MASTER_DATA_REQUEST,
   POST_MASTER_DATA_SUCCESS,
@@ -132,6 +159,25 @@ import {
   getProductForDropdown,
   getBankOfficerForDropdown,
   getJudgeForDropdown,
+  activeDeactiveDisposalService,
+  activeDeactiveDesignationService,
+  activeDeactiveCaseTypeService,
+  activeDeactiveCaseCategoryService,
+  activeDeactiveOppositeAdvocateService,
+  getAllDisposal,
+  getAllCaseType,
+  getAllCaseCategory,
+  getAllDesignation,
+  getAllOppositeAdvocate,
+  postDisposalService,
+  postDesignationService,
+  postCaseTypeService,
+  postCaseCategoryService,
+  postOppositeAdvocateService,
+  getDesignationForDropdown,
+  getTalukaByDistrictId,
+  getCaseCategoryForDropdown,
+  getExeOffDesignationForDropdown,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -299,7 +345,6 @@ export const fetchAllTaluka = (master: any, location: any) => {
     );
   };
 };
-
 export const fetchAllProduct = (master: any, location: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_ALL_PRODUCT_REQUEST));
@@ -313,7 +358,6 @@ export const fetchAllProduct = (master: any, location: any) => {
     );
   };
 };
-
 export const fetchAllStage = (master: any, location: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_ALL_STAGE_REQUEST));
@@ -323,6 +367,75 @@ export const fetchAllStage = (master: any, location: any) => {
       },
       (error: any) => {
         dispatch(failure(GET_ALL_STAGE_FAILURE, error.message));
+      }
+    );
+  };
+};
+export const fetchAllDisposal = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_DISPOSAL_REQUEST));
+    return getAllDisposal(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_DISPOSAL_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_DISPOSAL_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllCaseType = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_CASE_TYPE_REQUEST));
+    return getAllCaseType(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_CASE_TYPE_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_CASE_TYPE_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllCaseCategory = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_CASE_CATEGORY_REQUEST));
+    return getAllCaseCategory(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_CASE_CATEGORY_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_CASE_CATEGORY_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllDesignation = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_DESIGNATION_REQUEST));
+    return getAllDesignation(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_DESIGNATION_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_DESIGNATION_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchAllOppositeAdvocate = (master: any, location: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_OPPSITE_ADVOCATE_REQUEST));
+    return getAllOppositeAdvocate(location).then(
+      (result: any) => {
+        dispatch(success(GET_ALL_OPPSITE_ADVOCATE_SUCCESS, result.data, master));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_OPPSITE_ADVOCATE_FAILURE, error.message));
       }
     );
   };
@@ -341,7 +454,6 @@ export const fetchBankBranchByBankId = (id: any) => {
     );
   };
 };
-
 export const postDistrict = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
@@ -567,6 +679,91 @@ export const postProduct = (detail: any, callback: Function) => {
   };
 };
 
+export const postDisposal = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postDisposalService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Disposal Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure(error.response.data.error.errorMessage);
+      }
+    );
+  };
+};
+
+export const postDesgination = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postDesignationService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Designation Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure(error.response.data.error.errorMessage);
+      }
+    );
+  };
+};
+
+export const postCaseType = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postCaseTypeService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Case Type Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure(error.response.data.error.errorMessage);
+      }
+    );
+  };
+};
+
+export const postCaseCategory = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postCaseCategoryService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Case Category Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure(error.response.data.error.errorMessage);
+      }
+    );
+  };
+};
+
+export const postOppsiteAdvocate = (detail: any, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(POST_MASTER_DATA_REQUEST));
+    return postOppositeAdvocateService(detail).then(
+      (result: any) => {
+        dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
+        showToastMessageSuccess(`Oppsite Advocate Added`);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(POST_MASTER_DATA_FAILURE, error.message));
+        showToastMessageFailure(error.response.data.error.errorMessage);
+      }
+    );
+  };
+};
+
 export const activeDeactiveDistrict = (id: any, status: string, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
@@ -774,11 +971,90 @@ export const activeDeactiveProducts = (id: any, status: string, callback: Functi
     );
   };
 };
-
 export const activeDeactiveStage = (id: any, status: string, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveStageService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveDisposal = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveDisposalService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveDesignation = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveDesignationService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveCaseType = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveCaseTypeService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveCaseCategory = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveCaseCategoryService(id).then(
+      (result: any) => {
+        dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
+        showToastMessageSuccess(status);
+        callback();
+      },
+      (error: any) => {
+        dispatch(failure(ACTIVE_DEACTIVE_MASTERS_FAILURE, error.message));
+        showToastMessageFailure();
+      }
+    );
+  };
+};
+export const activeDeactiveOppositeAdvocate = (id: any, status: string, callback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
+    return activeDeactiveOppositeAdvocateService(id).then(
       (result: any) => {
         dispatch(success(ACTIVE_DEACTIVE_MASTERS_SUCCESS, result.data));
         showToastMessageSuccess(status);
@@ -816,8 +1092,6 @@ export const updateMasters = (url: any, masters: any, values: any, callback: Fun
         callback();
       },
       (error: any) => {
-
-
         dispatch(failure(UPDATE_MASTERS_FAILURE, error.response.data.error.errorMessage));
         showToastMessageFailure(error.response.data.error.errorMessage);
       }
@@ -909,6 +1183,20 @@ export const fetchBankOfficerByBranchId = (id: any) => {
   };
 };
 
+export const fetchTalukaByDistrictId = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_TALUKA_BY_DISTRICT_ID_REQUEST));
+    return getTalukaByDistrictId(id).then(
+      (result: any) => {
+        dispatch(success(GET_TALUKA_BY_DISTRICT_ID_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_TALUKA_BY_DISTRICT_ID_FAILURE, error.message));
+      }
+    );
+  };
+};
+
 export const fetchProductDropdown = () => {
   return (dispatch: any) => {
     dispatch(request(GET_PRODUCT_FOR_DROPDOWN_MASTERS_REQUEST));
@@ -918,6 +1206,48 @@ export const fetchProductDropdown = () => {
       },
       (error: any) => {
         dispatch(failure(GET_PRODUCT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchDesignationDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_DESIGNATION_FOR_DROPDOWN_REQUEST));
+    return getDesignationForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_DESIGNATION_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_DESIGNATION_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchCaseCategoryForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_CASE_CAT_FOR_DROPDOWN_REQUEST));
+    return getCaseCategoryForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_CASE_CAT_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_CASE_CAT_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchExeOffDesignationForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_REQUEST));
+    return getExeOffDesignationForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_FAILURE, error.message));
       }
     );
   };

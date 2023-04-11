@@ -7,6 +7,7 @@ import PaginatedItems from "../../common/modal/pagination/PaginatedItems";
 import { useLocation } from "react-router-dom";
 import { ADD_USER } from "../../../helpers/routesConstant";
 import Title from "../../common/Breadcrumbs/Title";
+import Loader from "../../common/loader/Loader";
 
 export interface Props {
   error: string;
@@ -21,12 +22,14 @@ const ViewUser: React.FC<Props> = ({ getUserList, loadingList, userList, error }
   useEffect(() => {
     getUserList(location.search);
   }, [getUserList, location.search]);
+ 
 
   return (
     <>
-      <Title title={'User'} />
+      <Title title={"User"} />
       <KTCard>
         <UsersListHeader path={ADD_USER} />
+        {loadingList && <Loader />}
         {userList && <PaginatedItems itemsPerPage={10} userList={userList} />}
       </KTCard>
     </>

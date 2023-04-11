@@ -1,5 +1,26 @@
 import { axiosInstance } from "../../helpers/apiRequest";
 import {
+  ACTIVE_DEACTIVE_CASE_CATEGORY,
+  ACTIVE_DEACTIVE_CASE_TYPE,
+  ACTIVE_DEACTIVE_DESIGNATION,
+  ACTIVE_DEACTIVE_DISPOSAL,
+  ACTIVE_DEACTIVE_OPPOSITE_ADVOCATE,
+  GET_ALL_CASE_CATEGORY,
+  GET_CASE_CATEGORY_FOR_DROPDOWN,
+  GET_DESIGNATION_FOR_DROPDOWN,
+  GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN,
+  GET_TALUKA_BY_DISTRICT_ID,
+  POST_CASE_CATEGORY,
+  POST_CASE_TYPE,
+  POST_DESIGNATION,
+  POST_DISPOSAL,
+  POST_OPPOSITE_ADVOCATE,
+} from "../../helpers/config";
+import { GET_ALL_DESGINATION } from "../../helpers/config";
+import { GET_ALL_CASE_TYPE } from "../../helpers/config";
+import { GET_ALL_DISPOSAL } from "../../helpers/config";
+import { GET_ALL_OPPOSITE_ADVOCATE } from "../../helpers/config";
+import {
   ACTIVE_DEACTIVE_ASSOCIATE_ADVOCATE,
   ACTIVE_DEACTIVE_BANK,
   ACTIVE_DEACTIVE_BANK_BRANCH,
@@ -109,6 +130,26 @@ export const getAllStage = async (location: any) => {
   const res = await axiosInstance.get(`${GET_ALL_STAGE}${location}`);
   return res;
 };
+export const getAllDisposal = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_DISPOSAL}${location}`);
+  return res;
+};
+export const getAllCaseType = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_CASE_TYPE}${location}`);
+  return res;
+};
+export const getAllCaseCategory = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_CASE_CATEGORY}${location}`);
+  return res;
+};
+export const getAllDesignation = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_DESGINATION}${location}`);
+  return res;
+};
+export const getAllOppositeAdvocate = async (location: any) => {
+  const res = await axiosInstance.get(`${GET_ALL_OPPOSITE_ADVOCATE}${location}`);
+  return res;
+};
 
 // Add Masters
 export const postDistrictService = async (detail: any) => {
@@ -165,6 +206,26 @@ export const postProductService = async (detail: any) => {
 };
 export const postStageService = async (detail: any) => {
   const res = await axiosInstance.post(`${POST_STAGE}`, detail);
+  return res;
+};
+export const postOppositeAdvocateService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_OPPOSITE_ADVOCATE}`, detail);
+  return res;
+};
+export const postCaseTypeService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_CASE_TYPE}`, detail);
+  return res;
+};
+export const postCaseCategoryService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_CASE_CATEGORY}`, detail);
+  return res;
+};
+export const postDesignationService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_DESIGNATION}`, detail);
+  return res;
+};
+export const postDisposalService = async (detail: any) => {
+  const res = await axiosInstance.post(`${POST_DISPOSAL}`, detail);
   return res;
 };
 
@@ -225,6 +286,26 @@ export const activeDeactiveStageService = async (id: any) => {
   const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_STAGE}/${id}`, id);
   return res;
 };
+export const activeDeactiveOppositeAdvocateService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_OPPOSITE_ADVOCATE}/${id}`, id);
+  return res;
+};
+export const activeDeactiveCaseCategoryService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_CASE_CATEGORY}/${id}`, id);
+  return res;
+};
+export const activeDeactiveCaseTypeService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_CASE_TYPE}/${id}`, id);
+  return res;
+};
+export const activeDeactiveDisposalService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_DISPOSAL}/${id}`, id);
+  return res;
+};
+export const activeDeactiveDesignationService = async (id: any) => {
+  const res = await axiosInstance.put(`${ACTIVE_DEACTIVE_DESIGNATION}/${id}`, id);
+  return res;
+};
 
 //update --> fill input fields
 export const getByIdService = async (url: any, id: any) => {
@@ -243,22 +324,22 @@ export const getBankBranchByBankId = async (id: any) => {
   const res = await axiosInstance.get(`${GET_BANK_BRANCH_BY_BANK_ID}/${id}`);
   return res;
 };
-
+export const getTalukaByDistrictId = async (id: any) => {
+  const res = await axiosInstance.get(`${GET_TALUKA_BY_DISTRICT_ID}/${id}`);
+  return res;
+};
 export const getDistrictForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_DISTRICT_FOR_DROPDOWN}`);
   return res;
 };
-
 export const getBankForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_BANK_FOR_DROPDOWN}`);
   return res;
 };
-
 export const getForumForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_FORUM_FOR_DROPDOWN}`);
   return res;
 };
-
 export const getStageForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_STAGE_FOR_DROPDOWN}`);
   return res;
@@ -273,5 +354,17 @@ export const getBankOfficerForDropdown = async (id: any) => {
 };
 export const getProductForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_PRODUCT_FOR_DROPDOWN}`);
+  return res;
+};
+export const getDesignationForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_DESIGNATION_FOR_DROPDOWN}`);
+  return res;
+};
+export const getCaseCategoryForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_CASE_CATEGORY_FOR_DROPDOWN}`);
+  return res;
+};
+export const getExeOffDesignationForDropdown = async () => {
+  const res = await axiosInstance.get(`${GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN}`);
   return res;
 };

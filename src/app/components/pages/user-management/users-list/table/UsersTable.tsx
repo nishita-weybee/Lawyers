@@ -13,9 +13,14 @@ import {
   bankBranchColumns,
   bankOfficerColumns,
   caseColumns,
+  caseTypeColumns,
   commonColumns,
+  departmentColumns,
   executiveColumns,
+  executiveOfficerDesignationColumns,
   judgeColumns,
+  oppAdvocateColumns,
+  productColumns,
   talukaColumns,
   usersColumns,
 } from "./columns/_columns";
@@ -48,10 +53,41 @@ import {
   fetchAllProduct,
   activeDeactiveProducts,
   activeDeactiveStage,
+  activeDeactiveDesignation,
+  activeDeactiveOppositeAdvocate,
+  activeDeactiveDisposal,
+  activeDeactiveCaseType,
+  activeDeactiveCaseCategory,
+  fetchAllDesignation,
+  fetchAllOppositeAdvocate,
+  fetchAllCaseCategory,
+  fetchAllCaseType,
+  fetchAllDisposal,
 } from "../../../../../reducers/mastersReducers/mastersAction";
 import { activeDeactiveCase, getAllCase } from "../../../../../reducers/caseReducers/caseAction";
 import { EDIT_CASE, VIEW_USER } from "../../../../../helpers/routesConstant";
 import { convert } from "../../../../../helpers/helperFunction";
+import {
+  BANK_OFFICER_CONST,
+  CASE_CATEGORY_CONST,
+  CASE_TYPE_CONST,
+  DESIGNATION_CONST,
+  DISPOSAL_CONST,
+  OPPOSITE_ADVOCATE_CONST,
+  TALUKA_CONST,
+  FORUM_CONST,
+  JUDGE_CONST,
+  BANK_CONST,
+  DEPARTMENT_CONST,
+  BANK_BRANCH_CONST,
+  ADVOCATE_CONST,
+  ASSOCIATE_ADVOCATE_CONST,
+  EXECUTIVE_OFFICER_DESIGNATION_CONST,
+  PRODUCTS_CONST,
+  EXECUTER_CONST,
+  STAGE_CONST,
+  DISTRICT_CONST,
+} from "../../../../../helpers/globalConstant";
 
 export interface Props {
   userList?: any;
@@ -67,40 +103,50 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
   const data = useMemo(() => users, [users]);
   const columns = useMemo(() => {
     switch (params.masters || params["*"]) {
-      case "district":
+      case DISTRICT_CONST:
         return commonColumns;
-      case "taluka":
+      case TALUKA_CONST:
         return talukaColumns;
-      case "forum":
+      case FORUM_CONST:
         return commonColumns;
-      case "judge":
+      case JUDGE_CONST:
         return judgeColumns;
-      case "bank-details":
+      case BANK_CONST:
         return commonColumns;
-      case "department":
-        return commonColumns;
-      case "bank-branch":
+      case DEPARTMENT_CONST:
+        return departmentColumns;
+      case BANK_BRANCH_CONST:
         return bankBranchColumns;
-      case "bank-officer":
+      case BANK_OFFICER_CONST:
         return bankOfficerColumns;
-      case "advocate":
+      case ADVOCATE_CONST:
         return advocateColumns;
-      case "associate-advocate":
+      case ASSOCIATE_ADVOCATE_CONST:
         return associateAdvocateColumns;
-      case "executer":
+      case EXECUTER_CONST:
         return executiveColumns;
-      case "executive-officer-designation":
+      case EXECUTIVE_OFFICER_DESIGNATION_CONST:
+        return executiveOfficerDesignationColumns;
+      case PRODUCTS_CONST:
+        return productColumns;
+      case STAGE_CONST:
         return commonColumns;
-      case "products":
+      case DESIGNATION_CONST:
         return commonColumns;
-      case "stage":
+      case OPPOSITE_ADVOCATE_CONST:
+        return oppAdvocateColumns;
+      case DISPOSAL_CONST:
+        return commonColumns;
+      case CASE_TYPE_CONST:
+        return caseTypeColumns;
+      case CASE_CATEGORY_CONST:
         return commonColumns;
       case "case/view-cases":
         return caseColumns;
       default:
         return usersColumns;
     }
-  }, [params.masters]);
+  }, [params]);
   const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
@@ -169,20 +215,57 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             </td>
                           )}
 
-                          {params.masters === "taluka" && (
+                          {params.masters === TALUKA_CONST && (
                             <td role="cell" className="">
                               {userDetail.district}
                             </td>
                           )}
 
-                          {params.masters === "executer" && (
+                          {params.masters === PRODUCTS_CONST && (
                             <td role="cell" className="">
-                              {userDetail.mobile}
+                              {userDetail.bank}
                             </td>
                           )}
 
-                          {params.masters === "associate-advocate" && (
+                          {params.masters === CASE_TYPE_CONST && (
+                            <td role="cell" className="">
+                              {userDetail.caseCategory}
+                            </td>
+                          )}
+
+                          {params.masters === DEPARTMENT_CONST &&
+                            (console.log(userDetail),
+                            (
+                              <td role="cell" className="">
+                                {userDetail.bank}
+                              </td>
+                            ))}
+
+                          {params.masters === EXECUTER_CONST && (
                             <>
+                              <td role="cell" className="">
+                                {userDetail.district}
+                              </td>
+                              <td role="cell" className="">
+                                {userDetail.taluka}
+                              </td>
+                              <td role="cell" className="">
+                                {userDetail.exeOfficerDesingation}
+                              </td>
+                              <td role="cell" className="">
+                                {userDetail.mobile}
+                              </td>
+                            </>
+                          )}
+
+                          {params.masters === ASSOCIATE_ADVOCATE_CONST && (
+                            <>
+                              <td role="cell" className="">
+                                {userDetail.district}
+                              </td>
+                              <td role="cell" className="">
+                                {userDetail.taluka}
+                              </td>
                               <td role="cell" className="">
                                 {userDetail.mobile}
                               </td>
@@ -195,7 +278,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             </>
                           )}
 
-                          {params.masters === "advocate" && (
+                          {params.masters === ADVOCATE_CONST && (
                             <>
                               <td role="cell" className="">
                                 {userDetail.mobile}
@@ -206,7 +289,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             </>
                           )}
 
-                          {params.masters === "bank-branch" && (
+                          {params.masters === BANK_BRANCH_CONST && (
                             <>
                               <td role="cell" className="">
                                 {userDetail.bank}
@@ -214,15 +297,29 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             </>
                           )}
 
-                          {params.masters === "judge" && (
+                          {params.masters === OPPOSITE_ADVOCATE_CONST && (
                             <>
+                              <td role="cell" className="">
+                                {userDetail.mobile}
+                              </td>
+                            </>
+                          )}
+
+                          {params.masters === JUDGE_CONST && (
+                            <>
+                              <td role="cell" className="">
+                                {userDetail.district}
+                              </td>
+                              <td role="cell" className="">
+                                {userDetail.taluka}
+                              </td>
                               <td role="cell" className="">
                                 {userDetail.forum}
                               </td>
                             </>
                           )}
 
-                          {params.masters === "bank-officer" && (
+                          {params.masters === BANK_OFFICER_CONST && (
                             <>
                               <td role="cell" className="">
                                 {userDetail.mobile}
@@ -233,8 +330,16 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               <td role="cell" className="">
                                 {userDetail.bank}
                               </td>
-                              <td role="cell" className="">
+                              {/* <td role="cell" className="">
                                 {userDetail.bankBranch}
+                              </td> */}
+                            </>
+                          )}
+
+                          {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
+                            <>
+                              <td role="cell" className="">
+                                {userDetail.designation}
                               </td>
                             </>
                           )}
@@ -324,47 +429,62 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     accountStatus: (masters: any, id: any, status: string, callback: Function) => {
       switch (masters) {
-        case "district":
+        case DISTRICT_CONST:
           dispatch(activeDeactiveDistrict(id, `District ${status}`, callback));
           break;
-        case "taluka":
+        case TALUKA_CONST:
           dispatch(activeDeactiveTaluka(id, `Taluka ${status}`, callback));
           break;
-        case "forum":
+        case FORUM_CONST:
           dispatch(activeDeactiveForum(id, `Forum ${status}`, callback));
           break;
-        case "judge":
+        case JUDGE_CONST:
           dispatch(activeDeactiveJudgeName(id, `Judge ${status}`, callback));
           break;
-        case "bank-details":
+        case BANK_CONST:
           dispatch(activeDeactiveBank(id, `Bank ${status}`, callback));
           break;
-        case "department":
+        case DEPARTMENT_CONST:
           dispatch(activeDeactiveDepartment(id, `Department ${status}`, callback));
           break;
-        case "bank-branch":
+        case BANK_BRANCH_CONST:
           dispatch(activeDeactiveBankBranch(id, `Bank Branch ${status}`, callback));
           break;
-        case "bank-officer":
+        case BANK_OFFICER_CONST:
           dispatch(activeDeactiveBankOfficer(id, `Bank Officer ${status}`, callback));
           break;
-        case "advocate":
+        case ADVOCATE_CONST:
           dispatch(activeDeactiveOurAdvocate(id, `Advocate ${status}`, callback));
           break;
-        case "associate-advocate":
+        case ASSOCIATE_ADVOCATE_CONST:
           dispatch(activeDeactiveAssociateAdvocate(id, `Associate Advocate ${status}`, callback));
           break;
-        case "executer":
+        case EXECUTER_CONST:
           dispatch(activeDeactiveExecuterName(id, `Executer ${status}`, callback));
           break;
-        case "executive-officer-designation":
+        case EXECUTIVE_OFFICER_DESIGNATION_CONST:
           dispatch(activeDeactiveExecutingOfficerDesignation(id, `Designation ${status}`, callback));
           break;
-        case "products":
+        case PRODUCTS_CONST:
           dispatch(activeDeactiveProducts(id, `Product ${status}`, callback));
           break;
-        case "stage":
+        case STAGE_CONST:
           dispatch(activeDeactiveStage(id, `Stage ${status}`, callback));
+          break;
+        case DESIGNATION_CONST:
+          dispatch(activeDeactiveDesignation(id, `Designation ${status}`, callback));
+          break;
+        case OPPOSITE_ADVOCATE_CONST:
+          dispatch(activeDeactiveOppositeAdvocate(id, `Opposite Advocate ${status}`, callback));
+          break;
+        case DISPOSAL_CONST:
+          dispatch(activeDeactiveDisposal(id, `Disposal ${status}`, callback));
+          break;
+        case CASE_TYPE_CONST:
+          dispatch(activeDeactiveCaseType(id, `Case Type ${status}`, callback));
+          break;
+        case CASE_CATEGORY_CONST:
+          dispatch(activeDeactiveCaseCategory(id, `Case Category ${status}`, callback));
           break;
         case "case/view-cases":
           dispatch(activeDeactiveCase(id, `Case ${status}`, callback));
@@ -376,47 +496,62 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     getUserList: (masters: string, location: any) => {
       switch (masters) {
-        case "district":
+        case DISTRICT_CONST:
           dispatch(fetchAllDistrict(masters, location));
           break;
-        case "taluka":
+        case TALUKA_CONST:
           dispatch(fetchAllTaluka(masters, location));
           break;
-        case "forum":
+        case FORUM_CONST:
           dispatch(fetchAllForum(masters, location));
           break;
-        case "judge":
+        case JUDGE_CONST:
           dispatch(fetchAllJudgeName(masters, location));
           break;
-        case "bank-details":
+        case BANK_CONST:
           dispatch(fetchAllBank(masters, location));
           break;
-        case "department":
+        case DEPARTMENT_CONST:
           dispatch(fetchAllDepartment(masters, location));
           break;
-        case "bank-branch":
+        case BANK_BRANCH_CONST:
           dispatch(fetchAllBankBranch(masters, location));
           break;
-        case "bank-officer":
+        case BANK_OFFICER_CONST:
           dispatch(fetchAllBankOfficer(masters, location));
           break;
-        case "advocate":
+        case ADVOCATE_CONST:
           dispatch(fetchAllOurAdvocate(masters, location));
           break;
-        case "associate-advocate":
+        case ASSOCIATE_ADVOCATE_CONST:
           dispatch(fetchAllAssociateAdvocate(masters, location));
           break;
-        case "executer":
+        case EXECUTER_CONST:
           dispatch(fetchAllExecuterName(masters, location));
           break;
-        case "executive-officer-designation":
+        case EXECUTIVE_OFFICER_DESIGNATION_CONST:
           dispatch(fetchAllExecutingOfficerDesignation(masters, location));
           break;
-        case "products":
+        case PRODUCTS_CONST:
           dispatch(fetchAllProduct(masters, location));
           break;
-        case "stage":
+        case STAGE_CONST:
           dispatch(fetchAllStage(masters, location));
+          break;
+        case DESIGNATION_CONST:
+          dispatch(fetchAllDesignation(masters, location));
+          break;
+        case OPPOSITE_ADVOCATE_CONST:
+          dispatch(fetchAllOppositeAdvocate(masters, location));
+          break;
+        case DISPOSAL_CONST:
+          dispatch(fetchAllDisposal(masters, location));
+          break;
+        case CASE_TYPE_CONST:
+          dispatch(fetchAllCaseType(masters, location));
+          break;
+        case CASE_CATEGORY_CONST:
+          dispatch(fetchAllCaseCategory(masters, location));
           break;
         case "case/view-cases":
           dispatch(getAllCase(location));
