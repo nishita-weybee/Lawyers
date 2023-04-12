@@ -1,7 +1,6 @@
 import hasPermission, { actionsRole } from "../../../../../app/components/auth/core/hasPermissions";
 import {
   ADD_CASE,
-  ADVOCATE,
   ASSOCIATE_ADVOCATE,
   BANK,
   BANK_BRANCH,

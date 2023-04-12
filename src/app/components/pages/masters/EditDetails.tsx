@@ -1309,21 +1309,21 @@ const EditDetails: React.FC<props> = ({
                         <div className="col-lg-8">
                           <div className="d-flex fw-semibold h-100">
                             <div className="form-check form-check-custom form-check-solid me-9">
-                              <Field type="checkbox" name="isSms" className="form-check-input" />
+                              <Field type="checkbox" name="isSms" className="form-check-input" id='isSms'/>
                               <label className="form-check-label ms-3" htmlFor="isSms">
                                 isSms
                               </label>
                             </div>
 
                             <div className="form-check form-check-custom form-check-solid me-9">
-                              <Field type="checkbox" name="isWhatsapp" className="form-check-input" />
+                              <Field type="checkbox" name="isWhatsapp" className="form-check-input" id='isWhatsapp' />
                               <label className="form-check-label ms-3" htmlFor="isWhatsapp">
                                 isWhatsapp
                               </label>
                             </div>
 
                             <div className="form-check form-check-custom form-check-solid">
-                              <Field type="checkbox" name="isEmail" className="form-check-input" />
+                              <Field type="checkbox" name="isEmail" className="form-check-input" id='isEmail' />
                               <label className="form-check-label ms-3" htmlFor="isEmail">
                                 isEmail
                               </label>

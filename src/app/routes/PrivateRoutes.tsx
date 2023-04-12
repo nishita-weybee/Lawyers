@@ -1,12 +1,8 @@
-import { FC, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { MasterLayout } from "../../_metronic/layout/MasterLayout";
-import TopBarProgress from "react-topbar-progress-indicator";
 import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
-import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
-import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_CASE, ADD_USER, EDIT_CASE, EDIT_PROFILE, PROFILE, VIEW_CASE, VIEW_USER } from "../helpers/routesConstant";
+import { ADD_CASE, ADD_USER, DASHBOARD, EDIT_CASE, EDIT_PROFILE, PROFILE, VIEW_CASE, VIEW_USER } from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
 import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
@@ -16,6 +12,7 @@ import EditDetails from "../components/pages/masters/EditDetails";
 import AddCase from "../components/pages/case/AddCase";
 import MyProfile from "../components/pages/user/MyProfile";
 import ViewCase from "../components/pages/case/ViewCase";
+import Dashboard from "../components/pages/Dashboard/Dashboard";
 
 const PrivateRoutes = () => {
   return (
@@ -27,6 +24,7 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
+            <Route path={DASHBOARD} element={<Dashboard />} />
             <Route>
               <Route path={"/masters/:masters"} element={<Masters />} />
               <Route path={"/masters/add-:masters"} element={<EditDetails />} />
@@ -53,16 +51,16 @@ const PrivateRoutes = () => {
   );
 };
 
-const SuspensedView: FC<WithChildren> = ({ children }) => {
-  const baseColor = getCSSVariableValue("--kt-primary");
-  TopBarProgress.config({
-    barColors: {
-      "0": baseColor,
-    },
-    barThickness: 1,
-    shadowBlur: 5,
-  });
-  return <Suspense fallback={<TopBarProgress />}>{children}</Suspense>;
-};
+// const SuspensedView: FC<WithChildren> = ({ children }) => {
+//   const baseColor = getCSSVariableValue("--kt-primary");
+//   TopBarProgress.config({
+//     barColors: {
+//       "0": baseColor,
+//     },
+//     barThickness: 1,
+//     shadowBlur: 5,
+//   });
+//   return <Suspense fallback={<TopBarProgress />}>{children}</Suspense>;
+// };
 
 export { PrivateRoutes };

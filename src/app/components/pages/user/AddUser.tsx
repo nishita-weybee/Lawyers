@@ -7,7 +7,7 @@ import { fetchUserRoles } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
 import InputPass from "../../common/inputPass/inputPass";
 import { registerUser } from "../../../reducers/authReducers/authAction";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { VIEW_USER } from "../../../helpers/routesConstant";
 
 export interface Props {
