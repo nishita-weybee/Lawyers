@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../helpers/apiRequest";
-import { ACTIVATE_DEACTIVATE_USER, EDIT_USER_DETAILS, USER_DETAILS, USER_LIST, USER_ROLES } from "../../helpers/config";
+import { ACTIVATE_DEACTIVATE_USER, EDIT_USER_DETAILS, GET_USER_DETAIL_BY_ID, USER_DETAILS, USER_LIST, USER_ROLES } from "../../helpers/config";
 
 export const getUserRoles = async () => {
   const res = await axiosInstance.get(`${USER_ROLES}`);
@@ -13,6 +13,11 @@ export const getUserList = async (path: any) => {
 
 export const getUserDetails = async () => {
   const res = await axiosInstance.get(`${USER_DETAILS}`);
+  return res.data;
+};
+
+export const getUserDetailsById = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_USER_DETAIL_BY_ID}/${id}`);
   return res.data;
 };
 

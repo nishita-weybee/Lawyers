@@ -64,6 +64,10 @@ export const bankOfficerColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => <UserCustomHeader tableProps={props} title="Bank" className="text-capitalize  min-w-100px" />,
     id: "Bank",
   },
+  {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Platforms" className="text-capitalize  min-w-100px" />,
+    id: "Platforms",
+  },
 
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
@@ -209,20 +213,7 @@ export const caseColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-export const executiveOfficerDesignationColumns: ReadonlyArray<Column<User>> = [
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Executive Officer Designation" className="text-capitalize min-w-125px" />,
-    id: "Name",
-  },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Designation" className="text-capitalize  min-w-100px" />,
-    id: "Designation",
-  },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
-    id: "actions",
-  },
-];
+
 export const productColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Product" className="text-capitalize min-w-125px" />,

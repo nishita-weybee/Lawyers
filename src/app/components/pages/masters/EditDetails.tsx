@@ -68,6 +68,8 @@ import {
   EXECUTER_CONST,
   STAGE_CONST,
   DISTRICT_CONST,
+  REQUIRED,
+  NO_DOT_ALLOWED,
 } from "../../../helpers/globalConstant";
 import {
   ASSOCIATE_ADVOCATE,
@@ -121,7 +123,6 @@ import {
   fetchCaseCategoryForDropdown,
   fetchExeOffDesignationForDropdown,
 } from "../../../reducers/mastersReducers/mastersAction";
-import { capitalizeFirstLetter } from "../../../helpers/helperFunction";
 
 export interface props {
   loadingPost: boolean;
@@ -182,165 +183,205 @@ const EditDetails: React.FC<props> = ({
 
   let num = 0;
   let validateFun = Yup.object().shape({
-    name: Yup.string().required("Required"),
+    name: Yup.string().required(REQUIRED),
   });
 
   switch (params.masters) {
     case DISTRICT_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case TALUKA_CONST:
       num = 6;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        districtId: Yup.number().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        districtId: Yup.number().required(REQUIRED),
       });
       break;
     case FORUM_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case JUDGE_CONST:
       num = 7;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        districtId: Yup.number().required("Required"),
-        talukaId: Yup.string().required("Required"),
-        forum: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        districtId: Yup.number().required(REQUIRED),
+        talukaId: Yup.string().required(REQUIRED),
+        forum: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case BANK_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case DEPARTMENT_CONST:
       num = 2;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        bankId: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        bankId: Yup.string().required(REQUIRED),
       });
       break;
     case BANK_BRANCH_CONST:
       num = 2;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        bankId: Yup.number().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        bankId: Yup.number().required(REQUIRED),
       });
       break;
     case BANK_OFFICER_CONST:
       num = 3;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
         mobile: Yup.string()
-          .required("Required")
+          .required(REQUIRED)
           .matches(/^\d{10}$/, "Wrong contact format"),
-        email: Yup.string().required("Required").email("Wrong email format"),
-        bankId: Yup.string().required("Required").matches(/^\d+$/, "Required"),
+        email: Yup.string().required(REQUIRED).email("Wrong email format"),
+        bankId: Yup.string().required(REQUIRED).matches(/^\d+$/, REQUIRED),
       });
       break;
     case ADVOCATE_CONST:
       num = 5;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
         mobile: Yup.string()
-          .required("Required")
+          .required(REQUIRED)
           .matches(/^\d{10}$/, "Wrong contact format"),
-        email: Yup.string().required("Required").email("Wrong email format"),
+        email: Yup.string().required(REQUIRED).email("Wrong email format"),
       });
       break;
     case ASSOCIATE_ADVOCATE_CONST:
       num = 1;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
         mobile: Yup.string()
-          .required("Required")
+          .required(REQUIRED)
           .matches(/^\d{10}$/, "Wrong contact format"),
-        email: Yup.string().required("Required").email("Wrong email format"),
-        pinCode: Yup.string().required("Required"),
-        address1: Yup.string().required("Required"),
-        address2: Yup.string().required("Required"),
-        districtId: Yup.string().required("Required"),
-        talukaId: Yup.string().required("Required"),
+        email: Yup.string().required(REQUIRED).email("Wrong email format"),
+        pinCode: Yup.string().required(REQUIRED),
+        address1: Yup.string().required(REQUIRED),
+        address2: Yup.string().required(REQUIRED),
+        districtId: Yup.string().required(REQUIRED),
+        talukaId: Yup.string().required(REQUIRED),
       });
       break;
     case EXECUTER_CONST:
       num = 4;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
         mobile: Yup.string()
-          .required("Required")
+          .required(REQUIRED)
           .matches(/^\d{10}$/, "Wrong contact format"),
-        districtId: Yup.string().required("Required"),
-        talukaId: Yup.string().required("Required"),
-        exeOfficerDesignationId: Yup.string().required("Required"),
+        districtId: Yup.string().required(REQUIRED),
+        talukaId: Yup.string().required(REQUIRED),
+        exeOfficerDesignationId: Yup.string().required(REQUIRED),
       });
       break;
     case EXECUTIVE_OFFICER_DESIGNATION_CONST:
       num = 8;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        desginationId: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        desginationId: Yup.string().required(REQUIRED),
       });
       break;
     case PRODUCTS_CONST:
       num = 2;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        bankId: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        bankId: Yup.string().required(REQUIRED),
       });
       break;
     case STAGE_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case DESIGNATION_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case OPPOSITE_ADVOCATE_CONST:
       num = 9;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
         mobile: Yup.string()
-          .required("Required")
+          .required(REQUIRED)
           .matches(/^\d{10}$/, "Wrong contact format"),
       });
       break;
     case DISPOSAL_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     case CASE_TYPE_CONST:
       num = 10;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        caseCategoryId: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
+        caseCategoryId: Yup.string().required(REQUIRED),
       });
       break;
     case CASE_CATEGORY_CONST:
       num = 0;
       validateFun = Yup.object().shape({
-        name: Yup.string().required("Required"),
+        name: Yup.string()
+          .required(REQUIRED)
+          .matches(/^[^.]*$/, NO_DOT_ALLOWED),
       });
       break;
     default:
       break;
   }
 
-  console.log(exeOffDesignationList);
+  // console.log(exeOffDesignationList);
 
   const initialValuesArr = [
     { name: "" },
@@ -357,7 +398,7 @@ const EditDetails: React.FC<props> = ({
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
-    console.log(values);
+    // console.log(values);
 
     if (params.id) {
       switch (params.masters) {
@@ -461,7 +502,7 @@ const EditDetails: React.FC<props> = ({
           break;
       }
     } else {
-      console.log("add");
+      // console.log("add");
 
       await postDetails(params?.masters, values, () => {
         navigate(`/masters/${params?.masters}`);
@@ -549,7 +590,7 @@ const EditDetails: React.FC<props> = ({
     params.masters === CASE_TYPE_CONST && getCaseCatList();
 
     // getDistrictList();
-  }, [getByIdFields, getDistrictList, getBankList, getForumList, getCaseCatList, getDesignationList, params]);
+  }, [getByIdFields, getDistrictList, getBankList, getForumList, getCaseCatList, getDesignationList, getExeOffDesignation, params]);
 
   useEffect(() => {
     if (params.id && params.masters === BANK_OFFICER_CONST && details.data) {
@@ -559,8 +600,6 @@ const EditDetails: React.FC<props> = ({
       getTalukaList(details?.data?.districtId);
     }
   }, [details?.data, params.id, params.masters, getBranchList, getTalukaList]);
-
-  console.log(exeOffDesignationList);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -578,125 +617,92 @@ const EditDetails: React.FC<props> = ({
         enableReinitialize={true}
         validationSchema={validateFun}
         render={({ values, setFieldValue, errors, touched, resetForm }) => (
-          console.log(values),
-          (
-            <Form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form">
-              {values ? (
-                <div className="card-body border-top p-9">
-                  {params.masters === DISTRICT_CONST && (
-                     <div className="row mb-6">
-                     <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">District Name</label>
-                     <div className="col-lg-8">
-                       <Field
-                         placeholder={"District Name"}
-                         type="text"
-                         name={"name"}
-                         autoComplete="off"
-                         className={clsx(
-                           "form-control bg-transparent",
-                           {
-                             "is-invalid": touched.name && errors.name,
-                           },
-                           {
-                             "is-valid": touched.name && !errors.name,
-                           }
-                         )}
-                       />
-                       {touched.name && errors.name && (
-                         <div className="fv-plugins-message-container">
-                           <div className="fv-help-block">
-                             <span role="alert">{`${errors.name}`}</span>
-                           </div>
-                         </div>
-                       )}
-                     </div>
-                   </div>
-                 
-                  )}
-                  {params.masters === TALUKA_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"districtId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.districtId && errors.districtId,
-                              },
-                              {
-                                "is-valid": touched.districtId && !errors.districtId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("districtId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select District
-                            </option>
-                            {!districtList?.data && "Loading..."}
-                            {districtList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.districtId && errors.districtId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
+          <Form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form">
+            {values ? (
+              <div className="card-body border-top p-9">
+                {params.masters === DISTRICT_CONST && (
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">District Name</label>
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={"District Name"}
+                        type="text"
+                        name={"name"}
+                        autoComplete="off"
+                        className={clsx(
+                          "form-control bg-transparent",
+                          {
+                            "is-invalid": touched.name && errors.name,
+                          },
+                          {
+                            "is-valid": touched.name && !errors.name,
+                          }
+                        )}
+                      />
+                      {errors.name && touched.name && (
+                        <div className="fv-plugins-message-container">
+                          <div className="fv-help-block">
+                            <span role="alert">{`${errors.name}`}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Taluka Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Taluka Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
+                      )}
+                    </div>
+                  </div>
+                )}
+                {params.masters === TALUKA_CONST && (
+                  <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executive Officer Designation</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
                       <div className="col-lg-8">
                         <Field
-                          placeholder={"Executive Officer Designation"}
+                          as="select"
+                          name={"districtId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.districtId && errors.districtId,
+                            },
+                            {
+                              "is-valid": touched.districtId && !errors.districtId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("districtId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select District
+                          </option>
+                          {!districtList?.data && "Loading..."}
+                          {districtList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.districtId && errors.districtId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.districtId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Taluka Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Taluka Name"}
                           type="text"
                           name={"name"}
                           autoComplete="off"
@@ -719,324 +725,91 @@ const EditDetails: React.FC<props> = ({
                         )}
                       </div>
                     </div>
-                  )}
-                  {params.masters === CASE_TYPE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Case Category</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"caseCategoryId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.caseCategoryId && errors.caseCategoryId,
-                              },
-                              {
-                                "is-valid": touched.caseCategoryId && !errors.caseCategoryId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("caseCategoryId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Category
-                            </option>
-                            {!caseCatList?.data && "Loading..."}
-                            {caseCatList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.caseCategoryId && errors.caseCategoryId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
+                  </>
+                )}
+                {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executive Officer Designation</label>
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={"Executive Officer Designation"}
+                        type="text"
+                        name={"name"}
+                        autoComplete="off"
+                        className={clsx(
+                          "form-control bg-transparent",
+                          {
+                            "is-invalid": touched.name && errors.name,
+                          },
+                          {
+                            "is-valid": touched.name && !errors.name,
+                          }
+                        )}
+                      />
+                      {touched.name && errors.name && (
+                        <div className="fv-plugins-message-container">
+                          <div className="fv-help-block">
+                            <span role="alert">{`${errors.name}`}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Type</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Case Type"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {params.masters === DEPARTMENT_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"bankId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.bankId && errors.bankId,
-                              },
-                              {
-                                "is-valid": touched.bankId && !errors.bankId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("bankId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Bank
-                            </option>
-                            {!bankList?.data && "Loading..."}
-                            {bankList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.bankId && errors.bankId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Department Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Department Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {params.masters === JUDGE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"districtId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.districtId && errors.districtId,
-                              },
-                              {
-                                "is-valid": touched.districtId && !errors.districtId,
-                              }
-                            )}
-                            onChange={(e: any) => {
-                              getTalukaList(e.target.value);
-                              setFieldValue("districtId", e.target.value);
-                              setFieldValue("talukaId", "");
-                            }}
-                          >
-                            <option value="" disabled>
-                              Select District
-                            </option>
-                            {!districtList?.data && "Loading..."}
-                            {districtList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.districtId && errors.districtId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"talukaId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.talukaId && errors.talukaId,
-                              },
-                              {
-                                "is-valid": touched.talukaId && !errors.talukaId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Taluka
-                            </option>
-                            {!talukaList?.data && "Loading..."}
-                            {talukaList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.talukaId && errors.talukaId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Forum</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Forum`}
-                            type={"text"}
-                            name={"forum"}
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.forum && errors.forum,
-                              },
-                              {
-                                "is-valid": touched.forum && !errors.forum,
-                              }
-                            )}
-                          />
-                          {touched.forum && errors.forum && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Judge Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Judge Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {params.masters === FORUM_CONST && (
+                      )}
+                    </div>
+                  </div>
+                )}
+                {params.masters === CASE_TYPE_CONST && (
+                  <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Forum Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Case Category</label>
                       <div className="col-lg-8">
                         <Field
-                          placeholder={"Forum Name"}
+                          as="select"
+                          name={"caseCategoryId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.caseCategoryId && errors.caseCategoryId,
+                            },
+                            {
+                              "is-valid": touched.caseCategoryId && !errors.caseCategoryId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("caseCategoryId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Category
+                          </option>
+                          {!caseCatList?.data && "Loading..."}
+                          {caseCatList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.caseCategoryId && errors.caseCategoryId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.caseCategoryId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Type</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Case Type"}
                           type="text"
                           name={"name"}
                           autoComplete="off"
@@ -1059,91 +832,62 @@ const EditDetails: React.FC<props> = ({
                         )}
                       </div>
                     </div>
-                  )}
-                  {params.masters === BANK_BRANCH_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"bankId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.bankId && errors.bankId,
-                              },
-                              {
-                                "is-valid": touched.bankId && !errors.bankId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("bankId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Bank
-                            </option>
-                            {!bankList?.data && "Loading..."}
-                            {bankList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.bankId && errors.bankId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Branch Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Bank Branch Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {params.masters === BANK_CONST && (
+                  </>
+                )}
+                {params.masters === DEPARTMENT_CONST && (
+                  <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
                       <div className="col-lg-8">
                         <Field
-                          placeholder={"Bank Name"}
+                          as="select"
+                          name={"bankId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.bankId && errors.bankId,
+                            },
+                            {
+                              "is-valid": touched.bankId && !errors.bankId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Bank
+                          </option>
+                          {!bankList?.data && "Loading..."}
+                          {bankList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.bankId && errors.bankId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.bankId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Department Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Department Name"}
                           type="text"
                           name={"name"}
                           autoComplete="off"
@@ -1166,180 +910,472 @@ const EditDetails: React.FC<props> = ({
                         )}
                       </div>
                     </div>
-                  )}
-                  {params.masters === BANK_OFFICER_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Bank`}
-                            type="text"
-                            as="select"
-                            name={"bankId"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.bankId && errors.bankId,
-                              },
-                              {
-                                "is-valid": touched.bankId && !errors.bankId,
-                              }
-                            )}
-                            onChange={(e: any) => {
-                              getBranchList(e.target.value);
-                              setFieldValue("bankId", e.target.value);
-                            }}
-                          >
-                            <option value="" disabled>
-                              Select Bank
-                            </option>
-                            {!bankList?.data && "Loading..."}
-                            {bankList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-
-                          {touched.bankId && errors.bankId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.bankId}`}</span>
-                              </div>
-                            </div>
+                  </>
+                )}
+                {params.masters === JUDGE_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"districtId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.districtId && errors.districtId,
+                            },
+                            {
+                              "is-valid": touched.districtId && !errors.districtId,
+                            }
                           )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Officer Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Bank Officer Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Mobile`}
-                            type="text"
-                            name={"mobile"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.mobile && errors.mobile,
-                              },
-                              {
-                                "is-valid": touched.mobile && !errors.mobile,
-                              }
-                            )}
-                          />
-                          {touched.mobile && errors.mobile && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.mobile}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Email`}
-                            type="text"
-                            name={"email"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.email && errors.email,
-                              },
-                              {
-                                "is-valid": touched.email && !errors.email,
-                              }
-                            )}
-                          />
-                          {touched.email && errors.email && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.email}`}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6">Platform</label>
-                        <div className="col-lg-8">
-                          <div className="d-flex fw-semibold h-100">
-                            <div className="form-check form-check-custom form-check-solid me-9">
-                              <Field type="checkbox" name="isSms" className="form-check-input" id='isSms'/>
-                              <label className="form-check-label ms-3" htmlFor="isSms">
-                                isSms
-                              </label>
-                            </div>
-
-                            <div className="form-check form-check-custom form-check-solid me-9">
-                              <Field type="checkbox" name="isWhatsapp" className="form-check-input" id='isWhatsapp' />
-                              <label className="form-check-label ms-3" htmlFor="isWhatsapp">
-                                isWhatsapp
-                              </label>
-                            </div>
-
-                            <div className="form-check form-check-custom form-check-solid">
-                              <Field type="checkbox" name="isEmail" className="form-check-input" id='isEmail' />
-                              <label className="form-check-label ms-3" htmlFor="isEmail">
-                                isEmail
-                              </label>
+                          onChange={(e: any) => {
+                            getTalukaList(e.target.value);
+                            setFieldValue("districtId", e.target.value);
+                            setFieldValue("talukaId", "");
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select District
+                          </option>
+                          {!districtList?.data && "Loading..."}
+                          {districtList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.districtId && errors.districtId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.districtId}`}</span>
                             </div>
                           </div>
-                          {/* {touched.email && errors.email && (
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"talukaId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.talukaId && errors.talukaId,
+                            },
+                            {
+                              "is-valid": touched.talukaId && !errors.talukaId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Taluka
+                          </option>
+                          {!talukaList?.data && "Loading..."}
+                          {talukaList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.talukaId && errors.talukaId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.talukaId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Forum</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Forum`}
+                          type={"text"}
+                          name={"forum"}
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.forum && errors.forum,
+                            },
+                            {
+                              "is-valid": touched.forum && !errors.forum,
+                            }
+                          )}
+                        />
+                        {touched.forum && errors.forum && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.forum}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Judge Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Judge Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === FORUM_CONST && (
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Forum Name</label>
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={"Forum Name"}
+                        type="text"
+                        name={"name"}
+                        autoComplete="off"
+                        className={clsx(
+                          "form-control bg-transparent",
+                          {
+                            "is-invalid": touched.name && errors.name,
+                          },
+                          {
+                            "is-valid": touched.name && !errors.name,
+                          }
+                        )}
+                      />
+                      {touched.name && errors.name && (
+                        <div className="fv-plugins-message-container">
+                          <div className="fv-help-block">
+                            <span role="alert">{`${errors.name}`}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {params.masters === BANK_BRANCH_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"bankId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.bankId && errors.bankId,
+                            },
+                            {
+                              "is-valid": touched.bankId && !errors.bankId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Bank
+                          </option>
+                          {!bankList?.data && "Loading..."}
+                          {bankList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.bankId && errors.bankId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.bankId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Branch Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Bank Branch Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === BANK_CONST && (
+                  <div className="row mb-6">
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Name</label>
+                    <div className="col-lg-8">
+                      <Field
+                        placeholder={"Bank Name"}
+                        type="text"
+                        name={"name"}
+                        autoComplete="off"
+                        className={clsx(
+                          "form-control bg-transparent",
+                          {
+                            "is-invalid": touched.name && errors.name,
+                          },
+                          {
+                            "is-valid": touched.name && !errors.name,
+                          }
+                        )}
+                      />
+                      {touched.name && errors.name && (
+                        <div className="fv-plugins-message-container">
+                          <div className="fv-help-block">
+                            <span role="alert">{`${errors.name}`}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {params.masters === BANK_OFFICER_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Bank`}
+                          type="text"
+                          as="select"
+                          name={"bankId"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.bankId && errors.bankId,
+                            },
+                            {
+                              "is-valid": touched.bankId && !errors.bankId,
+                            }
+                          )}
+                          onChange={(e: any) => {
+                            getBranchList(e.target.value);
+                            setFieldValue("bankId", e.target.value);
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select Bank
+                          </option>
+                          {!bankList?.data && "Loading..."}
+                          {bankList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+
+                        {touched.bankId && errors.bankId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.bankId}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Officer Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Bank Officer Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Mobile`}
+                          type="text"
+                          name={"mobile"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.mobile && errors.mobile,
+                            },
+                            {
+                              "is-valid": touched.mobile && !errors.mobile,
+                            }
+                          )}
+                        />
+                        {touched.mobile && errors.mobile && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.mobile}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Email`}
+                          type="text"
+                          name={"email"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.email && errors.email,
+                            },
+                            {
+                              "is-valid": touched.email && !errors.email,
+                            }
+                          )}
+                        />
+                        {touched.email && errors.email && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.email}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6">Platform</label>
+                      <div className="col-lg-8">
+                        <div className="d-flex fw-semibold h-100">
+                          <div className="form-check form-check-custom form-check-solid me-9">
+                            <Field type="checkbox" name="isSms" className="form-check-input" id="isSms" />
+                            <label className="form-check-label ms-3" htmlFor="isSms">
+                              isSms
+                            </label>
+                          </div>
+
+                          <div className="form-check form-check-custom form-check-solid me-9">
+                            <Field type="checkbox" name="isWhatsapp" className="form-check-input" id="isWhatsapp" />
+                            <label className="form-check-label ms-3" htmlFor="isWhatsapp">
+                              isWhatsapp
+                            </label>
+                          </div>
+
+                          <div className="form-check form-check-custom form-check-solid">
+                            <Field type="checkbox" name="isEmail" className="form-check-input" id="isEmail" />
+                            <label className="form-check-label ms-3" htmlFor="isEmail">
+                              isEmail
+                            </label>
+                          </div>
+                        </div>
+                        {/* {touched.email && errors.email && (
                             <div className="fv-plugins-message-container">
                               <div className="fv-help-block">
                                 <span role="alert">{`${errors.email}`}</span>
                               </div>
                             </div>
                           )} */}
-                        </div>
                       </div>
+                    </div>
 
-                      {/* {branchList?.data && (
+                    {/* {branchList?.data && (
                       <div className="row mb-6">
                         <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Branch</label>
                         <div className="col-lg-8">
@@ -1396,795 +1432,795 @@ const EditDetails: React.FC<props> = ({
                         </div>
                       </div>
                     )} */}
-                    </>
-                  )}
-                  {params.masters === ADVOCATE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Mobile`}
-                            type="text"
-                            name={"mobile"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.mobile && errors.mobile,
-                              },
-                              {
-                                "is-valid": touched.mobile && !errors.mobile,
-                              }
-                            )}
-                          />
-                          {touched.mobile && errors.mobile && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.mobile}`}</span>
-                              </div>
-                            </div>
+                  </>
+                )}
+                {params.masters === ADVOCATE_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Mobile`}
+                          type="text"
+                          name={"mobile"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.mobile && errors.mobile,
+                            },
+                            {
+                              "is-valid": touched.mobile && !errors.mobile,
+                            }
                           )}
-                        </div>
-                      </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Email`}
-                            type="text"
-                            name={"email"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.email && errors.email,
-                              },
-                              {
-                                "is-valid": touched.email && !errors.email,
-                              }
-                            )}
-                          />
-                          {touched.email && errors.email && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.email}`}</span>
-                              </div>
+                        />
+                        {touched.mobile && errors.mobile && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.mobile}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === ASSOCIATE_ADVOCATE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"districtId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.districtId && errors.districtId,
-                              },
-                              {
-                                "is-valid": touched.districtId && !errors.districtId,
-                              }
-                            )}
-                            onChange={(e: any) => {
-                              getTalukaList(e.target.value);
-                              setFieldValue("districtId", e.target.value);
-                              setFieldValue("talukaId", "");
-                            }}
-                          >
-                            <option value="" disabled>
-                              Select District
-                            </option>
-                            {!districtList?.data && "Loading..."}
-                            {districtList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.districtId && errors.districtId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Email`}
+                          type="text"
+                          name={"email"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.email && errors.email,
+                            },
+                            {
+                              "is-valid": touched.email && !errors.email,
+                            }
+                          )}
+                        />
+                        {touched.email && errors.email && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.email}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"talukaId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.talukaId && errors.talukaId,
-                              },
-                              {
-                                "is-valid": touched.talukaId && !errors.talukaId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Taluka
-                            </option>
-                            {!talukaList?.data && "Loading..."}
-                            {talukaList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.talukaId && errors.talukaId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === ASSOCIATE_ADVOCATE_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"districtId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.districtId && errors.districtId,
+                            },
+                            {
+                              "is-valid": touched.districtId && !errors.districtId,
+                            }
+                          )}
+                          onChange={(e: any) => {
+                            getTalukaList(e.target.value);
+                            setFieldValue("districtId", e.target.value);
+                            setFieldValue("talukaId", "");
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select District
+                          </option>
+                          {!districtList?.data && "Loading..."}
+                          {districtList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.districtId && errors.districtId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.districtId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Associate Advocate Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Associate Advocate Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"talukaId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.talukaId && errors.talukaId,
+                            },
+                            {
+                              "is-valid": touched.talukaId && !errors.talukaId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Taluka
+                          </option>
+                          {!talukaList?.data && "Loading..."}
+                          {talukaList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.talukaId && errors.talukaId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.talukaId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Pin Code</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Pin Code`}
-                            type="text"
-                            name={"pinCode"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.pinCode && errors.pinCode,
-                              },
-                              {
-                                "is-valid": touched.pinCode && !errors.pinCode,
-                              }
-                            )}
-                          />
-                          {touched.pinCode && errors.pinCode && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.pinCode}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Associate Advocate Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Associate Advocate Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 1</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Address Line 1`}
-                            type="text"
-                            name={"address1"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.address1 && errors.address1,
-                              },
-                              {
-                                "is-valid": touched.address1 && !errors.address1,
-                              }
-                            )}
-                          />
-                          {touched.address1 && errors.address1 && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.address1}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Pin Code</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Pin Code`}
+                          type="text"
+                          name={"pinCode"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.pinCode && errors.pinCode,
+                            },
+                            {
+                              "is-valid": touched.pinCode && !errors.pinCode,
+                            }
+                          )}
+                        />
+                        {touched.pinCode && errors.pinCode && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.pinCode}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 2</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Address Line 2`}
-                            type="text"
-                            name={"address2"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.address2 && errors.address2,
-                              },
-                              {
-                                "is-valid": touched.address2 && !errors.address2,
-                              }
-                            )}
-                          />
-                          {touched.address2 && errors.address2 && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.address2}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 1</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Address Line 1`}
+                          type="text"
+                          name={"address1"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.address1 && errors.address1,
+                            },
+                            {
+                              "is-valid": touched.address1 && !errors.address1,
+                            }
+                          )}
+                        />
+                        {touched.address1 && errors.address1 && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.address1}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Mobile`}
-                            type="text"
-                            name={"mobile"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.mobile && errors.mobile,
-                              },
-                              {
-                                "is-valid": touched.mobile && !errors.mobile,
-                              }
-                            )}
-                          />
-                          {touched.mobile && errors.mobile && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.mobile}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 2</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Address Line 2`}
+                          type="text"
+                          name={"address2"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.address2 && errors.address2,
+                            },
+                            {
+                              "is-valid": touched.address2 && !errors.address2,
+                            }
+                          )}
+                        />
+                        {touched.address2 && errors.address2 && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.address2}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Email`}
-                            type="text"
-                            name={"email"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.email && errors.email,
-                              },
-                              {
-                                "is-valid": touched.email && !errors.email,
-                              }
-                            )}
-                          />
-                          {touched.email && errors.email && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.email}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Mobile`}
+                          type="text"
+                          name={"mobile"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.mobile && errors.mobile,
+                            },
+                            {
+                              "is-valid": touched.mobile && !errors.mobile,
+                            }
+                          )}
+                        />
+                        {touched.mobile && errors.mobile && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.mobile}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === EXECUTER_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"districtId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.districtId && errors.districtId,
-                              },
-                              {
-                                "is-valid": touched.districtId && !errors.districtId,
-                              }
-                            )}
-                            onChange={(e: any) => {
-                              getTalukaList(e.target.value);
-                              setFieldValue("districtId", e.target.value);
-                              setFieldValue("talukaId", "");
-                            }}
-                          >
-                            <option value="" disabled>
-                              Select District
-                            </option>
-                            {!districtList?.data && "Loading..."}
-                            {districtList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.districtId && errors.districtId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Email`}
+                          type="text"
+                          name={"email"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.email && errors.email,
+                            },
+                            {
+                              "is-valid": touched.email && !errors.email,
+                            }
+                          )}
+                        />
+                        {touched.email && errors.email && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.email}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"talukaId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.talukaId && errors.talukaId,
-                              },
-                              {
-                                "is-valid": touched.talukaId && !errors.talukaId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Taluka
-                            </option>
-                            {!talukaList?.data && "Loading..."}
-                            {talukaList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.talukaId && errors.talukaId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === EXECUTER_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"districtId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.districtId && errors.districtId,
+                            },
+                            {
+                              "is-valid": touched.districtId && !errors.districtId,
+                            }
+                          )}
+                          onChange={(e: any) => {
+                            getTalukaList(e.target.value);
+                            setFieldValue("districtId", e.target.value);
+                            setFieldValue("talukaId", "");
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select District
+                          </option>
+                          {!districtList?.data && "Loading..."}
+                          {districtList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.districtId && errors.districtId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.districtId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Executive Officer Designation</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"exeOfficerDesignationId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.exeOfficerDesignationId && errors.exeOfficerDesignationId,
-                              },
-                              {
-                                "is-valid": touched.exeOfficerDesignationId && !errors.exeOfficerDesignationId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("exeOfficerDesignationId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Designation
-                            </option>
-                            {!exeOffDesignationList?.data && "Loading..."}
-                            {exeOffDesignationList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.exeOfficerDesignationId && errors.exeOfficerDesignationId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.exeOfficerDesignationId}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"talukaId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.talukaId && errors.talukaId,
+                            },
+                            {
+                              "is-valid": touched.talukaId && !errors.talukaId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Taluka
+                          </option>
+                          {!talukaList?.data && "Loading..."}
+                          {talukaList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.talukaId && errors.talukaId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.talukaId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executer Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Executer Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Executive Officer Designation</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"exeOfficerDesignationId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.exeOfficerDesignationId && errors.exeOfficerDesignationId,
+                            },
+                            {
+                              "is-valid": touched.exeOfficerDesignationId && !errors.exeOfficerDesignationId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("exeOfficerDesignationId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Designation
+                          </option>
+                          {!exeOffDesignationList?.data && "Loading..."}
+                          {exeOffDesignationList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.exeOfficerDesignationId && errors.exeOfficerDesignationId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.exeOfficerDesignationId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Mobile`}
-                            type="text"
-                            name={"mobile"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.mobile && errors.mobile,
-                              },
-                              {
-                                "is-valid": touched.mobile && !errors.mobile,
-                              }
-                            )}
-                          />
-                          {touched.mobile && errors.mobile && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.mobile}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executer Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Executer Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === OPPOSITE_ADVOCATE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Opposite Advocate Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Opposite Advocate Name`}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Mobile`}
+                          type="text"
+                          name={"mobile"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.mobile && errors.mobile,
+                            },
+                            {
+                              "is-valid": touched.mobile && !errors.mobile,
+                            }
+                          )}
+                        />
+                        {touched.mobile && errors.mobile && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.mobile}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={`Mobile`}
-                            type="text"
-                            name={"mobile"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.mobile && errors.mobile,
-                              },
-                              {
-                                "is-valid": touched.mobile && !errors.mobile,
-                              }
-                            )}
-                          />
-                          {touched.mobile && errors.mobile && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.mobile}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === OPPOSITE_ADVOCATE_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Opposite Advocate Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Opposite Advocate Name`}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === PRODUCTS_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            as="select"
-                            name={"bankId"}
-                            className={clsx(
-                              "form-control bg-transparent form-select",
-                              {
-                                "is-invalid": touched.bankId && errors.bankId,
-                              },
-                              {
-                                "is-valid": touched.bankId && !errors.bankId,
-                              }
-                            )}
-                            onChange={(e: any) => setFieldValue("bankId", e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Bank
-                            </option>
-                            {!bankList?.data && "Loading..."}
-                            {bankList?.data?.map((list: any, i: any) => {
-                              return (
-                                <>
-                                  {!params.id && list.isActive === true && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                  {params.id && (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
-                                  )}
-                                </>
-                              );
-                            })}
-                          </Field>
-                          {touched.bankId && errors.bankId && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={`Mobile`}
+                          type="text"
+                          name={"mobile"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.mobile && errors.mobile,
+                            },
+                            {
+                              "is-valid": touched.mobile && !errors.mobile,
+                            }
+                          )}
+                        />
+                        {touched.mobile && errors.mobile && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.mobile}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Product Name</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Product Name"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === PRODUCTS_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          as="select"
+                          name={"bankId"}
+                          className={clsx(
+                            "form-control bg-transparent form-select",
+                            {
+                              "is-invalid": touched.bankId && errors.bankId,
+                            },
+                            {
+                              "is-valid": touched.bankId && !errors.bankId,
+                            }
+                          )}
+                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Bank
+                          </option>
+                          {!bankList?.data && "Loading..."}
+                          {bankList?.data?.map((list: any, i: any) => {
+                            return (
+                              <>
+                                {!params.id && list.isActive === true && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                                {params.id && (
+                                  <option key={i} value={list.id}>
+                                    {list.name}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
+                        </Field>
+                        {touched.bankId && errors.bankId && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.bankId}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === CASE_CATEGORY_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Category</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Case Category"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Product Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Product Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === DISPOSAL_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Disposal Type</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Disposal Type"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === CASE_CATEGORY_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Category</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Case Category"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === DESIGNATION_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Designation</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Designation"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === DISPOSAL_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Disposal Type</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Disposal Type"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
-                  {params.masters === STAGE_CONST && (
-                    <>
-                      <div className="row mb-6">
-                        <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Stage</label>
-                        <div className="col-lg-8">
-                          <Field
-                            placeholder={"Stage"}
-                            type="text"
-                            name={"name"}
-                            autoComplete="off"
-                            className={clsx(
-                              "form-control bg-transparent",
-                              {
-                                "is-invalid": touched.name && errors.name,
-                              },
-                              {
-                                "is-valid": touched.name && !errors.name,
-                              }
-                            )}
-                          />
-                          {touched.name && errors.name && (
-                            <div className="fv-plugins-message-container">
-                              <div className="fv-help-block">
-                                <span role="alert">{`${errors.name}`}</span>
-                              </div>
+                    </div>
+                  </>
+                )}
+                {params.masters === DESIGNATION_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Designation</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Designation"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    </>
-                  )}
+                    </div>
+                  </>
+                )}
+                {params.masters === STAGE_CONST && (
+                  <>
+                    <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Stage</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Stage"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                  {/* <div className="row mb-6">
+                {/* <div className="row mb-6">
                     <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">{params.masters?.replace(/-/g, " ")} Name</label>
                     <div className="col-lg-8">
                       <Field
@@ -2211,28 +2247,27 @@ const EditDetails: React.FC<props> = ({
                       )}
                     </div>
                   </div> */}
-                </div>
-              ) : (
-                <Loader />
-              )}
-
-              <div className="card-footer d-flex justify-content-end py-6 px-9 ">
-                <button
-                  type="button"
-                  id="kt_login_password_reset_form_cancel_button"
-                  className="btn btn-light me-4 btn-active-light-primary"
-                  disabled={loading}
-                  onClick={() => navigate(`/masters/${params?.masters?.replace("add-", "")}`)}
-                >
-                  {DISCARD}
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  {!loading && <span className="indicator-label">{SUBMIT}</span>}
-                  {loading && PLEASE_WAIT}
-                </button>
               </div>
-            </Form>
-          )
+            ) : (
+              <Loader />
+            )}
+
+            <div className="card-footer d-flex justify-content-end py-6 px-9 ">
+              <button
+                type="button"
+                id="kt_login_password_reset_form_cancel_button"
+                className="btn btn-light me-4 btn-active-light-primary"
+                disabled={loading}
+                onClick={() => navigate(`/masters/${params?.masters?.replace("add-", "")}`)}
+              >
+                {DISCARD}
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {!loading && <span className="indicator-label">{SUBMIT}</span>}
+                {loading && PLEASE_WAIT}
+              </button>
+            </div>
+          </Form>
         )}
       />
     </div>

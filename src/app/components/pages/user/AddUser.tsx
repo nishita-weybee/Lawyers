@@ -3,208 +3,447 @@ import { useEffect } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { DISCARD, PLEASE_WAIT, REQUIRED, SUBMIT } from "../../../helpers/globalConstant";
-import { fetchUserRoles } from "../../../reducers/userReducers/userAction";
+import { fetchUserDetailsById, fetchUserRoles, postUserDetails } from "../../../reducers/userReducers/userAction";
 import { connect } from "react-redux";
-import InputPass from "../../common/inputPass/inputPass";
 import { registerUser } from "../../../reducers/authReducers/authAction";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { VIEW_USER } from "../../../helpers/routesConstant";
+import { fetchDesignationDropdown } from "../../../reducers/mastersReducers/mastersAction";
+import InputPass from "../../common/inputPass/inputPass";
+import { convert } from "../../../helpers/helperFunction";
 
 export interface Props {
   loadingRoles: boolean;
-  loading: boolean;
   userRoles: any;
   error: string;
   getUserRoles: any;
   postRegisterUser: Function;
+  getUserDetails: Function;
+  details: any;
+  postDetails: Function;
+  posting: boolean;
+  putting: boolean;
+  getDesignation: Function;
+  designationList: any;
 }
 
-const AddUser: React.FC<Props> = ({ getUserRoles, loadingRoles, userRoles, error, postRegisterUser, loading }) => {
+const AddUser: React.FC<Props> = ({
+  getUserRoles,
+  loadingRoles,
+  userRoles,
+  error,
+  postRegisterUser,
+  putting,
+  details,
+  getUserDetails,
+  posting,
+  designationList,
+  getDesignation,
+  postDetails,
+}) => {
   const navigate = useNavigate();
-
+  const params = useParams();
   useEffect(() => {
+    if (params.id) {
+      getUserDetails(params.id);
+    }
     getUserRoles();
-  }, [getUserRoles]);
+  }, [getUserRoles, getUserDetails, params]);
 
   const initialValues = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
+    address: null,
+    city: null,
+    pinCode: null,
     email: "",
+    mobile: null,
+    dateOfBirth: '',
+    joiningDate: '',
+    aadharNo: null,
+    panNo: null,
+    role: "",
     password: "",
-    role: "Admin",
+    userCode: null,
+    designationId: "",
   };
-
+  const loading = params.id ? putting : posting;
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
+    firstName: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
     email: Yup.string().email("Wrong email format").required(REQUIRED),
-    lastname: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
+    lastName: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
     password: Yup.string()
       .required(REQUIRED)
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/, "Wrong password format"),
+    joiningDate: Yup.date().typeError(REQUIRED).required(REQUIRED),
+    role: Yup.string().required(REQUIRED),
+    designationId: Yup.string().required(REQUIRED),
+    userCode: Yup.string().required(REQUIRED),
+  });
+
+  const editSchema = Yup.object().shape({
+    firstName: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
+    email: Yup.string().email("Wrong email format").required(REQUIRED),
+    lastName: Yup.string().min(3, "Minimum 3 characters").max(50, "Maximum 50 symbols").required(REQUIRED),
+    joiningDate: Yup.date().typeError(REQUIRED).required(REQUIRED),
+    role: Yup.string().required(REQUIRED),
+    designationId: Yup.string().required(REQUIRED),
+    userCode: Yup.string().required(REQUIRED),
   });
 
   const formik = useFormik({
-    initialValues,
-    validationSchema,
+    enableReinitialize: true,
+    initialValues: params.id ? details?.details?.data : initialValues,
+    validationSchema: params.id ? editSchema : validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      postRegisterUser(values, () => {
-        resetForm();
-      });
+      console.log(values);
+
+      if (params.id) {
+        console.log(values);
+
+        postDetails(values, () => navigate(VIEW_USER));
+        console.log("hii");
+      } else {
+        postRegisterUser({...values, dateOfBirth: values.dateOfBirth === '' ? null : values.dateOfBirth }, () => {
+          resetForm();
+        });
+      }
     },
   });
+
+  useEffect(() => {
+    getDesignation();
+  }, [getDesignation]);
 
   return (
     <div className="card mb-5 mb-xl-10">
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
-          <h3 className="fw-bolder m-0">Add User</h3>
+          <h3 className="fw-bolder m-0">{!params.id ? "Add User" : "Edit User"}</h3>
         </div>
       </div>
 
-      <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
-        <div className="card-body border-top p-9">
-          {error && (
+      {formik.values && (
+        <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
+          <div className="card-body border-top p-9">
             <div className="row mb-6">
-              <div className="mb-lg-15 alert alert-danger">
-                <div className="alert-text font-weight-bold">{error}</div>
+              <div className="col-lg-6">
+                <label className="col-form-label fw-bold fs-6 required" htmlFor={"firstName"}>
+                  First Name
+                </label>
+                <div className="">
+                  <input
+                    placeholder="First Name"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("firstName")}
+                    className={clsx(
+                      "form-control bg-transparent",
+                      {
+                        "is-invalid": formik.touched.firstName && formik.errors.firstName,
+                      },
+                      {
+                        "is-valid": formik.touched.firstName && !formik.errors.firstName,
+                      }
+                    )}
+                  />
+                  {formik.touched.firstName && formik.errors.firstName && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.firstName}`}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required">Last Name</label>
+                <div className="">
+                  <input
+                    placeholder="Last Name"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("lastName")}
+                    className={clsx(
+                      "form-control bg-transparent",
+                      {
+                        "is-invalid": formik.touched.lastName && formik.errors.lastName,
+                      },
+                      {
+                        "is-valid": formik.touched.lastName && !formik.errors.lastName,
+                      }
+                    )}
+                  />
+                  {formik.touched.lastName && formik.errors.lastName && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.lastName}`}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          )}
+            <div className="row mb-6">
+              <label className="col-form-label fw-bold fs-6 ">Address</label>
+              <div className="">
+                <textarea
+                  placeholder="Address"
+                  // type="text"
+                  autoComplete="off"
+                  {...formik.getFieldProps("address")}
+                  className={clsx("form-control bg-transparent")}
+                />
+              </div>
+            </div>
+            {/* <div className="row mb-6">
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 ">City</label>
+                <div className="">
+                  <input
+                    placeholder="City"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("city")}
+                    className={clsx("form-control bg-transparent", { "is-invalid": formik.touched.city && formik.errors.city })}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 ">Pin Code</label>
+                <div className="">
+                  <input
+                    placeholder="Pin Code"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("pinCode")}
+                    className={clsx("form-control bg-transparent")}
+                  />
+                </div>
+              </div>
+            </div> */}
+            <div className="row mb-6">
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required">Email</label>
+                <div className="">
+                  <input
+                    placeholder="Email"
+                    type="email"
+                    autoComplete="off"
+                    {...formik.getFieldProps("email")}
+                    className={clsx("form-control bg-transparent", { "is-invalid": formik.touched.email && formik.errors.email })}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 ">Mobile</label>
+                <div className="">
+                  <input
+                    placeholder="Mobile"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("mobile")}
+                    className={clsx("form-control bg-transparent")}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row mb-6">
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6" htmlFor="dateOfBirth">
+                  Date Of Birth
+                </label>
+                <div className="">
+                  <input
+                    placeholder=" Date Of Birth"
+                    type="date"
+                    autoComplete="off"
+                    // {...formik.getFieldProps("dateOfBirth")}
+                    name="dateOfBirth"
+                    onChange={(e: any) => formik.setFieldValue("dateOfBirth", e.target.value)}
+                    value={convert(formik.values?.dateOfBirth)}
+                    className={clsx("form-control bg-transparent")}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required" htmlFor="joiningDate">
+                  Joining Date
+                </label>
+                <div className="">
+                  <input
+                    value={convert(formik.values?.joiningDate)}
+                    placeholder="joiningDate"
+                    type="date"
+                    autoComplete="off"
+                    name="joiningDate"
+                    onChange={(e: any) => formik.setFieldValue("joiningDate", e.target.value)}
+                    className={clsx(
+                      "form-control bg-transparent",
+                      { "is-invalid": formik.touched.joiningDate && formik.errors.joiningDate },
+                      {
+                        "is-valid": formik.touched.joiningDate && !formik.errors.joiningDate,
+                      }
+                    )}
+                  />
+                  {formik.touched.joiningDate && formik.errors.joiningDate && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.joiningDate}`}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="row mb-6">
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6">Adhar Number</label>
+                <div className="">
+                  <input
+                    placeholder="Adhar Number"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("aadharNo")}
+                    className={clsx("form-control bg-transparent")}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6">Pan Number</label>
+                <div className="">
+                  <input
+                    placeholder="Pan Number"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("panNo")}
+                    className={clsx("form-control bg-transparent")}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row mb-6">
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required">User Code</label>
+                <div className="">
+                  <input
+                    placeholder="User Code"
+                    type="text"
+                    autoComplete="off"
+                    {...formik.getFieldProps("userCode")}
+                    className={clsx(
+                      "form-control bg-transparent",
+                      { "is-invalid": formik.touched.userCode && formik.errors.userCode },
+                      {
+                        "is-valid": formik.touched.userCode && !formik.errors.userCode,
+                      }
+                    )}
+                  />
+                  {formik.touched.userCode && formik.errors.userCode && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.userCode}`}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required">Designation</label>
+                <div className="">
+                  <select
+                    {...formik.getFieldProps("designationId")}
+                    className={clsx(
+                      "form-control bg-transparent",
+                      { "is-invalid": formik.touched.designationId && formik.errors.designationId },
+                      {
+                        "is-valid": formik.touched.designationId && !formik.errors.designationId,
+                      }
+                    )}
+                  >
+                    <option>Select Designation</option>
+                    {designationList?.data?.map((list: any, i: any) => (
+                      <option value={list.id}>{list.name}</option>
+                    ))}
+                  </select>
 
-          <div className="row mb-6">
-            <label className="col-lg-4 col-form-label fw-bold fs-6 required">First name</label>
-            <div className="col-lg-8">
-              <input
-                placeholder="First Name"
-                type="text"
-                autoComplete="off"
-                {...formik.getFieldProps("firstname")}
-                className={clsx(
-                  "form-control bg-transparent",
-                  {
-                    "is-invalid": formik.touched.firstname && formik.errors.firstname,
-                  },
-                  {
-                    "is-valid": formik.touched.firstname && !formik.errors.firstname,
-                  }
-                )}
-              />
-              {formik.touched.firstname && formik.errors.firstname && (
-                <div className="fv-plugins-message-container">
-                  <div className="fv-help-block">
-                    <span role="alert">{formik.errors.firstname}</span>
-                  </div>
+                  {formik.touched.designationId && formik.errors.designationId && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.designationId}`}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-          <div className="row mb-6">
-            <label className="col-lg-4 col-form-label fw-bold fs-6 required">Last name</label>
-            <div className="col-lg-8">
-              <input
-                placeholder="Last Name"
-                type="text"
-                autoComplete="off"
-                {...formik.getFieldProps("lastname")}
-                className={clsx(
-                  "form-control bg-transparent",
-                  {
-                    "is-invalid": formik.touched.lastname && formik.errors.lastname,
-                  },
-                  {
-                    "is-valid": formik.touched.lastname && !formik.errors.lastname,
-                  }
-                )}
-              />
-              {formik.touched.lastname && formik.errors.lastname && (
-                <div className="fv-plugins-message-container">
-                  <div className="fv-help-block">
-                    <span role="alert">{formik.errors.lastname}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="row mb-6">
-            <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
-            <div className="col-lg-8">
-              <input
-                placeholder="Email"
-                type="email"
-                autoComplete="off"
-                {...formik.getFieldProps("email")}
-                className={clsx(
-                  "form-control bg-transparent",
-                  { "is-invalid": formik.touched.email && formik.errors.email },
-                  {
-                    "is-valid": formik.touched.email && !formik.errors.email,
-                  }
-                )}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="fv-plugins-message-container">
-                  <div className="fv-help-block">
-                    <span role="alert">{formik.errors.email}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="row mb-6">
-            <label className="col-lg-4 col-form-label fw-bold fs-6 required">Password</label>
-            <div className="col-lg-8">
-              <InputPass
-                formik={formik}
-                placeholder="Password"
-                fieldProp="password"
-                touched={formik.touched.password}
-                errors={formik.errors.password}
-              />
+            <div className="row mb-6">
+              {!params.id && (
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required">Password</label>
+                  <div className="">
+                    <InputPass
+                      formik={formik}
+                      placeholder="Password"
+                      fieldProp="password"
+                      touched={formik.touched.password}
+                      errors={formik.errors.password}
+                    />
 
-              {formik.touched.password && formik.errors.password && (
-                <div className="fv-plugins-message-container">
-                  <div className="fv-help-block">
-                    <span role="alert">{formik.errors.password}</span>
+                    {formik.touched.password && formik.errors.password && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span role="alert">{`${formik.errors.password}`}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="text-muted">Use 6 or more characters with a mix of letters, numbers & symbols.</div>
                   </div>
                 </div>
               )}
-
-              <div className="text-muted">Use 6 or more characters with a mix of letters, numbers & symbols.</div>
-            </div>
-          </div>
-          <div className="row mb-6">
-            <label className="col-lg-4 col-form-label fw-bold fs-6 required">Role</label>
-            <div className="col-lg-8">
-              <select
-                className="form-select form-select-solid"
-                data-kt-select2="true"
-                {...formik.getFieldProps("role")}
-                data-placeholder="Select option"
-                data-allow-clear="true"
-              >
-                {userRoles?.map((role: string, i: any) => {
-                  return (
-                    <option key={i} value={role}>
-                      {role}
+              <div className="col-lg-6">
+                <label className=" col-form-label fw-bold fs-6 required">Role</label>
+                <div className="">
+                  <select
+                    className={clsx(
+                      "form-control bg-transparent  form-select-solid",
+                      { "is-invalid": formik.touched.role && formik.errors.role },
+                      {
+                        "is-valid": formik.touched.role && !formik.errors.role,
+                      }
+                    )}
+                    {...formik.getFieldProps("role")}
+                  >
+                    <option value="" disabled>
+                      Select Role
                     </option>
-                  );
-                })}
-              </select>
+
+                    {userRoles?.map((role: string, i: any) => {
+                      return (
+                        <option key={i} value={role}>
+                          {role}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="card-footer d-flex justify-content-end py-6 px-9">
-          <button type="button" className="btn btn-light btn-active-light-primary me-4" onClick={() => navigate(`${VIEW_USER}`)}>
-            {DISCARD}
-          </button>
-          <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading}>
-            <>
-              {!loading && <span className="indicator-label">{SUBMIT}</span>}
-              {loading && PLEASE_WAIT}
-            </>
-          </button>
-        </div>
-      </form>
+          <div className="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="button" className="btn btn-light btn-active-light-primary me-4" onClick={() => navigate(`${VIEW_USER}`)}>
+              {DISCARD}
+            </button>
+            <button type="submit" id="kt_sign_up_submit" className="btn btn-primary" disabled={loading}>
+              <>
+                {!loading && <span className="indicator-label">{SUBMIT}</span>}
+                {loading && PLEASE_WAIT}
+              </>
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
@@ -215,16 +454,24 @@ const mapStateToProps = (state: any) => {
     errorRoles: state.userRoleReducer.error,
     userRoles: state.userRoleReducer.userRoles.data,
 
-    loading: state.registerUserReducer.loading,
+    posting: state.registerUserReducer.loading,
     error: state.registerUserReducer.error,
     res: state.registerUserReducer.res,
+
+    designationList: state.getDesignationForDropdownReducer.designation,
+
+    details: state.userDetailsByIdReducer,
+    putting: state.postUserDetailReducer.loading,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getUserRoles: () => dispatch(fetchUserRoles()),
+    getUserDetails: (id: any) => dispatch(fetchUserDetailsById(id)),
     postRegisterUser: (registerUserDetails: any, callbackSuccess: Function) => dispatch(registerUser(registerUserDetails, callbackSuccess)),
+    postDetails: (details: any, callback: Function) => dispatch(postUserDetails(details, callback)),
+    getDesignation: () => dispatch(fetchDesignationDropdown()),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(AddUser);

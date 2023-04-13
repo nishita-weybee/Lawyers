@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { MasterLayout } from "../../_metronic/layout/MasterLayout";
 import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_CASE, ADD_USER, DASHBOARD, EDIT_CASE, EDIT_PROFILE, PROFILE, VIEW_CASE, VIEW_USER } from "../helpers/routesConstant";
+import { ADD_CASE, ADD_USER, DASHBOARD, EDIT_CASE, EDIT_PROFILE, EDIT_USER, PROFILE, VIEW_CASE, VIEW_USER } from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
 import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
@@ -24,6 +24,7 @@ const PrivateRoutes = () => {
           <>
             <Route path={ADD_USER} element={<AddUser />} />
             <Route path={VIEW_USER} element={<ViewUser />} />
+            <Route path={`${EDIT_USER}/:id`} element={<AddUser />} />
             <Route path={DASHBOARD} element={<Dashboard />} />
             <Route>
               <Route path={"/masters/:masters"} element={<Masters />} />

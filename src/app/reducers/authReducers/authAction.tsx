@@ -55,7 +55,7 @@ export const registerUser = (registerUserDetails: Object, callbackSuccess: Funct
       },
       (error: any) => {
         dispatch(failure(REGISTER_USER_FAILURE, error.response.data.error.errorMessage));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };

@@ -15,8 +15,11 @@ import {
   ACTIVATE_DEACTIVATE_USER_REQUEST,
   ACTIVATE_DEACTIVATE_USER_SUCCESS,
   ACTIVATE_DEACTIVATE_USER_FAILURE,
+  USER_DETAILS_BY_ID_REQUEST,
+  USER_DETAILS_BY_ID_SUCCESS,
+  USER_DETAILS_BY_ID_FAILURE,
 } from "../actionTypes";
-import { activateDeactivateUserService, editUserDetails, getUserDetails, getUserList, getUserRoles } from "./userService";
+import { activateDeactivateUserService, editUserDetails, getUserDetails, getUserDetailsById, getUserList, getUserRoles } from "./userService";
 
 const request = (type: string) => {
   return { type: type };
@@ -65,6 +68,20 @@ export const fetchUserDetails = () => {
       },
       (error: any) => {
         dispatch(failure(USER_DETAILS_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchUserDetailsById = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(USER_DETAILS_BY_ID_REQUEST));
+    return getUserDetailsById(id).then(
+      (result: any) => {
+        dispatch(success(USER_DETAILS_BY_ID_SUCCESS, result));
+      },
+      (error: any) => {
+        dispatch(failure(USER_DETAILS_BY_ID_FAILURE, error.message));
       }
     );
   };

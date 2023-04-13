@@ -13,6 +13,7 @@ export const USER_LIST = `${USER_BASE_URL}/GetAllUsersDetails`;
 export const USER_DETAILS = `${USER_BASE_URL}/GetUserDetails`;
 export const EDIT_USER_DETAILS = `${USER_BASE_URL}/EditUserDetails`;
 export const ACTIVATE_DEACTIVATE_USER = `${USER_BASE_URL}/ActiveDeactivateUserAccount`;
+export const GET_USER_DETAIL_BY_ID = `${USER_BASE_URL}/GetUserDetailsById`;
 
 // Masters
 export const GET_ALL_DISTRICT = `District/GetAllDistrict`;
@@ -103,7 +104,7 @@ export const GET_TALUKA_BY_ID = "/Taluka/GetTalukaById";
 export const GET_PRODUCT_BY_ID = "/Product/GetProductById";
 export const GET_STAGE_BY_ID = "/Stage/GetStageById";
 export const GET_DESIGNATION_BY_ID = "/Designation/GetDesignationById";
-export const GET_OPPOSITE_ADVOCATE_BY_ID = "/OppositeAdvocate/ActiveDeactivateOppositeAdvocate";
+export const GET_OPPOSITE_ADVOCATE_BY_ID = "/OppositeAdvocate/GetOppositeAdvocateById";
 export const GET_DISPOSAL_BY_ID = "/DisposalMode/GetDisposalModeById";
 export const GET_CASE_TYPE_BY_ID = "/CaseType/GetCaseTypeById";
 export const GET_CASE_CATEGORY_BY_ID = "/CaseCategory/GetCaseCategoryById";

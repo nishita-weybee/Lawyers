@@ -17,7 +17,6 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
     // getUserDetails();
   }, []);
 
-
   return (
     <div className="card mb-5 mb-xl-10">
       <div
@@ -49,7 +48,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
             {userDetails.data && (
               <>
                 <div className="row mb-7">
-                  <label className="col-lg-4 fw-semibold text-muted">Full Name</label>
+                  <label className="col-lg-4 fw-bold text-muted">Full Name</label>
                   <div className="col-lg-8">
                     <span className="fw-bold fs-6 text-gray-800">{`${userDetails.data.firstName} ${
                       userDetails.data.middleName !== null ? userDetails.data.middleName : ""
@@ -58,16 +57,65 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
                 </div>
 
                 <div className="row mb-7">
-                  <label className="col-lg-4 fw-semibold text-muted">Email</label>
+                  <label className="col-lg-4 fw-bold text-muted">Email</label>
                   <div className="col-lg-8">
                     <span className="fw-bold fs-6 text-gray-800">{userDetails.data.email}</span>
                   </div>
                 </div>
 
                 <div className="row mb-7">
-                  <label className="col-lg-4 fw-semibold text-muted">Mobile</label>
+                  <label className="col-lg-4 fw-bold text-muted">Mobile</label>
                   <div className="col-lg-8">
                     <span className="fw-bold fs-6 text-gray-800">{userDetails.data.phoneNumber}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted ">Address</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.address}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">Date Of Birth</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.dateOfBirth}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">Aadhar No</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.aadharNo}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">Pan No</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.panNo}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">Designation</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.designation}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">Joining Date</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.joiningDate}</span>
+                  </div>
+                </div>
+
+                <div className="row mb-7">
+                  <label className="col-lg-4 fw-bold text-muted">User Code</label>
+                  <div className="col-lg-8">
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.userCode}</span>
                   </div>
                 </div>
               </>

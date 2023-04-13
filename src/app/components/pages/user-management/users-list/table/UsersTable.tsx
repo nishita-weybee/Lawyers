@@ -17,7 +17,6 @@ import {
   commonColumns,
   departmentColumns,
   executiveColumns,
-  executiveOfficerDesignationColumns,
   judgeColumns,
   oppAdvocateColumns,
   productColumns,
@@ -126,7 +125,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       case EXECUTER_CONST:
         return executiveColumns;
       case EXECUTIVE_OFFICER_DESIGNATION_CONST:
-        return executiveOfficerDesignationColumns;
+        return commonColumns;
       case PRODUCTS_CONST:
         return productColumns;
       case STAGE_CONST:
@@ -158,6 +157,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters || params["*"], location.search);
     });
   };
+  console.log(params, location);
 
   return (
     <KTCardBody className="py-4">
@@ -233,13 +233,11 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             </td>
                           )}
 
-                          {params.masters === DEPARTMENT_CONST &&
-                            (console.log(userDetail),
-                            (
-                              <td role="cell" className="">
-                                {userDetail.bank}
-                              </td>
-                            ))}
+                          {params.masters === DEPARTMENT_CONST && (
+                            <td role="cell" className="">
+                              {userDetail.bank}
+                            </td>
+                          )}
 
                           {params.masters === EXECUTER_CONST && (
                             <>
@@ -330,19 +328,33 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               <td role="cell" className="">
                                 {userDetail.bank}
                               </td>
-                              {/* <td role="cell" className="">
-                                {userDetail.bankBranch}
-                              </td> */}
+                              <td role="cell" className="">
+                                {userDetail.isEmail && (
+                                  <div className="d-flex align-items-center">
+                                    <span className="bullet bg-primary me-3"></span> Email
+                                  </div>
+                                )}
+                                {userDetail.isWhatsapp && (
+                                  <div className="d-flex align-items-center">
+                                    <span className="bullet bg-primary me-3"></span> Whatsapp
+                                  </div>
+                                )}
+                                {userDetail.isSms && (
+                                  <div className="d-flex align-items-center">
+                                    <span className="bullet bg-primary me-3"></span> Sms
+                                  </div>
+                                )}
+                              </td>
                             </>
                           )}
 
-                          {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
+                          {/* {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
                             <>
                               <td role="cell" className="">
                                 {userDetail.designation}
                               </td>
                             </>
-                          )}
+                          )} */}
                         </>
                       )}
 
@@ -375,19 +387,20 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                       )}
 
                       <td role="cell" className="text-end min-w-100px AAA">
-                        {location.pathname !== VIEW_USER && (
-                          <span
-                            className="btn btn-sm btn-icon btn-light-primary me-4"
-                            onClick={() =>
-                              navigate(params.masters ? `/masters/edit-${params.masters}/${userDetail.id}` : `${EDIT_CASE}/${userDetail.id}`)
-                            }
-                          >
-                            {/* <span className="svg-icon svg-icon-2">
-                              <i className="fa-solid fa-pen-to-square"></i>
-                            </span> */}
-                            <KTSVG path="/media/icons/duotune/art/art005.svg" className="svg-icon-3" />
-                          </span>
-                        )}
+                        {/* {location.pathname !== VIEW_USER && ( */}
+                        <span
+                          className="btn btn-sm btn-icon btn-light-primary me-4"
+                          onClick={() =>
+                            navigate(
+                              params.masters
+                                ? `/masters/edit-${params.masters}/${userDetail.id}`
+                                : `${location.pathname.replace("view", "edit")}/${userDetail.id}`
+                            )
+                          }
+                        >
+                          <KTSVG path="/media/icons/duotune/art/art005.svg" className="svg-icon-3" />
+                        </span>
+                        {/* )} */}
 
                         <span
                           className={`btn btn-sm btn-icon ${userDetail.isActive ? "btn-light-success" : "btn-light-danger"}`}

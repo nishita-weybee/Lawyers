@@ -1,6 +1,7 @@
 import { KTSVG } from "../../_metronic/helpers";
 
 export const REQUIRED = "Required";
+export const NO_DOT_ALLOWED = "No dots allowed";
 // export const ADVOCATE = "Advocate";
 export const SUBMIT = "Submit";
 export const NEXT = (

@@ -219,7 +219,10 @@ export const fetchAllBank = (master: any, location: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_ALL_BANK_REQUEST));
     return getAllBank(location).then(
+    
+      
       (result: any) => {
+        console.log(result, 'result')
         dispatch(success(GET_ALL_BANK_SUCCESS, result.data, master));
       },
       (error: any) => {

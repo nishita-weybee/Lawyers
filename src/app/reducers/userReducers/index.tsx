@@ -3,6 +3,7 @@ import { userListReducer } from "./getUserListReducer";
 import { userDetailsReducer } from "./getUserDetailsReducer";
 import { postUserDetailReducer } from "./editUserDetailsReducer";
 import { activateDeactivateUserReducer } from "./activateDeactivateUserReducer";
+import {userDetailsByIdReducer} from './getUserDetailsByIdReducer';
 
 export default {
   userRoleReducer,
@@ -10,4 +11,5 @@ export default {
   userDetailsReducer,
   postUserDetailReducer,
   activateDeactivateUserReducer,
+  userDetailsByIdReducer
 };

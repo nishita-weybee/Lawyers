@@ -12,6 +12,7 @@ export interface action {
 }
 
 const registerUserReducer = (state = initialState, action: action) => {
+  // console.log(action.type);
   switch (action.type) {
     case REGISTER_USER_REQUEST:
       return {

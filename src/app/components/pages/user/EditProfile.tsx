@@ -7,6 +7,7 @@ import { PROFILE } from "../../../helpers/routesConstant";
 import { useEffect } from "react";
 import * as Yup from "yup";
 import Loader from "../../common/loader/Loader";
+import clsx from "clsx";
 
 export interface Props {
   posting: boolean;
@@ -23,19 +24,27 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
   const initialValues = {
     firstName: userDetails?.data?.firstName || "",
     lastName: userDetails?.data?.lastName || "",
-    phoneNumber: userDetails?.data?.phoneNumber || "",
-    middleName: userDetails?.data?.middleName || "",
+    mobile: userDetails?.data?.mobile || "",
+    address: userDetails?.data?.address || "",
+    email: userDetails?.data?.email || "",
+    dateOfBirth: userDetails?.data?.dateOfBirth || null,
+    joiningDate: userDetails?.data?.joiningDate || null,
+    aadharNo: userDetails?.data?.aadharNo || "",
+    panNo: userDetails?.data?.panNo || "",
+    role: userDetails?.data?.role,
+    userCode: userDetails?.data?.userCode,
+    designationId: userDetails?.data?.designationId,
   };
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
     lastName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
-    // middleName: Yup.string().required(REQUIRED).min(3, "Minimum 3 characters"),
-    phoneNumber: Yup.string()
+    mobile: Yup.string()
       .nullable()
       .required(REQUIRED)
       .matches(/^[0-9]{10}$/, "Wrong contact format"),
   });
+
   const navigate = useNavigate();
   useEffect(() => {
     getUserDetails();
@@ -46,7 +55,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-    
+      console.log(values);
       postUserDetails(values, () => navigate(PROFILE));
     },
   });
@@ -64,70 +73,167 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
           <div className="card-body border-top p-9">
             <>
               <div className="row mb-6">
-                <label className="col-lg-4 col-form-label required fw-bold fs-6">Full Name</label>
-                <div className="col-lg-8">
-                  <div className="row">
-                    <div className="col-lg-6 fv-row">
-                      <input
-                        type="text"
-                        className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                        placeholder="First name"
-                        {...formik.getFieldProps("firstName")}
-                      />
-                      {formik.touched.firstName && formik.errors.firstName && (
-                        <div className="fv-plugins-message-container">
-                          <div className="fv-help-block">{`${formik.errors.firstName}`}</div>
-                        </div>
+                <div className="col-lg-6">
+                  <label className="col-form-label fw-bold fs-6 required" htmlFor={"firstName"}>
+                    First Name
+                  </label>
+                  <div className="">
+                    <input
+                      placeholder="First Name"
+                      type="text"
+                      autoComplete="off"
+                      {...formik.getFieldProps("firstName")}
+                      className={clsx(
+                        "form-control bg-transparent",
+                        {
+                          "is-invalid": formik.touched.firstName && formik.errors.firstName,
+                        },
+                        {
+                          "is-valid": formik.touched.firstName && !formik.errors.firstName,
+                        }
                       )}
-                    </div>
-
-                    <div className="col-lg-6 fv-row">
-                      <input
-                        type="text"
-                        className="form-control form-control-lg form-control-solid"
-                        placeholder="Last name"
-                        {...formik.getFieldProps("lastName")}
-                      />
-                      {formik.touched.lastName && formik.errors.lastName && (
-                        <div className="fv-plugins-message-container">
-                          <div className="fv-help-block">{`${formik.errors.lastName}`}</div>
+                    />
+                    {formik.touched.firstName && formik.errors.firstName && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span role="alert">{`${formik.errors.firstName}`}</span>
                         </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required">Last Name</label>
+                  <div className="">
+                    <input
+                      placeholder="Last Name"
+                      type="text"
+                      autoComplete="off"
+                      {...formik.getFieldProps("lastName")}
+                      className={clsx(
+                        "form-control bg-transparent",
+                        {
+                          "is-invalid": formik.touched.lastName && formik.errors.lastName,
+                        },
+                        {
+                          "is-valid": formik.touched.lastName && !formik.errors.lastName,
+                        }
                       )}
-                    </div>
-
-                    {/* <div className="col-lg-4 fv-row">
-                        <input
-                          type="text"
-                          className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                          placeholder="Middle name"
-                          {...formik.getFieldProps("middleName")}
-                        />
-                        {formik.touched.middleName && formik.errors.middleName && (
-                          <div className="fv-plugins-message-container">
-                            <div className="fv-help-block">{formik.errors.middleName}</div>
-                          </div>
-                        )}
-                      </div> */}
+                    />
+                    {formik.touched.lastName && formik.errors.lastName && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span role="alert">{`${formik.errors.lastName}`}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-
               <div className="row mb-6">
-                <label className="col-lg-4 col-form-label fw-bold fs-6">
-                  <span className="required">Mobile</span>
-                </label>
-                <div className="col-lg-8 fv-row">
-                  <input
-                    type="tel"
-                    className="form-control form-control-lg form-control-solid"
-                    placeholder="Mobile"
-                    {...formik.getFieldProps("phoneNumber")}
+                <label className="col-form-label fw-bold fs-6 required">Address</label>
+                <div className="">
+                  <textarea
+                    placeholder="Address"
+                    autoComplete="off"
+                    {...formik.getFieldProps("address")}
+                    className={clsx("form-control bg-transparent")}
                   />
-                  {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-                    <div className="fv-plugins-message-container">
-                      <div className="fv-help-block">{`${formik.errors.phoneNumber}`}</div>
-                    </div>
-                  )}
+                </div>
+              </div>
+              <div className="row mb-6">
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required">Email</label>
+                  <div className="">
+                    <input
+                      placeholder="Email"
+                      type="email"
+                      autoComplete="off"
+                      {...formik.getFieldProps("email")}
+                      className={clsx("form-control bg-transparent", { "is-invalid": formik.touched.email && formik.errors.email })}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required ">Mobile</label>
+                  <div className="">
+                    <input
+                      placeholder="Mobile"
+                      type="text"
+                      autoComplete="off"
+                      {...formik.getFieldProps("mobile")}
+                      className={clsx("form-control bg-transparent")}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row mb-6">
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required" htmlFor="dateOfBirth">
+                    Date Of Birth
+                  </label>
+                  <div className="">
+                    <input
+                      placeholder=" Date Of Birth"
+                      type="date"
+                      autoComplete="off"
+                      {...formik.getFieldProps("dateOfBirth")}
+                      className={clsx("form-control bg-transparent")}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required" htmlFor="joiningDate">
+                    Joining Date
+                  </label>
+                  <div className="">
+                    <input
+                      placeholder="joiningDate"
+                      type="date"
+                      autoComplete="off"
+                      {...formik.getFieldProps("joiningDate")}
+                      className={clsx(
+                        "form-control bg-transparent",
+                        { "is-invalid": formik.touched.joiningDate && formik.errors.joiningDate },
+                        {
+                          "is-valid": formik.touched.joiningDate && !formik.errors.joiningDate,
+                        }
+                      )}
+                    />
+                    {formik.touched.joiningDate && formik.errors.joiningDate && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span role="alert">{`${formik.errors.joiningDate}`}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="row mb-6">
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required">Aadhar Number</label>
+                  <div className="">
+                    <input
+                      placeholder="Aadhar Number"
+                      type="text"
+                      autoComplete="off"
+                      {...formik.getFieldProps("aadharNo")}
+                      className={clsx("form-control bg-transparent")}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <label className=" col-form-label fw-bold fs-6 required">Pan Number</label>
+                  <div className="">
+                    <input
+                      placeholder="Pan Number"
+                      type="text"
+                      autoComplete="off"
+                      {...formik.getFieldProps("panNo")}
+                      className={clsx("form-control bg-transparent")}
+                    />
+                  </div>
                 </div>
               </div>
             </>
