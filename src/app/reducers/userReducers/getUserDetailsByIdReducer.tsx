@@ -19,7 +19,7 @@ export interface action {
 }
 
 const userDetailsByIdReducer = (state = initialState, action: action) => {
-  console.log(action.type);
+  
 
   switch (action.type) {
     case USER_DETAILS_BY_ID_REQUEST:

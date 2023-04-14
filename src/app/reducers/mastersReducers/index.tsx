@@ -15,6 +15,9 @@ import { getDesignationForDropdownReducer } from "./getDesingationForDropdown";
 import { getTalukaByDistrictIdReducer } from "./getTalukaByDistrictIdReducer";
 import { getCaseCatForDropdownReducer } from "./getCaseCatForDropdown";
 import { getExeOffDesignationDropdownReducer } from "./getExeOffDesignationReducer";
+import { getBankOfficerByBankReducer } from "./getBankOfficerByBank";
+import { getJudgeByTalukaReducer } from "./getJudgeByTaluka";
+import { getCaseTypeByCaseCatReducer } from "./getCaseTypeByCaseCat";
 
 export default {
   getAllMastersDataReducer,
@@ -34,4 +37,7 @@ export default {
   getTalukaByDistrictIdReducer,
   getCaseCatForDropdownReducer,
   getExeOffDesignationDropdownReducer,
+  getBankOfficerByBankReducer,
+  getJudgeByTalukaReducer,
+  getCaseTypeByCaseCatReducer,
 };

@@ -381,7 +381,7 @@ const EditDetails: React.FC<props> = ({
       break;
   }
 
-  // console.log(exeOffDesignationList);
+
 
   const initialValuesArr = [
     { name: "" },
@@ -398,7 +398,7 @@ const EditDetails: React.FC<props> = ({
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
-    // console.log(values);
+
 
     if (params.id) {
       switch (params.masters) {
@@ -502,7 +502,7 @@ const EditDetails: React.FC<props> = ({
           break;
       }
     } else {
-      // console.log("add");
+   
 
       await postDetails(params?.masters, values, () => {
         navigate(`/masters/${params?.masters}`);

@@ -64,7 +64,7 @@ export const editCaseDetails = (details: any) => {
     return editCaseService(details).then(
       (result: any) => {
         dispatch(success(EDIT_CASE_SUCCESS, result.data));
-        showToastMessageSuccess("Case Added");
+        showToastMessageSuccess("Case Edited");
       },
       (error: any) => {
         dispatch(failure(EDIT_CASE_FAILURE, error.message));

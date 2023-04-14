@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { EDIT_PROFILE } from "../../../helpers/routesConstant";
 import Loader from "../../common/loader/Loader";
+import { convert } from "../../../helpers/helperFunction";
 
 export interface props {
   loading: boolean;
@@ -66,7 +67,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
                 <div className="row mb-7">
                   <label className="col-lg-4 fw-bold text-muted">Mobile</label>
                   <div className="col-lg-8">
-                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.phoneNumber}</span>
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.mobile}</span>
                   </div>
                 </div>
 
@@ -80,7 +81,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
                 <div className="row mb-7">
                   <label className="col-lg-4 fw-bold text-muted">Date Of Birth</label>
                   <div className="col-lg-8">
-                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.dateOfBirth}</span>
+                    <span className="fw-bold fs-6 text-gray-800">{convert(userDetails.data.dateOfBirth)}</span>
                   </div>
                 </div>
 
@@ -108,7 +109,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
                 <div className="row mb-7">
                   <label className="col-lg-4 fw-bold text-muted">Joining Date</label>
                   <div className="col-lg-8">
-                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.joiningDate}</span>
+                    <span className="fw-bold fs-6 text-gray-800">{convert(userDetails.data.joiningDate)}</span>
                   </div>
                 </div>
 

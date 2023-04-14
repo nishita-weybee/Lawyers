@@ -6,9 +6,12 @@ import {
   ACTIVE_DEACTIVE_DISPOSAL,
   ACTIVE_DEACTIVE_OPPOSITE_ADVOCATE,
   GET_ALL_CASE_CATEGORY,
+  GET_BANK_OFFICER_BY_BANK,
   GET_CASE_CATEGORY_FOR_DROPDOWN,
+  GET_CASE_TYPE_BY_CASE_CAT,
   GET_DESIGNATION_FOR_DROPDOWN,
   GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN,
+  GET_JUDGE_BY_TALUKA,
   GET_TALUKA_BY_DISTRICT_ID,
   POST_CASE_CATEGORY,
   POST_CASE_TYPE,
@@ -55,7 +58,7 @@ import {
   GET_DISTRICT_FOR_DROPDOWN,
   GET_FORUM_FOR_DROPDOWN,
   GET_JUDGE_FOR_DROPDOWN,
-  GET_PRODUCT_FOR_DROPDOWN,
+  GET_PRODUCT_BY_BANK_FOR_DROPDOWN,
   GET_STAGE_FOR_DROPDOWN,
   POST_ASSOCIATE_ADVOCATE,
   POST_BANK,
@@ -352,8 +355,8 @@ export const getBankOfficerForDropdown = async (id: any) => {
   const res = await axiosInstance.get(`${GET_BANK_OFFCIER_FOR_DROPDOWN}/${id}`);
   return res;
 };
-export const getProductForDropdown = async () => {
-  const res = await axiosInstance.get(`${GET_PRODUCT_FOR_DROPDOWN}`);
+export const getProductByBankForDropdown = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_PRODUCT_BY_BANK_FOR_DROPDOWN}/${id}`);
   return res;
 };
 export const getDesignationForDropdown = async () => {
@@ -368,3 +371,20 @@ export const getExeOffDesignationForDropdown = async () => {
   const res = await axiosInstance.get(`${GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN}`);
   return res;
 };
+
+export const getBankOfficerByBank = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_BANK_OFFICER_BY_BANK}/${id}`);
+  return res;
+};
+
+
+export const getJudgeByTaluka = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_JUDGE_BY_TALUKA}/${id}`);
+  return res;
+};
+
+export const getCaseTypeByCaseCat = async (id:any) => {
+  const res = await axiosInstance.get(`${GET_CASE_TYPE_BY_CASE_CAT}/${id}`);
+  return res;
+};
+

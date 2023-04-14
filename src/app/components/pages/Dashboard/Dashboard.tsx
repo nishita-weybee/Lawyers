@@ -1,12 +1,12 @@
 import Calender from "../../../components/calender/Calender";
 const Dashboard = () => {
   //   const handleDateClick = (arg: any) => {
-  //     console.log(arg, "arg");
+
 
   //     alert(arg.dateStr);
   //   };
   //   const renderEventContent = (eventInfo: any) => {
-  //     console.log(eventInfo, "eventInfo");
+
 
   //     return (
   //       <>

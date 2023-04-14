@@ -66,6 +66,9 @@ import {
   GET_BANK_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_BANK_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_BANK_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_BANK_OFFICER_BY_BANK_FAILURE,
+  GET_BANK_OFFICER_BY_BANK_REQUEST,
+  GET_BANK_OFFICER_BY_BANK_SUCCESS,
   GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS,
@@ -75,6 +78,9 @@ import {
   GET_CASE_CAT_FOR_DROPDOWN_FAILURE,
   GET_CASE_CAT_FOR_DROPDOWN_REQUEST,
   GET_CASE_CAT_FOR_DROPDOWN_SUCCESS,
+  GET_CASE_TYPE_BY_CASE_CAT_FAILURE,
+  GET_CASE_TYPE_BY_CASE_CAT_REQUEST,
+  GET_CASE_TYPE_BY_CASE_CAT_SUCCESS,
   GET_DESIGNATION_FOR_DROPDOWN_FAILURE,
   GET_DESIGNATION_FOR_DROPDOWN_REQUEST,
   GET_DESIGNATION_FOR_DROPDOWN_SUCCESS,
@@ -87,6 +93,9 @@ import {
   GET_FORUM_DROPDOWN_MASTERS_FAILURE,
   GET_FORUM_DROPDOWN_MASTERS_REQUEST,
   GET_FORUM_DROPDOWN_MASTERS_SUCCESS,
+  GET_JUDGE_BY_TALUKA_FAILURE,
+  GET_JUDGE_BY_TALUKA_REQUEST,
+  GET_JUDGE_BY_TALUKA_SUCCESS,
   GET_JUDGE_DROPDOWN_MASTERS_FAILURE,
   GET_JUDGE_DROPDOWN_MASTERS_REQUEST,
   GET_JUDGE_DROPDOWN_MASTERS_SUCCESS,
@@ -156,7 +165,6 @@ import {
   postStageService,
   getForumForDropdown,
   getStageForDropdown,
-  getProductForDropdown,
   getBankOfficerForDropdown,
   getJudgeForDropdown,
   activeDeactiveDisposalService,
@@ -178,6 +186,10 @@ import {
   getTalukaByDistrictId,
   getCaseCategoryForDropdown,
   getExeOffDesignationForDropdown,
+  getProductByBankForDropdown,
+  getBankOfficerByBank,
+  getJudgeByTaluka,
+  getCaseTypeByCaseCat,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -219,10 +231,7 @@ export const fetchAllBank = (master: any, location: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_ALL_BANK_REQUEST));
     return getAllBank(location).then(
-    
-      
       (result: any) => {
-        console.log(result, 'result')
         dispatch(success(GET_ALL_BANK_SUCCESS, result.data, master));
       },
       (error: any) => {
@@ -457,6 +466,21 @@ export const fetchBankBranchByBankId = (id: any) => {
     );
   };
 };
+
+export const fetchJudgeByTaluka = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_JUDGE_BY_TALUKA_REQUEST));
+    return getJudgeByTaluka(id).then(
+      (result: any) => {
+        dispatch(success(GET_JUDGE_BY_TALUKA_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_JUDGE_BY_TALUKA_FAILURE, error.message));
+      }
+    );
+  };
+};
+
 export const postDistrict = (detail: any, callback: Function) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
@@ -1200,10 +1224,10 @@ export const fetchTalukaByDistrictId = (id: any) => {
   };
 };
 
-export const fetchProductDropdown = () => {
+export const fetchProductByBankDropdown = (id: any) => {
   return (dispatch: any) => {
     dispatch(request(GET_PRODUCT_FOR_DROPDOWN_MASTERS_REQUEST));
-    return getProductForDropdown().then(
+    return getProductByBankForDropdown(id).then(
       (result: any) => {
         dispatch(success(GET_PRODUCT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
       },
@@ -1251,6 +1275,34 @@ export const fetchExeOffDesignationForDropdown = () => {
       },
       (error: any) => {
         dispatch(failure(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchBankOfficerByBank = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_BANK_OFFICER_BY_BANK_REQUEST));
+    return getBankOfficerByBank(id).then(
+      (result: any) => {
+        dispatch(success(GET_BANK_OFFICER_BY_BANK_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_BANK_OFFICER_BY_BANK_FAILURE, error.message));
+      }
+    );
+  };
+};
+
+export const fetchCaseTypeByCaseCat = (id: any) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_CASE_TYPE_BY_CASE_CAT_REQUEST));
+    return getCaseTypeByCaseCat(id).then(
+      (result: any) => {
+        dispatch(success(GET_CASE_TYPE_BY_CASE_CAT_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_CASE_TYPE_BY_CASE_CAT_FAILURE, error.message));
       }
     );
   };

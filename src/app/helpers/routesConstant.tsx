@@ -66,4 +66,5 @@ export const EDIT_PROFILE = `${PROFILE}/edit`;
 // Case
 export const ADD_CASE = "/case/add-case";
 export const EDIT_CASE = "/case/edit-case";
-export const VIEW_CASE = "/case/view-cases";
+export const VIEW_CASE = "/case/view-case";
+export const VIEW_CASE_CARD = '/case/view-case-card'

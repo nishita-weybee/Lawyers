@@ -13,6 +13,7 @@ import AddCase from "../components/pages/case/AddCase";
 import MyProfile from "../components/pages/user/MyProfile";
 import ViewCase from "../components/pages/case/ViewCase";
 import Dashboard from "../components/pages/Dashboard/Dashboard";
+import CaseCard from "../components/pages/case/CaseCard";
 
 const PrivateRoutes = () => {
   return (
@@ -41,6 +42,7 @@ const PrivateRoutes = () => {
           <Route path={ADD_CASE} element={<AddCase />} />
           <Route path={VIEW_CASE} element={<ViewCase />} />
           <Route path={`${EDIT_CASE}/:id`} element={<AddCase />} />
+          <Route path={`${VIEW_CASE}/:id`} element={<CaseCard />} />
         </>
         {/* )} */}
 

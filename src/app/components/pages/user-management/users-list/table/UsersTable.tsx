@@ -5,6 +5,7 @@ import { KTCardBody, KTSVG } from "../../../../../../_metronic/helpers";
 import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { User } from "../core/_models";
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { activateDeactivateUser, fetchUserList } from "../../../../../reducers/userReducers/userAction";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -64,7 +65,7 @@ import {
   fetchAllDisposal,
 } from "../../../../../reducers/mastersReducers/mastersAction";
 import { activeDeactiveCase, getAllCase } from "../../../../../reducers/caseReducers/caseAction";
-import { EDIT_CASE, VIEW_USER } from "../../../../../helpers/routesConstant";
+import { EDIT_CASE, VIEW_CASE, VIEW_CASE_CARD, VIEW_USER } from "../../../../../helpers/routesConstant";
 import { convert } from "../../../../../helpers/helperFunction";
 import {
   BANK_OFFICER_CONST,
@@ -140,7 +141,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
         return caseTypeColumns;
       case CASE_CATEGORY_CONST:
         return commonColumns;
-      case "case/view-cases":
+      case "case/view-case":
         return caseColumns;
       default:
         return usersColumns;
@@ -157,8 +158,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters || params["*"], location.search);
     });
   };
-  console.log(params, location);
-
+  console.log(`${location.pathname.replace("view", "edit")}/${userList[0].id}`, "oo");
   return (
     <KTCardBody className="py-4">
       <div className="table-responsive">
@@ -358,7 +358,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         </>
                       )}
 
-                      {location.pathname === "/case/view-cases" && (
+                      {location.pathname === VIEW_CASE && (
                         <>
                           <td role="cell" className="">
                             {userDetail.bank}
@@ -402,14 +402,26 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         </span>
                         {/* )} */}
 
-                        <span
-                          className={`btn btn-sm btn-icon ${userDetail.isActive ? "btn-light-success" : "btn-light-danger"}`}
-                          onClick={() => activateDeactivateUser(userDetail.id, userDetail.isActive ? "Deactivated" : "Activated")}
-                        >
-                          <span className="svg-icon svg-icon-2">
-                            {userDetail.isActive ? <i className="fa-solid fa-user-check" /> : <i className="fa-solid fa-user-xmark" />}
+                        {location.pathname !== VIEW_CASE && (
+                          <span
+                            className={`btn btn-sm btn-icon ${userDetail.isActive ? "btn-light-success" : "btn-light-danger"}`}
+                            onClick={() => activateDeactivateUser(userDetail.id, userDetail.isActive ? "Deactivated" : "Activated")}
+                          >
+                            <span className="svg-icon svg-icon-2">
+                              {userDetail.isActive ? <i className="fa-solid fa-user-check" /> : <i className="fa-solid fa-user-xmark" />}
+                            </span>
                           </span>
-                        </span>
+                        )}
+
+                        {location.pathname === VIEW_CASE &&
+                          (console.log(userDetail, "hii"),
+                          (
+                            <span className="btn btn-icon btn-light-warning btn-sm" onClick={() => navigate(`${VIEW_CASE}/${userDetail.id}`)}>
+                              <span className="svg-icon svg-icon-2">
+                                <i className="fa-regular fa-eye"></i>
+                              </span>
+                            </span>
+                          ))}
                       </td>
                     </tr>
                   );

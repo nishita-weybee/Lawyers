@@ -138,10 +138,14 @@ export const GET_FORUM_FOR_DROPDOWN = "/Forum/GetAllForumForDropDown";
 export const GET_STAGE_FOR_DROPDOWN = "/Stage/GetStagesForDropdown";
 export const GET_JUDGE_FOR_DROPDOWN = "/JudgeName/GetAllJudgeNameByForumId";
 export const GET_BANK_OFFCIER_FOR_DROPDOWN = "BankOfficer/GetBankOfficerByBankBranchId";
-export const GET_PRODUCT_FOR_DROPDOWN = "/Product/GetProductsForDropdown";
+export const GET_PRODUCT_BY_BANK_FOR_DROPDOWN = "/Product/GetProductsByBank";
 export const GET_DESIGNATION_FOR_DROPDOWN = "/Designation/GetDesignationsForDropDown";
 export const GET_CASE_CATEGORY_FOR_DROPDOWN = "/CaseCategory/GetCaseCategorysForDropDown";
 export const GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN = "/ExecutingOfficerDesignation/GetAllExecutingOfficerDesignationForDropDown";
+export const GET_BANK_OFFICER_BY_BANK = '/BankOfficer/GetBankOfficerByBank'
+export const GET_JUDGE_BY_TALUKA = '/JudgeName/GetAllJudgeNameByTaluka';
+export const GET_CASE_TYPE_BY_CASE_CAT = '/CaseType/GetCaseTypeByCaseCategory'
+
 
 // Case
 export const ADD_CASE = "/Case/AddCase";

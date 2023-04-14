@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import * as Yup from "yup";
 import Loader from "../../common/loader/Loader";
 import clsx from "clsx";
+import { convert } from "../../../helpers/helperFunction";
 
 export interface Props {
   posting: boolean;
@@ -55,7 +56,6 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       postUserDetails(values, () => navigate(PROFILE));
     },
   });
@@ -167,6 +167,8 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                   </div>
                 </div>
               </div>
+              {console.log(formik.values)}
+              
               <div className="row mb-6">
                 <div className="col-lg-6">
                   <label className=" col-form-label fw-bold fs-6 required" htmlFor="dateOfBirth">
@@ -177,7 +179,10 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                       placeholder=" Date Of Birth"
                       type="date"
                       autoComplete="off"
-                      {...formik.getFieldProps("dateOfBirth")}
+                      name={"dateOfBirth"}
+                      value={convert(formik.values.dateOfBirth)}
+                      // {...formik.getFieldProps("dateOfBirth")}
+                      onChange={(e:any) => formik.setFieldValue("dateOfBirth", e.target.value)}
                       className={clsx("form-control bg-transparent")}
                     />
                   </div>
@@ -190,8 +195,10 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                     <input
                       placeholder="joiningDate"
                       type="date"
+                      value={convert(formik.values.joiningDate)}
+                      onChange={(e:any) => formik.setFieldValue("joiningDate", e.target.value)}
                       autoComplete="off"
-                      {...formik.getFieldProps("joiningDate")}
+                      // {...formik.getFieldProps("joiningDate")}
                       className={clsx(
                         "form-control bg-transparent",
                         { "is-invalid": formik.touched.joiningDate && formik.errors.joiningDate },

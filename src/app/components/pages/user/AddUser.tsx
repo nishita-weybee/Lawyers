@@ -57,14 +57,14 @@ const AddUser: React.FC<Props> = ({
     city: null,
     pinCode: null,
     email: "",
-    mobile: null,
-    dateOfBirth: '',
-    joiningDate: '',
-    aadharNo: null,
-    panNo: null,
+    mobile: "",
+    dateOfBirth: "",
+    joiningDate: "",
+    aadharNo: "",
+    panNo: "",
     role: "",
     password: "",
-    userCode: null,
+    userCode: "",
     designationId: "",
   };
   const loading = params.id ? putting : posting;
@@ -79,6 +79,9 @@ const AddUser: React.FC<Props> = ({
     role: Yup.string().required(REQUIRED),
     designationId: Yup.string().required(REQUIRED),
     userCode: Yup.string().required(REQUIRED),
+    // mobile: Yup.string().matches(/^\d{10}$/, "Wrong contact format"),
+    // aadharNo: Yup.string().matches(/^\d{12}$/, "Invalid Aadhar number"),
+    // panNo: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, "Invalid PAN number"),
   });
 
   const editSchema = Yup.object().shape({
@@ -89,6 +92,9 @@ const AddUser: React.FC<Props> = ({
     role: Yup.string().required(REQUIRED),
     designationId: Yup.string().required(REQUIRED),
     userCode: Yup.string().required(REQUIRED),
+    // mobile: Yup.string().matches(/^\d{10}$/, "Wrong contact format"),
+    // aadharNo: Yup.string().matches(/^\d{12}$/, "Invalid Aadhar number"),
+    // panNo: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, "Invalid PAN number"),
   });
 
   const formik = useFormik({
@@ -96,15 +102,10 @@ const AddUser: React.FC<Props> = ({
     initialValues: params.id ? details?.details?.data : initialValues,
     validationSchema: params.id ? editSchema : validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      console.log(values);
-
       if (params.id) {
-        console.log(values);
-
         postDetails(values, () => navigate(VIEW_USER));
-        console.log("hii");
       } else {
-        postRegisterUser({...values, dateOfBirth: values.dateOfBirth === '' ? null : values.dateOfBirth }, () => {
+        postRegisterUser({ ...values, dateOfBirth: values.dateOfBirth === "" ? null : values.dateOfBirth }, () => {
           resetForm();
         });
       }
@@ -189,39 +190,13 @@ const AddUser: React.FC<Props> = ({
               <div className="">
                 <textarea
                   placeholder="Address"
-                  // type="text"
                   autoComplete="off"
                   {...formik.getFieldProps("address")}
                   className={clsx("form-control bg-transparent")}
                 />
               </div>
             </div>
-            {/* <div className="row mb-6">
-              <div className="col-lg-6">
-                <label className=" col-form-label fw-bold fs-6 ">City</label>
-                <div className="">
-                  <input
-                    placeholder="City"
-                    type="text"
-                    autoComplete="off"
-                    {...formik.getFieldProps("city")}
-                    className={clsx("form-control bg-transparent", { "is-invalid": formik.touched.city && formik.errors.city })}
-                  />
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <label className=" col-form-label fw-bold fs-6 ">Pin Code</label>
-                <div className="">
-                  <input
-                    placeholder="Pin Code"
-                    type="text"
-                    autoComplete="off"
-                    {...formik.getFieldProps("pinCode")}
-                    className={clsx("form-control bg-transparent")}
-                  />
-                </div>
-              </div>
-            </div> */}
+
             <div className="row mb-6">
               <div className="col-lg-6">
                 <label className=" col-form-label fw-bold fs-6 required">Email</label>
@@ -236,15 +211,23 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
               <div className="col-lg-6">
-                <label className=" col-form-label fw-bold fs-6 ">Mobile</label>
+                <label className=" col-form-label fw-bold fs-6 ">Contact No</label>
                 <div className="">
                   <input
-                    placeholder="Mobile"
+                    placeholder="Contact No"
                     type="text"
                     autoComplete="off"
                     {...formik.getFieldProps("mobile")}
                     className={clsx("form-control bg-transparent")}
                   />
+
+                  {formik.touched.mobile && formik.errors.mobile && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.mobile}`}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -298,27 +281,42 @@ const AddUser: React.FC<Props> = ({
             </div>
             <div className="row mb-6">
               <div className="col-lg-6">
-                <label className=" col-form-label fw-bold fs-6">Adhar Number</label>
+                <label className=" col-form-label fw-bold fs-6">Aadhar Number</label>
                 <div className="">
                   <input
-                    placeholder="Adhar Number"
+                    placeholder="Aadhar Number"
                     type="text"
                     autoComplete="off"
                     {...formik.getFieldProps("aadharNo")}
                     className={clsx("form-control bg-transparent")}
                   />
+
+                  {formik.touched.aadharNo && formik.errors.aadharNo && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.aadharNo}`}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="col-lg-6">
-                <label className=" col-form-label fw-bold fs-6">Pan Number</label>
+                <label className=" col-form-label fw-bold fs-6">PAN Number</label>
                 <div className="">
                   <input
-                    placeholder="Pan Number"
+                    placeholder="PAN Number"
                     type="text"
                     autoComplete="off"
                     {...formik.getFieldProps("panNo")}
                     className={clsx("form-control bg-transparent")}
                   />
+                  {formik.touched.panNo && formik.errors.panNo && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span role="alert">{`${formik.errors.panNo}`}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
