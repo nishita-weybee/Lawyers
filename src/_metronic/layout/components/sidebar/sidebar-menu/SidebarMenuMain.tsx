@@ -7,6 +7,7 @@ import {
   BANK_OFFICER,
   CASE_CATEGROY,
   CASE_TYPE,
+  DASHBOARD,
   DEPARTMENT,
   DESIGNATION,
   DISPOSAL,
@@ -23,6 +24,7 @@ import {
   VIEW_CASE,
   VIEW_USER,
 } from "../../../../../app/helpers/routesConstant";
+import { KTSVG } from "../../../../helpers";
 import { SidebarMenuItem } from "./SidebarMenuItem";
 import { SidebarMenuItemWithSub } from "./SidebarMenuItemWithSub";
 
@@ -52,6 +54,7 @@ const SidebarMenuMain = () => {
   return (
     <>
       {/* for admin */}
+      <SidebarMenuItem to={DASHBOARD} title="Dashboard" icon="/media/icons/duotune/art/art002.svg" fontIcon="bi-layers" />
       {hasPermission(actionsRole.VIEW_FILE) && (
         <>
           {/* <SidebarMenuItemWithSub to="" title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-person">
@@ -60,7 +63,12 @@ const SidebarMenuMain = () => {
           </SidebarMenuItemWithSub> */}
           <SidebarMenuItem to={VIEW_USER} title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-layers" />
 
-          <SidebarMenuItemWithSub to={MASTERS} icon="/media/icons/duotune/art/art002.svg" title="Masters" fontIcon="bi-app-indicator">
+          <SidebarMenuItemWithSub
+            to={MASTERS}
+            icon={'/media/icons/duotune/general/gen022.svg'}
+            title="Masters"
+            fontIcon="bi-app-indicator"
+          >
             {masterMenu.map((menu: any, i: any) => {
               return <SidebarMenuItem to={`${menu.to}`} title={menu.title} fontIcon="bi-layers" hasBullet={true} key={i} />;
             })}

@@ -158,7 +158,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters || params["*"], location.search);
     });
   };
-  console.log(`${location.pathname.replace("view", "edit")}/${userList[0].id}`, "oo");
+  console.log(`${location.pathname.replace("view", "edit")}/${userList[0]?.id}`, "oo");
   return (
     <KTCardBody className="py-4">
       <div className="table-responsive">
@@ -248,7 +248,7 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                                 {userDetail.taluka}
                               </td>
                               <td role="cell" className="">
-                                {userDetail.exeOfficerDesingation}
+                                {userDetail.designation}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.mobile}
@@ -265,13 +265,13 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                                 {userDetail.taluka}
                               </td>
                               <td role="cell" className="">
+                                {userDetail.address1} {userDetail.address2} {userDetail.pinCode}
+                              </td>
+                              <td role="cell" className="">
                                 {userDetail.mobile}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.email}
-                              </td>
-                              <td role="cell" className="">
-                                {userDetail.postalAddress}
                               </td>
                             </>
                           )}

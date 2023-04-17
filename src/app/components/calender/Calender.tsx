@@ -51,11 +51,11 @@ const Calender: React.FC<props> = () => {
       });
     }
   };
-  const handleEventClick = (clickInfo: any) => {
-    if (prompt(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
-  };
+  // const handleEventClick = (clickInfo: any) => {
+  //   if (prompt(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+  //     clickInfo.event.remove();
+  //   }
+  // };
   const handleEvents = (events: any) => {
     setState({
       ...state,
@@ -93,7 +93,7 @@ const Calender: React.FC<props> = () => {
           weekends={state.weekendsVisible}
           initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect}
-          eventClick={handleEventClick}
+          // eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           //   eventContent={renderEventContent} // custom render function
           /* you can update a remote database when these fire:

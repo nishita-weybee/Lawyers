@@ -98,7 +98,7 @@ export const postUserDetails = (profileDetails: any, callback: Function) => {
       },
       (error: any) => {
         dispatch(failure(EDIT_USER_DETAILS_FAILURE, error.message));
-        showToastMessageFailure();
+        showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
   };

@@ -112,6 +112,8 @@ const AddUser: React.FC<Props> = ({
     },
   });
 
+  console.log(formik.values, convert(formik?.values?.dateOfBirth));
+
   useEffect(() => {
     getDesignation();
   }, [getDesignation]);
@@ -127,7 +129,7 @@ const AddUser: React.FC<Props> = ({
       {formik.values && (
         <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
           <div className="card-body border-top p-9">
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <div className="col-lg-6">
                 <label className="col-form-label fw-bold fs-6 required" htmlFor={"firstName"}>
                   First Name
@@ -185,7 +187,7 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <label className="col-form-label fw-bold fs-6 ">Address</label>
               <div className="">
                 <textarea
@@ -197,7 +199,7 @@ const AddUser: React.FC<Props> = ({
               </div>
             </div>
 
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <div className="col-lg-6">
                 <label className=" col-form-label fw-bold fs-6 required">Email</label>
                 <div className="">
@@ -231,7 +233,7 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <div className="col-lg-6">
                 <label className=" col-form-label fw-bold fs-6" htmlFor="dateOfBirth">
                   Date Of Birth
@@ -244,7 +246,7 @@ const AddUser: React.FC<Props> = ({
                     // {...formik.getFieldProps("dateOfBirth")}
                     name="dateOfBirth"
                     onChange={(e: any) => formik.setFieldValue("dateOfBirth", e.target.value)}
-                    value={convert(formik.values?.dateOfBirth)}
+                    value={formik.values?.dateOfBirth ? convert(formik.values?.dateOfBirth) : ""}
                     className={clsx("form-control bg-transparent")}
                   />
                 </div>
@@ -255,7 +257,7 @@ const AddUser: React.FC<Props> = ({
                 </label>
                 <div className="">
                   <input
-                    value={convert(formik.values?.joiningDate)}
+                    value={formik.values?.joiningDate ? convert(formik.values?.joiningDate) : ""}
                     placeholder="joiningDate"
                     type="date"
                     autoComplete="off"
@@ -279,7 +281,7 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <div className="col-lg-6">
                 <label className=" col-form-label fw-bold fs-6">Aadhar Number</label>
                 <div className="">
@@ -320,7 +322,7 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               <div className="col-lg-6">
                 <label className=" col-form-label fw-bold fs-6 required">User Code</label>
                 <div className="">
@@ -375,7 +377,7 @@ const AddUser: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="row mb-6">
+            <div className="row mb-lg-6">
               {!params.id && (
                 <div className="col-lg-6">
                   <label className=" col-form-label fw-bold fs-6 required">Password</label>

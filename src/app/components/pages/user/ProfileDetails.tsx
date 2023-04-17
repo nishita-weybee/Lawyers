@@ -4,19 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { EDIT_PROFILE } from "../../../helpers/routesConstant";
 import Loader from "../../common/loader/Loader";
 import { convert } from "../../../helpers/helperFunction";
+import { fetchUserDetails } from "../../../reducers/userReducers/userAction";
 
 export interface props {
   loading: boolean;
   userDetails: any;
   error: string;
-  // getUserDetails: any;
+  getUserDetails: any;
 }
 
-const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
+const ProfileDetails: React.FC<props> = ({ loading, error, userDetails, getUserDetails }) => {
   const navigate = useNavigate();
   useEffect(() => {
-    // getUserDetails();
-  }, []);
+    getUserDetails();
+  }, [getUserDetails]);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -81,7 +82,7 @@ const ProfileDetails: React.FC<props> = ({ loading, error, userDetails }) => {
                 <div className="row mb-7">
                   <label className="col-lg-4 fw-bold text-muted">Date Of Birth</label>
                   <div className="col-lg-8">
-                    <span className="fw-bold fs-6 text-gray-800">{convert(userDetails.data.dateOfBirth)}</span>
+                    <span className="fw-bold fs-6 text-gray-800">{userDetails.data.dateOfBirth ? convert(userDetails.data.dateOfBirth) : "-"}</span>
                   </div>
                 </div>
 
@@ -138,7 +139,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    // getUserDetails: () => dispatch(fetchUserDetails()),
+    getUserDetails: () => dispatch(fetchUserDetails()),
   };
 };
 const connectComponent = connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

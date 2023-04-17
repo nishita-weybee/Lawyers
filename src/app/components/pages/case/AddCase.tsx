@@ -75,7 +75,20 @@ const AddCase: React.FC<props> = ({
 
   const onSubmit = (values: any, resetForm: any) => {
     resetForm();
-    params.id ? editCase( values ) : addCase(values, () => {});
+    params.id
+      ? editCase(values)
+      : addCase(
+          {
+            ...values,
+            caseTypeId: values.caseTypeId === "" ? null : values.caseTypeId,
+            filing: {
+              ...values.filing,
+              judgeId: values.filing.judgeId === "" ? null : values.filing.judgeId,
+              stageId: values.filing.stageId === "" ? null : values.filing.stageId,
+            },
+          },
+          () => {}
+        );
   };
 
   useEffect(() => {
@@ -89,8 +102,10 @@ const AddCase: React.FC<props> = ({
   useEffect(() => {
     if (params.id && caseDetailById?.data) {
       getBankOfficerList(caseDetailById?.data?.bankId);
-      getCaseTypeList(caseDetailById?.data?.caseCategoryId);
-      getJudgeList(caseDetailById?.data?.filing.judgeId);
+      if (caseDetailById?.data?.isFilled) {
+        getCaseTypeList(caseDetailById?.data?.caseCategoryId);
+        getJudgeList(caseDetailById?.data?.filing.judgeId);
+      }
     }
   }, [caseDetailById, params, getJudgeList, getBankOfficerList, getCaseTypeList]);
   const stepper = ["Account Details", "Property Details", "Court Details"];
@@ -106,7 +121,7 @@ const AddCase: React.FC<props> = ({
     caseProducts: [
       {
         accountNo: "",
-        bankId: null,
+        bankId: "",
         productId: "",
       },
     ],
@@ -129,19 +144,19 @@ const AddCase: React.FC<props> = ({
     // disposalDate: "",
     caseNo: null,
     year: 0,
-    caseTypeId: null,
-    caseCatId: null,
+    caseTypeId: "",
+    caseCategoryId: "",
     cnrNo: null,
     forum: null,
     filingDate: null,
     filing: {
       caseId: null,
-      judgeId: null,
+      judgeId: "",
       judge: {
-        districtId: null,
-        talukaId: null,
+        districtId: "",
+        talukaId: "",
       },
-      stageId: null,
+      stageId: "",
       date: null,
     },
     remarks: null,
@@ -150,7 +165,25 @@ const AddCase: React.FC<props> = ({
 
   return (
     <Formik
-      initialValues={params.id ? caseDetailById?.data : initialValues}
+      initialValues={
+        params.id
+          ? {
+              ...caseDetailById?.data,
+              caseTypeId: caseDetailById?.data?.caseTypeId === null ? "" : caseDetailById?.data?.caseTypeId,
+              caseCategoryId: caseDetailById?.data?.caseCategoryId === null ? "" : caseDetailById?.data?.caseCategoryId,
+              filing: {
+                ...caseDetailById?.data?.filing,
+                stageId: caseDetailById?.data?.filing.stageId === null ? "" : caseDetailById?.data?.filing.stageId,
+                judgeId: caseDetailById?.data?.filing.judgeId === null ? "" : caseDetailById?.data?.filing.judgeId,
+                judge: {
+                  ...caseDetailById?.data?.filing.judge,
+                  districtId: caseDetailById?.data?.filing?.judge?.districtId === null ? "" : caseDetailById?.data?.filing?.judge?.districtId,
+                  talukaId: caseDetailById?.data?.filing?.judge?.talukaId === null ? "" : caseDetailById?.data?.filing?.judge?.talukaId,
+                },
+              },
+            }
+          : initialValues
+      }
       onSubmit={async (values: any, { resetForm }) => onSubmit(values, resetForm)}
       enableReinitialize={true}
     >
@@ -183,7 +216,7 @@ const AddCase: React.FC<props> = ({
                       <div className="accordion-body card-body border-top p-9">
                         {step === "Account Details" && (
                           <>
-                            <div className="row mb-6">
+                            <div className="row mb-lg-6">
                               <div className="col-lg-6">
                                 <label htmlFor={"bankId"} className="col-form-label fw-bold fs-6 required">
                                   Bank
@@ -204,9 +237,18 @@ const AddCase: React.FC<props> = ({
                                     </option>
                                     {!bankList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                     {bankList?.data?.map((list: any, i: any) => (
-                                      <option key={i} value={list.id}>
-                                        {list.name}
-                                      </option>
+                                      <>
+                                        {!params.id && list.isActive === true && (
+                                          <option key={i} value={list.id}>
+                                            {list.name}
+                                          </option>
+                                        )}
+                                        {params.id && (
+                                          <option key={i} value={list.id}>
+                                            {list.name}
+                                          </option>
+                                        )}
+                                      </>
                                     ))}
                                   </Field>
                                 </div>
@@ -217,15 +259,29 @@ const AddCase: React.FC<props> = ({
                                   Bank Officer
                                 </label>
 
-                                <Field as="select" name={"bankOfficerId"} className={clsx("form-control bg-transparent form-select")}>
+                                <Field
+                                  as="select"
+                                  name={"bankOfficerId"}
+                                  className={clsx("form-control bg-transparent form-select")}
+                                  disabled={bankOfficerList?.data ? false : true}
+                                >
                                   <option value={""} disabled>
                                     Select Bank Officer
                                   </option>
                                   {!bankOfficerList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                   {bankOfficerList?.data?.map((list: any, i: any) => (
-                                    <option key={i} value={list.id}>
-                                      {list.name}
-                                    </option>
+                                    <>
+                                      {!params.id && list.isActive === true && (
+                                        <option key={i} value={list.id}>
+                                          {list.name}
+                                        </option>
+                                      )}
+                                      {params.id && (
+                                        <option key={i} value={list.id}>
+                                          {list.name}
+                                        </option>
+                                      )}
+                                    </>
                                   ))}
                                 </Field>
                               </div>
@@ -234,12 +290,12 @@ const AddCase: React.FC<props> = ({
                             <FieldArray
                               name={`borrowers`}
                               render={({ insert, remove, push }) => (
-                                <div className="border p-4">
+                                <div className="border p-4 mt-6">
                                   <label className=" col-form-label fw-bold fs-6 required">Borrower</label>
                                   <div className="row justify-content-start">
                                     {values?.borrowers?.map((detail: any, index: any) => (
                                       <div className="mb-2 col-lg-4 row flex-nowrap align-items-center" key={index}>
-                                        <div className="col-lg-11 pe-0" key={index}>
+                                        <div className="col-11 pe-0" key={index}>
                                           <div className="">
                                             <Field
                                               placeholder={`Borrower`}
@@ -254,7 +310,7 @@ const AddCase: React.FC<props> = ({
                                         {/* {index !== 0 && ( */}
                                         <button
                                           type="button"
-                                          className="col-lg-1 btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger"
+                                          className="col-1 btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger"
                                           onClick={() => remove(index)}
                                         >
                                           <KTSVG path="/media/icons/duotune/general/gen027.svg" className="svg-icon-2" />
@@ -281,11 +337,11 @@ const AddCase: React.FC<props> = ({
                               )}
                             />
 
-                            <div className="border p-4 mt-7 ">
+                            <div className="border p-4 mt-6 ">
                               <FieldArray
                                 name={`caseProducts`}
                                 render={({ insert, remove, push }) => (
-                                  <div className="row mb-6">
+                                  <div className="row mb-lg-6">
                                     <label className="col-lg-3 col-form-label fw-bold fs-6 required">Account Number</label>
                                     <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank</label>
                                     <label className="col-lg-4 col-form-label fw-bold fs-6 required">Product</label>
@@ -315,9 +371,18 @@ const AddCase: React.FC<props> = ({
                                             </option>
                                             {!bankList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                             {bankList?.data?.map((list: any, i: any) => (
-                                              <option key={i} value={list.id}>
-                                                {list.name}
-                                              </option>
+                                              <>
+                                                {!params.id && list.isActive === true && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                                {params.id && (
+                                                  <option key={i} value={list.id}>
+                                                    {list.name}
+                                                  </option>
+                                                )}
+                                              </>
                                             ))}
                                           </Field>
                                         </div>
@@ -326,6 +391,7 @@ const AddCase: React.FC<props> = ({
                                             as="select"
                                             name={`caseProducts.${index}.productId`}
                                             className={clsx("form-control bg-transparent form-select")}
+                                            disabled={values.caseProducts[index].bankId ? false : true}
                                           >
                                             <option value={""} disabled>
                                               Select Product
@@ -334,13 +400,26 @@ const AddCase: React.FC<props> = ({
                                             {values.caseProducts[index].bankId &&
                                               bankList?.data?.map((x: any, i: any) => {
                                                 if (x.id === Number(values.caseProducts[index].bankId)) {
-                                                  return x.products.map((pro: any, i: any) => {
-                                                    return (
-                                                      <option key={i} value={pro.id}>
-                                                        {pro.name}
-                                                      </option>
-                                                    );
-                                                  });
+                                                  if (!x.products.length) {
+                                                    return <option>{NO_RECORDS_FOUND}</option>;
+                                                  } else {
+                                                    return x.products.map((pro: any, i: any) => {
+                                                      return (
+                                                        <>
+                                                          {!params.id && pro.isActive === true && (
+                                                            <option key={i} value={pro.id}>
+                                                              {pro.name}
+                                                            </option>
+                                                          )}
+                                                          {params.id && (
+                                                            <option key={i} value={pro.id}>
+                                                              {pro.name}
+                                                            </option>
+                                                          )}
+                                                        </>
+                                                      );
+                                                    });
+                                                  }
                                                 }
                                               })}
                                           </Field>
@@ -374,7 +453,7 @@ const AddCase: React.FC<props> = ({
                               />
                             </div>
 
-                            <div className="row mb-6  mt-6">
+                            <div className="row mb-lg-6  mt-6">
                               <div className=" col-lg-6">
                                 <label htmlFor={`npaAmount`} className="col-form-label fw-bold fs-6 required">
                                   NPA Amount
@@ -405,7 +484,7 @@ const AddCase: React.FC<props> = ({
                                 </div>
                               </div>
                             </div>
-                            <div className="row mb-6">
+                            <div className="row mb-lg-6">
                               <div className="col-lg-6">
                                 <label htmlFor={`13(2)`} className=" col-form-label fw-bold fs-6 required">
                                   13 (2)
@@ -443,7 +522,7 @@ const AddCase: React.FC<props> = ({
                             render={({ insert, remove, push }) => (
                               <>
                                 {values?.properties?.map((details: any, index: any) => (
-                                  <div className="p-4 mt-7 border position-relative" key={index}>
+                                  <div className="p-4 border position-relative" key={index}>
                                     <div className="row">
                                       <div className="col-lg-6">
                                         <label className=" col-form-label fw-bold fs-6 required pb-1" htmlFor={`properties.${index}.districtId`}>
@@ -462,7 +541,7 @@ const AddCase: React.FC<props> = ({
                                             <option value="" disabled>
                                               Select District
                                             </option>
-                                            {!districtList?.data && "Loading..."}
+                                            {!districtList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                             {districtList?.data?.map((list: any, i: any) => {
                                               return (
                                                 <>
@@ -502,22 +581,26 @@ const AddCase: React.FC<props> = ({
                                             {values.properties[index].districtId &&
                                               districtList?.data?.map((x: any, i: any) => {
                                                 if (x.id === Number(values.properties[index].districtId)) {
-                                                  return x.taluka.map((tal: any, i: any) => {
-                                                    return (
-                                                      <>
-                                                        {!params.id && tal.isActive === true && (
-                                                          <option key={i} value={tal.id}>
-                                                            {tal.name}
-                                                          </option>
-                                                        )}
-                                                        {params.id && (
-                                                          <option key={i} value={tal.id}>
-                                                            {tal.name}
-                                                          </option>
-                                                        )}
-                                                      </>
-                                                    );
-                                                  });
+                                                  if (!x.taluka?.length) {
+                                                    return <option>{NO_RECORDS_FOUND}</option>;
+                                                  } else {
+                                                    return x.taluka.map((tal: any, i: any) => {
+                                                      return (
+                                                        <>
+                                                          {!params.id && tal.isActive === true && (
+                                                            <option key={i} value={tal.id}>
+                                                              {tal.name}
+                                                            </option>
+                                                          )}
+                                                          {params.id && (
+                                                            <option key={i} value={tal.id}>
+                                                              {tal.name}
+                                                            </option>
+                                                          )}
+                                                        </>
+                                                      );
+                                                    });
+                                                  }
                                                 }
                                               })}
                                           </Field>
@@ -610,7 +693,7 @@ const AddCase: React.FC<props> = ({
                         )}
                         {step === "Court Details" && (
                           <>
-                            <div className="d-flex mb-6">
+                            <div className="d-flex mb-lg-6">
                               <label htmlFor={`isFilled`} className="col-form-label fw-bold fs-6 required me-4">
                                 Filed
                               </label>
@@ -624,18 +707,18 @@ const AddCase: React.FC<props> = ({
 
                             {values?.isFilled && (
                               <>
-                                <div className="row mb-6">
+                                <div className="row mb-lg-6">
                                   <div className="col-lg-6">
-                                    <label htmlFor={"caseCatId"} className="col-form-label fw-bold fs-6 required">
+                                    <label htmlFor={"caseCategoryId"} className="col-form-label fw-bold fs-6 required">
                                       Case Category
                                     </label>
                                     <div className="">
                                       <Field
                                         as="select"
-                                        name={"caseCatId"}
+                                        name={"caseCategoryId"}
                                         className={clsx("form-control bg-transparent form-select")}
                                         onChange={(e: any) => {
-                                          setFieldValue("caseCatId", e.target.value);
+                                          setFieldValue("caseCategoryId", e.target.value);
                                           setFieldValue(`caseTypeId`, "");
                                           getCaseTypeList(e.target.value);
                                         }}
@@ -645,9 +728,18 @@ const AddCase: React.FC<props> = ({
                                         </option>
                                         {!caseCatList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                         {caseCatList?.data?.map((list: any, i: any) => (
-                                          <option key={i} value={list.id}>
-                                            {list.name}
-                                          </option>
+                                          <>
+                                            {!params.id && list.isActive === true && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                            {params.id && (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )}
+                                          </>
                                         ))}
                                       </Field>
                                     </div>
@@ -669,14 +761,23 @@ const AddCase: React.FC<props> = ({
                                       </option>
                                       {!caseTypeList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                       {caseTypeList?.data?.map((list: any, i: any) => (
-                                        <option key={i} value={list.id}>
-                                          {list.name}
-                                        </option>
+                                        <>
+                                          {!params.id && list.isActive === true && (
+                                            <option key={i} value={list.id}>
+                                              {list.name}
+                                            </option>
+                                          )}
+                                          {params.id && (
+                                            <option key={i} value={list.id}>
+                                              {list.name}
+                                            </option>
+                                          )}
+                                        </>
                                       ))}
                                     </Field>
                                   </div>
                                 </div>
-                                <div className="row mb-6">
+                                <div className="row mb-lg-6">
                                   <div className="col-lg-4">
                                     <label htmlFor={`caseNo`} className=" col-form-label fw-bold fs-6 required">
                                       Case Number
@@ -724,7 +825,7 @@ const AddCase: React.FC<props> = ({
                                   </div>
                                 </div>
 
-                                <div className="row mb-6">
+                                <div className="row mb-lg-6">
                                   <div className="col-lg-4">
                                     <label className=" col-form-label fw-bold fs-6 required" htmlFor={`filing.judge.districtId`}>
                                       District Name
@@ -742,7 +843,7 @@ const AddCase: React.FC<props> = ({
                                         <option value="" disabled>
                                           Select District
                                         </option>
-                                        {!districtList?.data && "Loading..."}
+                                        {!districtList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                         {districtList?.data?.map((list: any, i: any) => {
                                           return (
                                             <>
@@ -776,50 +877,53 @@ const AddCase: React.FC<props> = ({
                                           setFieldValue(`filing.judgeId`, "");
                                           getJudgeList(e.target.value);
                                         }}
+                                        disabled={values?.filing?.judge?.districtId ? false : true}
                                       >
                                         <option value="" disabled>
                                           Select Taluka
                                         </option>
-                                        {values.filing.judge.districtId &&
+                                        {values?.filing?.judge?.districtId &&
                                           districtList?.data?.map((x: any, i: any) => {
                                             if (x.id === Number(values.filing.judge.districtId)) {
-                                              return x.taluka.map((tal: any, i: any) => {
-                                                return (
-                                                  <option key={i} value={tal.id}>
-                                                    {tal.name}
-                                                  </option>
-                                                );
-                                              });
+                                              if (!x.taluka.length) {
+                                                return <option> {NO_RECORDS_FOUND}</option>;
+                                              } else {
+                                                return x.taluka.map((tal: any, i: any) => {
+                                                  return (
+                                                    <>
+                                                      {!params.id && tal.isActive === true && (
+                                                        <option key={i} value={tal.id}>
+                                                          {tal.name}
+                                                        </option>
+                                                      )}
+                                                      {params.id && (
+                                                        <option key={i} value={tal.id}>
+                                                          {tal.name}
+                                                        </option>
+                                                      )}
+                                                    </>
+                                                  );
+                                                });
+                                              }
                                             }
                                           })}
-                                        {/* {!talukaList?.data && "Loading..."} */}
-                                        {/* {talukaList?.data?.map((list: any, i: any) => {
-                                          return (
-                                            <>
-                                              {!params.id && list.isActive === true && (
-                                                <option key={i} value={list.id}>
-                                                  {list.name}
-                                                </option>
-                                              )}
-                                              {params.id && (
-                                                <option key={i} value={list.id}>
-                                                  {list.name}
-                                                </option>
-                                              )}
-                                            </>
-                                          );
-                                        })} */}
                                       </Field>
                                     </div>
                                   </div>
                                   <div className="col-lg-4">
                                     <label className=" col-form-label fw-bold fs-6 required">Judge</label>
                                     <div className="">
-                                      <Field as="select" type={"text"} name={"filing.judgeId"} className={clsx("form-control bg-transparent")}>
+                                      <Field
+                                        as="select"
+                                        type={"text"}
+                                        name={"filing.judgeId"}
+                                        className={clsx("form-control bg-transparent form-select")}
+                                        disabled={judgeList?.data ? false : true}
+                                      >
                                         <option value="" disabled>
                                           Select Judge
                                         </option>
-
+                                        {!judgeList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
                                         {judgeList?.data?.map((list: any, i: any) => {
                                           return (
                                             <>
@@ -841,7 +945,7 @@ const AddCase: React.FC<props> = ({
                                   </div>
                                 </div>
 
-                                <div className="row mb-6">
+                                <div className="row mb-lg-6">
                                   <div className="col-lg-6">
                                     <label htmlFor={`filingDate`} className=" col-form-label fw-bold fs-6 required">
                                       Filling Date
@@ -852,7 +956,7 @@ const AddCase: React.FC<props> = ({
                                         name={`filingDate`}
                                         autoComplete="off"
                                         className={clsx("form-control bg-transparent")}
-                                        value={convert(values?.filingDate) || ""}
+                                        value={values?.filing.date ? convert(values?.filingDate) : ""}
                                       />
                                     </div>
                                   </div>
@@ -866,13 +970,13 @@ const AddCase: React.FC<props> = ({
                                         name={`filing.date`}
                                         autoComplete="off"
                                         className={clsx("form-control bg-transparent")}
-                                        value={convert(values?.filing.date) || ""}
+                                        value={values?.filing.date ? convert(values?.filing.date) : ""}
                                       />
                                     </div>
                                   </div>
                                 </div>
 
-                                <div className="row mb-6">
+                                <div className="row mb-lg-6">
                                   <div className="col-lg-6">
                                     <label htmlFor={`filing.stageId`} className=" col-form-label fw-bold fs-6 required">
                                       Stage
@@ -883,11 +987,16 @@ const AddCase: React.FC<props> = ({
                                           Select Stage
                                         </option>
                                         {!stageList?.data?.length && <option>{NO_RECORDS_FOUND}</option>}
-                                        {stageList?.data?.map((list: any, i: any) => (
-                                          <option key={i} value={list.id}>
-                                            {list.name}
-                                          </option>
-                                        ))}
+                                        {stageList?.data?.map(
+                                          (list: any, i: any) => (
+                                            console.log(values.filing.stageId === null),
+                                            (
+                                              <option key={i} value={list.id}>
+                                                {list.name}
+                                              </option>
+                                            )
+                                          )
+                                        )}
                                       </Field>
                                     </div>
                                   </div>

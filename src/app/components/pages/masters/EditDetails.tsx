@@ -313,7 +313,6 @@ const EditDetails: React.FC<props> = ({
         name: Yup.string()
           .required(REQUIRED)
           .matches(/^[^.]*$/, NO_DOT_ALLOWED),
-        desginationId: Yup.string().required(REQUIRED),
       });
       break;
     case PRODUCTS_CONST:
@@ -381,25 +380,21 @@ const EditDetails: React.FC<props> = ({
       break;
   }
 
-
-
   const initialValuesArr = [
     { name: "" },
-    { name: "", mobile: "", email: "", pinCode: "", address1: "", address2: "", districtId: "", talukaId: "" },
+    { name: "", mobile: "", email: "", pinCode: "", address1: "", address2: "", districtId: "", talukaId: "", postalAddress: null },
     { name: "", bankId: "" },
     { name: "", mobile: "", email: "", bankId: "", isSms: false, isEmail: false, isWhatsapp: false },
     { name: "", mobile: "", districtId: "", talukaId: "", exeOfficerDesignationId: "" },
     { name: "", mobile: "", email: "" },
     { name: "", districtId: "" },
     { name: "", forum: "", districtId: "", talukaId: "" },
-    { name: "", desginationId: "" },
+    { name: "" },
     { name: "", mobile: "" },
     { name: "", caseCategoryId: "" },
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
-
-
     if (params.id) {
       switch (params.masters) {
         case DISTRICT_CONST:
@@ -502,8 +497,6 @@ const EditDetails: React.FC<props> = ({
           break;
       }
     } else {
-   
-
       await postDetails(params?.masters, values, () => {
         navigate(`/masters/${params?.masters}`);
         resetForm();
@@ -577,6 +570,7 @@ const EditDetails: React.FC<props> = ({
     }
 
     params.masters === TALUKA_CONST && getDistrictList();
+    params.masters === ASSOCIATE_ADVOCATE_CONST && getDistrictList();
     params.masters === BANK_BRANCH_CONST && getBankList();
     params.masters === PRODUCTS_CONST && getBankList();
     params.masters === BANK_OFFICER_CONST && getBankList();
@@ -596,10 +590,10 @@ const EditDetails: React.FC<props> = ({
     if (params.id && params.masters === BANK_OFFICER_CONST && details.data) {
       getBranchList(details?.data?.bankId);
     }
-    if (params.id && params.masters === (JUDGE_CONST || EXECUTER_CONST) && details?.data) {
-      getTalukaList(details?.data?.districtId);
-    }
-  }, [details?.data, params.id, params.masters, getBranchList, getTalukaList]);
+    // if (params.id && params.masters === (JUDGE_CONST || EXECUTER_CONST) && details?.data) {
+    //   getTalukaList(details?.data?.districtId);
+    // }
+  }, [details?.data, params.id, params.masters, getBranchList]);
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -613,7 +607,10 @@ const EditDetails: React.FC<props> = ({
 
       <Formik
         initialValues={params.id ? details?.data : initialValuesArr[num]}
-        onSubmit={(values: any, { resetForm }) => onSubmit(values, resetForm)}
+        onSubmit={(values: any, { resetForm }) => {
+          onSubmit(values, resetForm);
+          console.log(values);
+        }}
         enableReinitialize={true}
         validationSchema={validateFun}
         render={({ values, setFieldValue, errors, touched, resetForm }) => (
@@ -930,7 +927,7 @@ const EditDetails: React.FC<props> = ({
                             }
                           )}
                           onChange={(e: any) => {
-                            getTalukaList(e.target.value);
+                            // getTalukaList(e.target.value);
                             setFieldValue("districtId", e.target.value);
                             setFieldValue("talukaId", "");
                           }}
@@ -985,23 +982,28 @@ const EditDetails: React.FC<props> = ({
                           <option value="" disabled>
                             Select Taluka
                           </option>
-                          {!talukaList?.data && "Loading..."}
-                          {talukaList?.data?.map((list: any, i: any) => {
-                            return (
-                              <>
-                                {!params.id && list.isActive === true && (
-                                  <option key={i} value={list.id}>
-                                    {list.name}
-                                  </option>
-                                )}
-                                {params.id && (
-                                  <option key={i} value={list.id}>
-                                    {list.name}
-                                  </option>
-                                )}
-                              </>
-                            );
-                          })}
+
+                          {values.districtId &&
+                            districtList?.data?.map((x: any, i: any) => {
+                              if (x.id === Number(values.districtId)) {
+                                return x.taluka.map((tal: any, i: any) => {
+                                  return (
+                                    <>
+                                      {!params.id && tal.isActive === true && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                      {params.id && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                    </>
+                                  );
+                                });
+                              }
+                            })}
                         </Field>
                         {touched.talukaId && errors.talukaId && (
                           <div className="fv-plugins-message-container">
@@ -1495,6 +1497,33 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === ASSOCIATE_ADVOCATE_CONST && (
                   <>
                     <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Associate Advocate Name</label>
+                      <div className="col-lg-8">
+                        <Field
+                          placeholder={"Associate Advocate Name"}
+                          type="text"
+                          name={"name"}
+                          autoComplete="off"
+                          className={clsx(
+                            "form-control bg-transparent",
+                            {
+                              "is-invalid": touched.name && errors.name,
+                            },
+                            {
+                              "is-valid": touched.name && !errors.name,
+                            }
+                          )}
+                        />
+                        {touched.name && errors.name && (
+                          <div className="fv-plugins-message-container">
+                            <div className="fv-help-block">
+                              <span role="alert">{`${errors.name}`}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-6">
                       <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
                       <div className="col-lg-8">
                         <Field
@@ -1566,7 +1595,28 @@ const EditDetails: React.FC<props> = ({
                             Select Taluka
                           </option>
                           {!talukaList?.data && "Loading..."}
-                          {talukaList?.data?.map((list: any, i: any) => {
+                          {values.districtId &&
+                            districtList?.data?.map((x: any, i: any) => {
+                              if (x.id === Number(values.districtId)) {
+                                return x.taluka.map((tal: any, i: any) => {
+                                  return (
+                                    <>
+                                      {!params.id && tal.isActive === true && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                      {params.id && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                    </>
+                                  );
+                                });
+                              }
+                            })}
+                          {/* {talukaList?.data?.map((list: any, i: any) => {
                             return (
                               <>
                                 {!params.id && list.isActive === true && (
@@ -1581,39 +1631,12 @@ const EditDetails: React.FC<props> = ({
                                 )}
                               </>
                             );
-                          })}
+                          })} */}
                         </Field>
                         {touched.talukaId && errors.talukaId && (
                           <div className="fv-plugins-message-container">
                             <div className="fv-help-block">
                               <span role="alert">{`${errors.talukaId}`}</span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Associate Advocate Name</label>
-                      <div className="col-lg-8">
-                        <Field
-                          placeholder={"Associate Advocate Name"}
-                          type="text"
-                          name={"name"}
-                          autoComplete="off"
-                          className={clsx(
-                            "form-control bg-transparent",
-                            {
-                              "is-invalid": touched.name && errors.name,
-                            },
-                            {
-                              "is-valid": touched.name && !errors.name,
-                            }
-                          )}
-                        />
-                        {touched.name && errors.name && (
-                          <div className="fv-plugins-message-container">
-                            <div className="fv-help-block">
-                              <span role="alert">{`${errors.name}`}</span>
                             </div>
                           </div>
                         )}
@@ -1646,6 +1669,7 @@ const EditDetails: React.FC<props> = ({
                         )}
                       </div>
                     </div>
+
                     <div className="row mb-6">
                       <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 1</label>
                       <div className="col-lg-8">
@@ -1700,6 +1724,7 @@ const EditDetails: React.FC<props> = ({
                         )}
                       </div>
                     </div>
+
                     <div className="row mb-6">
                       <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
                       <div className="col-lg-8">
@@ -1829,7 +1854,28 @@ const EditDetails: React.FC<props> = ({
                           <option value="" disabled>
                             Select Taluka
                           </option>
-                          {!talukaList?.data && "Loading..."}
+                          {values.districtId &&
+                                              districtList?.data?.map((x: any, i: any) => {
+                                                if (x.id === Number(values.districtId)) {
+                                                  return x.taluka.map((tal: any, i: any) => {
+                                                    return (
+                                                      <>
+                                                        {!params.id && tal.isActive === true && (
+                                                          <option key={i} value={tal.id}>
+                                                            {tal.name}
+                                                          </option>
+                                                        )}
+                                                        {params.id && (
+                                                          <option key={i} value={tal.id}>
+                                                            {tal.name}
+                                                          </option>
+                                                        )}
+                                                      </>
+                                                    );
+                                                  });
+                                                }
+                                              })}
+                          {/* {!talukaList?.data && "Loading..."}
                           {talukaList?.data?.map((list: any, i: any) => {
                             return (
                               <>
@@ -1845,7 +1891,7 @@ const EditDetails: React.FC<props> = ({
                                 )}
                               </>
                             );
-                          })}
+                          })} */}
                         </Field>
                         {touched.talukaId && errors.talukaId && (
                           <div className="fv-plugins-message-container">
@@ -2219,34 +2265,6 @@ const EditDetails: React.FC<props> = ({
                     </div>
                   </>
                 )}
-
-                {/* <div className="row mb-6">
-                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">{params.masters?.replace(/-/g, " ")} Name</label>
-                    <div className="col-lg-8">
-                      <Field
-                        placeholder={`${capitalizeFirstLetter(params.masters?.replace(/-/g, " "))} Name`}
-                        type="text"
-                        name={"name"}
-                        autoComplete="off"
-                        className={clsx(
-                          "form-control bg-transparent",
-                          {
-                            "is-invalid": touched.name && errors.name,
-                          },
-                          {
-                            "is-valid": touched.name && !errors.name,
-                          }
-                        )}
-                      />
-                      {touched.name && errors.name && (
-                        <div className="fv-plugins-message-container">
-                          <div className="fv-help-block">
-                            <span role="alert">{`${errors.name}`}</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div> */}
               </div>
             ) : (
               <Loader />

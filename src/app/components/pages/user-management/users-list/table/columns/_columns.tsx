@@ -132,16 +132,16 @@ export const associateAdvocateColumns: ReadonlyArray<Column<User>> = [
     id: "Taluka",
   },
   {
+    Header: (props) => <UserCustomHeader tableProps={props} title="Address" className="text-capitalize  min-w-100px" />,
+    id: "Address",
+  },
+  {
     Header: (props) => <UserCustomHeader tableProps={props} title="Mobile" className="text-capitalize  min-w-100px" />,
     id: "Mobile",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Email" className="text-capitalize  min-w-100px" />,
     id: "Email",
-  },
-  {
-    Header: (props) => <UserCustomHeader tableProps={props} title="Address" className="text-capitalize  min-w-100px" />,
-    id: "Address",
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title="Actions" className="text-capitalize text-end min-w-100px" />,
@@ -270,4 +270,3 @@ export const caseTypeColumns: ReadonlyArray<Column<User>> = [
     id: "actions",
   },
 ];
-

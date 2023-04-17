@@ -280,14 +280,14 @@ const CaseCard: React.FC<props> = ({ loading, caseDetailById, getCase }) => {
                   <div className="mb-6">
                     <div className="fw-semibold text-gray-600 fs-7">District:</div>
                     <div className="fw-bold text-gray-800 fs-6">
-                      {caseDetailById?.data.filing.judge.district}, {caseDetailById?.data.filing.judge.taluka}
+                      {caseDetailById?.data?.filing?.judge?.district}, {caseDetailById?.data?.filing?.judge?.taluka}
                     </div>
                   </div>
 
                   <div className="mb-15">
                     <div className="fw-semibold text-gray-600 fs-7">Judge:</div>
                     <div className="fw-bold text-gray-800 fs-6">
-                      {caseDetailById?.data.filing.judge.name}, {caseDetailById?.data.filing.judge.forum}
+                      {caseDetailById?.data?.filing?.judge?.name}, {caseDetailById?.data?.filing?.judge?.forum}
                     </div>
                   </div>
 

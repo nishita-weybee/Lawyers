@@ -59,6 +59,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
       postUserDetails(values, () => navigate(PROFILE));
     },
   });
+  console.log(formik.values, convert(formik.values.dateOfBirth));
 
   return (
     <div className="card mb-5 mb-xl-10">
@@ -72,7 +73,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
         <form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form" onSubmit={formik.handleSubmit}>
           <div className="card-body border-top p-9">
             <>
-              <div className="row mb-6">
+              <div className="row mb-lg-6">
                 <div className="col-lg-6">
                   <label className="col-form-label fw-bold fs-6 required" htmlFor={"firstName"}>
                     First Name
@@ -130,7 +131,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                   </div>
                 </div>
               </div>
-              <div className="row mb-6">
+              <div className="row mb-lg-6">
                 <label className="col-form-label fw-bold fs-6 required">Address</label>
                 <div className="">
                   <textarea
@@ -141,7 +142,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                   />
                 </div>
               </div>
-              <div className="row mb-6">
+              <div className="row mb-lg-6">
                 <div className="col-lg-6">
                   <label className=" col-form-label fw-bold fs-6 required">Email</label>
                   <div className="">
@@ -168,8 +169,8 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                 </div>
               </div>
               {console.log(formik.values)}
-              
-              <div className="row mb-6">
+
+              <div className="row mb-lg-6">
                 <div className="col-lg-6">
                   <label className=" col-form-label fw-bold fs-6 required" htmlFor="dateOfBirth">
                     Date Of Birth
@@ -182,7 +183,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                       name={"dateOfBirth"}
                       value={convert(formik.values.dateOfBirth)}
                       // {...formik.getFieldProps("dateOfBirth")}
-                      onChange={(e:any) => formik.setFieldValue("dateOfBirth", e.target.value)}
+                      onChange={(e: any) => formik.setFieldValue("dateOfBirth", e.target.value)}
                       className={clsx("form-control bg-transparent")}
                     />
                   </div>
@@ -196,9 +197,8 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                       placeholder="joiningDate"
                       type="date"
                       value={convert(formik.values.joiningDate)}
-                      onChange={(e:any) => formik.setFieldValue("joiningDate", e.target.value)}
+                      onChange={(e: any) => formik.setFieldValue("joiningDate", e.target.value)}
                       autoComplete="off"
-                      // {...formik.getFieldProps("joiningDate")}
                       className={clsx(
                         "form-control bg-transparent",
                         { "is-invalid": formik.touched.joiningDate && formik.errors.joiningDate },
@@ -217,7 +217,7 @@ const EditProfile: React.FC<Props> = ({ postUserDetails, posting, postRes, getUs
                   </div>
                 </div>
               </div>
-              <div className="row mb-6">
+              <div className="row mb-lg-6">
                 <div className="col-lg-6">
                   <label className=" col-form-label fw-bold fs-6 required">Aadhar Number</label>
                   <div className="">
