@@ -19,6 +19,7 @@ import {
 import { editCaseDetails, getCaseById, postCaseDetails } from "../../../reducers/caseReducers/caseAction";
 import { useLocation, useParams } from "react-router-dom";
 import { convert } from "../../../helpers/helperFunction";
+import { useWindowSize } from "../../../helpers/useWindowSize";
 
 export interface props {
   getStageList: Function;
@@ -72,6 +73,7 @@ const AddCase: React.FC<props> = ({
   const location = useLocation();
   const params = useParams();
   const [startDate, setStartDate] = useState(new Date());
+  const { isMobile, windowSize } = useWindowSize();
 
   const onSubmit = (values: any, resetForm: any) => {
     resetForm();
@@ -313,7 +315,8 @@ const AddCase: React.FC<props> = ({
                                           className="col-1 btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger"
                                           onClick={() => remove(index)}
                                         >
-                                          <KTSVG path="/media/icons/duotune/general/gen027.svg" className="svg-icon-2" />
+                                          {/* <KTSVG path="/media/icons/duotune/general/gen027.svg" className="svg-icon-2" /> */}
+                                          <KTSVG path="/media/icons/duotune/general/gen040.svg" className="svg-icon-muted svg-icon-2hx" />
                                         </button>
                                       </div>
                                     ))}
@@ -337,17 +340,27 @@ const AddCase: React.FC<props> = ({
                               )}
                             />
 
-                            <div className="border p-4 mt-6 ">
+                            <div className={`${!isMobile ? "border" : ''}p-4 mt-6`}>
                               <FieldArray
                                 name={`caseProducts`}
                                 render={({ insert, remove, push }) => (
                                   <div className="row mb-lg-6">
-                                    <label className="col-lg-3 col-form-label fw-bold fs-6 required">Account Number</label>
+                                    {/* <label className="col-lg-3 col-form-label fw-bold fs-6 required">Account Number</label>
                                     <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank</label>
-                                    <label className="col-lg-4 col-form-label fw-bold fs-6 required">Product</label>
+                                     <label className="col-lg-4 col-form-label fw-bold fs-6 required">Product</label> */}
                                     {values?.caseProducts?.map((detail: any, index: any) => (
-                                      <div className="row mb-2 align-items-center" key={index}>
+                                      <div
+                                        className={`row mb-4 ${index === 0 ? "align-items-end" : "align-items-center"} ${
+                                          isMobile && "border position-relative p-4"
+                                        } `}
+                                        key={index}
+                                      >
                                         <div className="col-lg-3">
+                                          {isMobile ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Account Number</label>
+                                          ) : index === 0 ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Account Number</label>
+                                          ) : null}
                                           <Field
                                             placeholder={`Account Number`}
                                             type="text"
@@ -357,6 +370,11 @@ const AddCase: React.FC<props> = ({
                                           />
                                         </div>
                                         <div className="col-lg-4">
+                                          {isMobile ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Bank</label>
+                                          ) : index === 0 ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Bank</label>
+                                          ) : null}
                                           <Field
                                             as="select"
                                             name={`caseProducts.${index}.bankId`}
@@ -387,6 +405,11 @@ const AddCase: React.FC<props> = ({
                                           </Field>
                                         </div>
                                         <div className="col-lg-4">
+                                          {isMobile ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Product</label>
+                                          ) : index === 0 ? (
+                                            <label className=" col-form-label fw-bold fs-6 required">Product</label>
+                                          ) : null}
                                           <Field
                                             as="select"
                                             name={`caseProducts.${index}.productId`}
@@ -428,10 +451,14 @@ const AddCase: React.FC<props> = ({
                                         {/* {index !== 0 && ( */}
 
                                         <button
-                                          className=" col-lg-1 btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger "
+                                          className={`col-lg-1 btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger ${
+                                            isMobile && "position-absolute"
+                                          }`}
                                           onClick={() => remove(index)}
+                                          style={isMobile ? { top: "-16px", right: " -16px" } : undefined}
                                         >
-                                          <KTSVG path="/media/icons/duotune/general/gen027.svg" className="svg-icon-2" />
+                                          {/* <KTSVG path="/media/icons/duotune/general/gen027.svg" className="svg-icon-2" /> */}
+                                          <KTSVG path="/media/icons/duotune/general/gen040.svg" className="svg-icon-muted svg-icon-2hx" />
                                         </button>
 
                                         {/* )} */}
@@ -522,7 +549,7 @@ const AddCase: React.FC<props> = ({
                             render={({ insert, remove, push }) => (
                               <>
                                 {values?.properties?.map((details: any, index: any) => (
-                                  <div className="p-4 border position-relative" key={index}>
+                                  <div className="p-4 border position-relative mb-4" key={index}>
                                     <div className="row">
                                       <div className="col-lg-6">
                                         <label className=" col-form-label fw-bold fs-6 required pb-1" htmlFor={`properties.${index}.districtId`}>
