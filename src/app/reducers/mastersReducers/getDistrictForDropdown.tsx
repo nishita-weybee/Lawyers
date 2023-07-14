@@ -15,7 +15,10 @@ export interface action {
   payload: any;
 }
 
-const getDistrictForDropdownReducer = (state = initialState, action: action) => {
+const getDistrictForDropdownReducer = (
+  state = initialState,
+  action: action
+) => {
   switch (action.type) {
     case GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST:
       return {
@@ -36,7 +39,7 @@ const getDistrictForDropdownReducer = (state = initialState, action: action) => 
         ...state,
         loading: false,
         districtList: {},
-        error: action.payload,
+        error: action.payload.data,
       };
 
     default: {

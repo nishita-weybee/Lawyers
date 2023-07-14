@@ -1,4 +1,6 @@
-import hasPermission, { actionsRole } from "../../../../../app/components/auth/core/hasPermissions";
+import hasPermission, {
+  actionsRole,
+} from "../../../../../app/components/auth/core/hasPermissions";
 import {
   ADD_CASE,
   ASSOCIATE_ADVOCATE,
@@ -32,15 +34,18 @@ const SidebarMenuMain = () => {
   const masterMenu = [
     { to: DISTRICT, title: "District" },
     { to: TALUKA, title: "Taluka" },
-    { to: FORUM, title: "Forum" },
+    // { to: FORUM, title: "Forum" },
     { to: JUDGE, title: "Judge" },
-    { to: BANK, title: "Bank" },
-    { to: BANK_BRANCH, title: "Bank Branch" },
+    { to: BANK, title: "Cient" },
+    // { to: BANK_BRANCH, title: "Bank Branch" },
     { to: BANK_OFFICER, title: "Bank Officer" },
     { to: DEPARTMENT, title: "Department" },
     // { to: ADVOCATE, title: "Advocate" },
     { to: ASSOCIATE_ADVOCATE, title: "Associate Advocate" },
-    { to: EXECUTIVE_OFFICER_DESIGNATION, title: "Executive Officer Designation" },
+    {
+      to: EXECUTIVE_OFFICER_DESIGNATION,
+      title: "Executive Officer Designation",
+    },
     { to: EXECUTER, title: "Executer" },
     { to: PRODUCTS, title: "Products" },
     { to: STAGE, title: "Stage" },
@@ -54,31 +59,64 @@ const SidebarMenuMain = () => {
   return (
     <>
       {/* for admin */}
-      <SidebarMenuItem to={DASHBOARD} title="Dashboard" icon="/media/icons/duotune/art/art002.svg" fontIcon="bi-layers" />
+      <SidebarMenuItem
+        to={DASHBOARD}
+        title="Dashboard"
+        icon="/media/icons/duotune/art/art002.svg"
+        fontIcon="bi-layers"
+      />
       {hasPermission(actionsRole.VIEW_FILE) && (
         <>
           {/* <SidebarMenuItemWithSub to="" title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-person">
             <SidebarMenuItem to={ADD_USER} title="Add User" fontIcon="bi-layers" hasBullet={true} />
             <SidebarMenuItem to={VIEW_USER} title="View User" fontIcon="bi-layers" hasBullet={true} />
           </SidebarMenuItemWithSub> */}
-          <SidebarMenuItem to={VIEW_USER} title="User" icon="/media/icons/duotune/communication/com006.svg" fontIcon="bi-layers" />
+          <SidebarMenuItem
+            to={VIEW_USER}
+            title="User"
+            icon="/media/icons/duotune/communication/com006.svg"
+            fontIcon="bi-layers"
+          />
 
           <SidebarMenuItemWithSub
             to={MASTERS}
-            icon={'/media/icons/duotune/general/gen022.svg'}
+            icon={"/media/icons/duotune/general/gen022.svg"}
             title="Masters"
             fontIcon="bi-app-indicator"
           >
             {masterMenu.map((menu: any, i: any) => {
-              return <SidebarMenuItem to={`${menu.to}`} title={menu.title} fontIcon="bi-layers" hasBullet={true} key={i} />;
+              return (
+                <SidebarMenuItem
+                  to={`${menu.to}`}
+                  title={menu.title}
+                  fontIcon="bi-layers"
+                  hasBullet={true}
+                  key={i}
+                />
+              );
             })}
           </SidebarMenuItemWithSub>
         </>
       )}
 
-      <SidebarMenuItemWithSub to={"case"} icon={"/media/icons/duotune/abstract/abs027.svg"} title="Case" fontIcon="bi-app-indicator">
-        <SidebarMenuItem to={`${ADD_CASE}`} title={"Add Case"} fontIcon="bi-layers" hasBullet={true} />
-        <SidebarMenuItem to={`${VIEW_CASE}`} title={"View Cases"} fontIcon="bi-layers" hasBullet={true} />
+      <SidebarMenuItemWithSub
+        to={"case"}
+        icon={"/media/icons/duotune/abstract/abs027.svg"}
+        title="Case"
+        fontIcon="bi-app-indicator"
+      >
+        <SidebarMenuItem
+          to={`${ADD_CASE}`}
+          title={"Add Case"}
+          fontIcon="bi-layers"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to={`${VIEW_CASE}`}
+          title={"View Cases"}
+          fontIcon="bi-layers"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
 
       {/* for employee

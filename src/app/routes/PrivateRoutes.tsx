@@ -2,18 +2,30 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { MasterLayout } from "../../_metronic/layout/MasterLayout";
 import { DashboardWrapper } from "../components/dashboard/DashboardWrapper";
 import BuilderPageWrapper from "../components/layout-builder/BuilderPageWrapper";
-import { ADD_CASE, ADD_USER, DASHBOARD, EDIT_CASE, EDIT_PROFILE, EDIT_USER, PROFILE, VIEW_CASE, VIEW_USER } from "../helpers/routesConstant";
+import {
+  ADD_CASE,
+  ADD_USER,
+  DASHBOARD,
+  EDIT_CASE,
+  EDIT_PROFILE,
+  EDIT_USER,
+  PROFILE,
+  VIEW_CASE,
+  VIEW_USER,
+} from "../helpers/routesConstant";
 import AddUser from "../components/pages/user/AddUser";
 import ViewUser from "../components/pages/user/ViewUser";
-import hasPermission, { actionsRole } from "../components/auth/core/hasPermissions";
+import hasPermission, {
+  actionsRole,
+} from "../components/auth/core/hasPermissions";
 import EditProfile from "../components/pages/user/EditProfile";
 import Masters from "../components/pages/masters/Masters";
 import EditDetails from "../components/pages/masters/EditDetails";
-import AddCase from "../components/pages/case/AddCase";
 import MyProfile from "../components/pages/user/MyProfile";
 import ViewCase from "../components/pages/case/ViewCase";
 import Dashboard from "../components/pages/Dashboard/Dashboard";
 import CaseCard from "../components/pages/case/CaseCard";
+import Stepper from "../components/pages/newCase/Stepper";
 
 const PrivateRoutes = () => {
   return (
@@ -30,7 +42,10 @@ const PrivateRoutes = () => {
             <Route>
               <Route path={"/masters/:masters"} element={<Masters />} />
               <Route path={"/masters/add-:masters"} element={<EditDetails />} />
-              <Route path={"/masters/edit-:masters/:id"} element={<EditDetails />} />
+              <Route
+                path={"/masters/edit-:masters/:id"}
+                element={<EditDetails />}
+              />
             </Route>
           </>
         )}
@@ -39,9 +54,11 @@ const PrivateRoutes = () => {
         <>
           <Route path={PROFILE} element={<MyProfile />} />
           <Route path={EDIT_PROFILE} element={<EditProfile />} />
-          <Route path={ADD_CASE} element={<AddCase />} />
+          {/* <Route path={ADD_CASE} element={<AddCase />} /> */}
+          {/* <Route path={ADD_CASE} element={<AddCase />} /> */}
+          <Route path={ADD_CASE} element={<Stepper />} />
           <Route path={VIEW_CASE} element={<ViewCase />} />
-          <Route path={`${EDIT_CASE}/:id`} element={<AddCase />} />
+          <Route path={`${EDIT_CASE}/:id`} element={<Stepper />} />
           <Route path={`${VIEW_CASE}/:id`} element={<CaseCard />} />
         </>
         {/* )} */}

@@ -6,7 +6,10 @@ import { CustomHeaderColumn } from "./columns/CustomHeaderColumn";
 import { User } from "../core/_models";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { activateDeactivateUser, fetchUserList } from "../../../../../reducers/userReducers/userAction";
+import {
+  activateDeactivateUser,
+  fetchUserList,
+} from "../../../../../reducers/userReducers/userAction";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   advocateColumns,
@@ -64,8 +67,16 @@ import {
   fetchAllCaseType,
   fetchAllDisposal,
 } from "../../../../../reducers/mastersReducers/mastersAction";
-import { activeDeactiveCase, getAllCase } from "../../../../../reducers/caseReducers/caseAction";
-import { EDIT_CASE, VIEW_CASE, VIEW_CASE_CARD, VIEW_USER } from "../../../../../helpers/routesConstant";
+import {
+  activeDeactiveCase,
+  getAllCase,
+} from "../../../../../reducers/caseReducers/caseAction";
+import {
+  EDIT_CASE,
+  VIEW_CASE,
+  VIEW_CASE_CARD,
+  VIEW_USER,
+} from "../../../../../helpers/routesConstant";
 import { convert } from "../../../../../helpers/helperFunction";
 import {
   BANK_OFFICER_CONST,
@@ -95,7 +106,11 @@ export interface Props {
   getUserList: Function;
 }
 
-const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) => {
+const UsersTable: React.FC<Props> = ({
+  userList,
+  accountStatus,
+  getUserList,
+}) => {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
@@ -147,10 +162,11 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
         return usersColumns;
     }
   }, [params]);
-  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
-    columns,
-    data,
-  });
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
   const color = ["primary", "danger", "success", "warning", "info"];
 
   const activateDeactivateUser = (id: any, status: any) => {
@@ -158,11 +174,20 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
       getUserList(params.masters || params["*"], location.search);
     });
   };
-  console.log(`${location.pathname.replace("view", "edit")}/${userList[0]?.id}`, "oo");
+  console.log(
+    `${location.pathname.replace("view", "edit")}/${userList[0]?.id}`,
+    "oo"
+  );
+
+  console.log(userList, "userList");
   return (
     <KTCardBody className="py-4">
       <div className="table-responsive">
-        <table id="kt_table_users" className="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" {...getTableProps()}>
+        <table
+          id="kt_table_users"
+          className="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+          {...getTableProps()}
+        >
           <thead>
             <tr className="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
               {headers.map((column: ColumnInstance<User>) => (
@@ -183,18 +208,22 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                 <div className="symbol-label">
                                   <span
-                                    className={`symbol-label bg-light-${color[i > 4 ? userList.length - 1 - i : i]} text-${
+                                    className={`symbol-label bg-light-${
+                                      color[i > 4 ? userList.length - 1 - i : i]
+                                    } text-${
                                       color[i > 4 ? userList.length - 1 - i : i]
                                     } fw-bold fs-4`}
                                   >
-                                    {userDetail?.firstName.charAt(0).toUpperCase()}
-                                    {/* {userDetail.lastName.charAt(0).toUpperCase()} */}
+                                    {userDetail?.firstName
+                                      .charAt(0)
+                                      .toUpperCase()}
                                   </span>
                                 </div>
                               </div>
                               <div className="d-flex flex-column">
                                 <span className="text-gray-800 text-hover-primary mb-1">
-                                  {`${userDetail.firstName}`} {userDetail.middleName} {userDetail.lastName}
+                                  {`${userDetail.firstName}`}{" "}
+                                  {userDetail.middleName} {userDetail.lastName}
                                 </span>
                                 <span>{userDetail.email}</span>
                               </div>
@@ -228,9 +257,11 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                           )}
 
                           {params.masters === CASE_TYPE_CONST && (
-                            <td role="cell" className="">
+                            <>
+                              {/* <td role="cell" className="">
                               {userDetail.caseCategory}
-                            </td>
+                            </td> */}
+                            </>
                           )}
 
                           {params.masters === DEPARTMENT_CONST && (
@@ -265,7 +296,8 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                                 {userDetail.taluka}
                               </td>
                               <td role="cell" className="">
-                                {userDetail.address1} {userDetail.address2} {userDetail.pinCode}
+                                {userDetail.address1} {userDetail.address2}{" "}
+                                {userDetail.pinCode}
                               </td>
                               <td role="cell" className="">
                                 {userDetail.mobile}
@@ -331,17 +363,20 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                               <td role="cell" className="">
                                 {userDetail.isEmail && (
                                   <div className="d-flex align-items-center">
-                                    <span className="bullet bg-primary me-3"></span> Email
+                                    <span className="bullet bg-primary me-3"></span>{" "}
+                                    Email
                                   </div>
                                 )}
                                 {userDetail.isWhatsapp && (
                                   <div className="d-flex align-items-center">
-                                    <span className="bullet bg-primary me-3"></span> Whatsapp
+                                    <span className="bullet bg-primary me-3"></span>{" "}
+                                    Whatsapp
                                   </div>
                                 )}
                                 {userDetail.isSms && (
                                   <div className="d-flex align-items-center">
-                                    <span className="bullet bg-primary me-3"></span> Sms
+                                    <span className="bullet bg-primary me-3"></span>{" "}
+                                    Sms
                                   </div>
                                 )}
                               </td>
@@ -361,27 +396,25 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                       {location.pathname === VIEW_CASE && (
                         <>
                           <td role="cell" className="">
-                            {userDetail.bank}
+                            {userDetail.caseNo}
                           </td>
-
                           <td role="cell" className="">
-                            {userDetail.borrowers.map((x: any) => (
-                              <div className="d-flex align-items-center">
-                                <span className="bullet bg-primary me-3"></span> {x.name}
-                              </div>
-                            ))}
+                            {userDetail.caseTitle}
                           </td>
-
                           <td role="cell" className="">
-                            {userDetail.cnrNo}
+                            {userDetail.area}
                           </td>
-
                           <td role="cell" className="">
-                            {convert(userDetail.filingDate)}
+                            {userDetail.court}
                           </td>
-
                           <td role="cell" className="">
-                            {userDetail.npaAmount}
+                            next stage
+                          </td>
+                          <td role="cell" className="">
+                            {convert(userDetail.nextDate)}
+                          </td>
+                          <td role="cell" className="">
+                            {userDetail.status}
                           </td>
                         </>
                       )}
@@ -394,21 +427,42 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                             navigate(
                               params.masters
                                 ? `/masters/edit-${params.masters}/${userDetail.id}`
-                                : `${location.pathname.replace("view", "edit")}/${userDetail.id}`
+                                : `${location.pathname.replace(
+                                    "view",
+                                    "edit"
+                                  )}/${userDetail.id}`
                             )
                           }
                         >
-                          <KTSVG path="/media/icons/duotune/art/art005.svg" className="svg-icon-3" />
+                          <KTSVG
+                            path="/media/icons/duotune/art/art005.svg"
+                            className="svg-icon-3"
+                          />
                         </span>
                         {/* )} */}
 
                         {location.pathname !== VIEW_CASE && (
                           <span
-                            className={`btn btn-sm btn-icon ${userDetail.isActive ? "btn-light-success" : "btn-light-danger"}`}
-                            onClick={() => activateDeactivateUser(userDetail.id, userDetail.isActive ? "Deactivated" : "Activated")}
+                            className={`btn btn-sm btn-icon ${
+                              userDetail.isActive
+                                ? "btn-light-success"
+                                : "btn-light-danger"
+                            }`}
+                            onClick={() =>
+                              activateDeactivateUser(
+                                userDetail.id,
+                                userDetail.isActive
+                                  ? "Deactivated"
+                                  : "Activated"
+                              )
+                            }
                           >
                             <span className="svg-icon svg-icon-2">
-                              {userDetail.isActive ? <i className="fa-solid fa-user-check" /> : <i className="fa-solid fa-user-xmark" />}
+                              {userDetail.isActive ? (
+                                <i className="fa-solid fa-user-check" />
+                              ) : (
+                                <i className="fa-solid fa-user-xmark" />
+                              )}
                             </span>
                           </span>
                         )}
@@ -416,7 +470,12 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
                         {location.pathname === VIEW_CASE &&
                           (console.log(userDetail, "hii"),
                           (
-                            <span className="btn btn-icon btn-light-warning btn-sm" onClick={() => navigate(`${VIEW_CASE}/${userDetail.id}`)}>
+                            <span
+                              className="btn btn-icon btn-light-warning btn-sm"
+                              onClick={() =>
+                                navigate(`${VIEW_CASE}/${userDetail.id}`)
+                              }
+                            >
                               <span className="svg-icon svg-icon-2">
                                 <i className="fa-regular fa-eye"></i>
                               </span>
@@ -430,7 +489,9 @@ const UsersTable: React.FC<Props> = ({ userList, accountStatus, getUserList }) =
             ) : (
               <tr>
                 <td colSpan={7}>
-                  <div className="d-flex text-center w-100 align-content-center justify-content-center">No Records Found</div>
+                  <div className="d-flex text-center w-100 align-content-center justify-content-center">
+                    No Records Found
+                  </div>
                 </td>
               </tr>
             )}
@@ -452,7 +513,12 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    accountStatus: (masters: any, id: any, status: string, callback: Function) => {
+    accountStatus: (
+      masters: any,
+      id: any,
+      status: string,
+      callback: Function
+    ) => {
       switch (masters) {
         case DISTRICT_CONST:
           dispatch(activeDeactiveDistrict(id, `District ${status}`, callback));
@@ -470,25 +536,47 @@ const mapDispatchToProps = (dispatch: any) => {
           dispatch(activeDeactiveBank(id, `Bank ${status}`, callback));
           break;
         case DEPARTMENT_CONST:
-          dispatch(activeDeactiveDepartment(id, `Department ${status}`, callback));
+          dispatch(
+            activeDeactiveDepartment(id, `Department ${status}`, callback)
+          );
           break;
         case BANK_BRANCH_CONST:
-          dispatch(activeDeactiveBankBranch(id, `Bank Branch ${status}`, callback));
+          dispatch(
+            activeDeactiveBankBranch(id, `Bank Branch ${status}`, callback)
+          );
           break;
         case BANK_OFFICER_CONST:
-          dispatch(activeDeactiveBankOfficer(id, `Bank Officer ${status}`, callback));
+          dispatch(
+            activeDeactiveBankOfficer(id, `Bank Officer ${status}`, callback)
+          );
           break;
         case ADVOCATE_CONST:
-          dispatch(activeDeactiveOurAdvocate(id, `Advocate ${status}`, callback));
+          dispatch(
+            activeDeactiveOurAdvocate(id, `Advocate ${status}`, callback)
+          );
           break;
         case ASSOCIATE_ADVOCATE_CONST:
-          dispatch(activeDeactiveAssociateAdvocate(id, `Associate Advocate ${status}`, callback));
+          dispatch(
+            activeDeactiveAssociateAdvocate(
+              id,
+              `Associate Advocate ${status}`,
+              callback
+            )
+          );
           break;
         case EXECUTER_CONST:
-          dispatch(activeDeactiveExecuterName(id, `Executer ${status}`, callback));
+          dispatch(
+            activeDeactiveExecuterName(id, `Executer ${status}`, callback)
+          );
           break;
         case EXECUTIVE_OFFICER_DESIGNATION_CONST:
-          dispatch(activeDeactiveExecutingOfficerDesignation(id, `Designation ${status}`, callback));
+          dispatch(
+            activeDeactiveExecutingOfficerDesignation(
+              id,
+              `Designation ${status}`,
+              callback
+            )
+          );
           break;
         case PRODUCTS_CONST:
           dispatch(activeDeactiveProducts(id, `Product ${status}`, callback));
@@ -497,10 +585,18 @@ const mapDispatchToProps = (dispatch: any) => {
           dispatch(activeDeactiveStage(id, `Stage ${status}`, callback));
           break;
         case DESIGNATION_CONST:
-          dispatch(activeDeactiveDesignation(id, `Designation ${status}`, callback));
+          dispatch(
+            activeDeactiveDesignation(id, `Designation ${status}`, callback)
+          );
           break;
         case OPPOSITE_ADVOCATE_CONST:
-          dispatch(activeDeactiveOppositeAdvocate(id, `Opposite Advocate ${status}`, callback));
+          dispatch(
+            activeDeactiveOppositeAdvocate(
+              id,
+              `Opposite Advocate ${status}`,
+              callback
+            )
+          );
           break;
         case DISPOSAL_CONST:
           dispatch(activeDeactiveDisposal(id, `Disposal ${status}`, callback));
@@ -509,7 +605,9 @@ const mapDispatchToProps = (dispatch: any) => {
           dispatch(activeDeactiveCaseType(id, `Case Type ${status}`, callback));
           break;
         case CASE_CATEGORY_CONST:
-          dispatch(activeDeactiveCaseCategory(id, `Case Category ${status}`, callback));
+          dispatch(
+            activeDeactiveCaseCategory(id, `Case Category ${status}`, callback)
+          );
           break;
         case "case/view-cases":
           dispatch(activeDeactiveCase(id, `Case ${status}`, callback));
@@ -590,5 +688,8 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-const connectComponent = connect(mapStateToProps, mapDispatchToProps)(UsersTable);
+const connectComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UsersTable);
 export default connectComponent;

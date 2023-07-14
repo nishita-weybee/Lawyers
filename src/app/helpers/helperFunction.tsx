@@ -14,10 +14,14 @@ export function getSearchParameter(search: any) {
 
 // Toast Message
 export const showToastMessageSuccess = (message?: string) => {
-  toast.success(message ? message : "Details submitted!", { className: "toast-message" });
+  toast.success(message ? message : "Details submitted!", {
+    className: "toast-message",
+  });
 };
 export const showToastMessageFailure = (message?: string) => {
-  toast.error(message ? message : "Something went wrong", { className: "toast-message" });
+  toast.error(message ? message : "Something went wrong", {
+    className: "toast-message",
+  });
 };
 
 // Pascal Case
@@ -48,4 +52,10 @@ export const convert = (str: string): string => {
     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
     day = ("0" + date.getDate()).slice(-2);
   return [date.getFullYear(), mnth, day].join("-");
+};
+
+export const convertDateFormat = (dateString: string) => {
+  var parts = dateString.split("/");
+  var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+  return formattedDate;
 };

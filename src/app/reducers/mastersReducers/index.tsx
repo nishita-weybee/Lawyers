@@ -18,6 +18,13 @@ import { getExeOffDesignationDropdownReducer } from "./getExeOffDesignationReduc
 import { getBankOfficerByBankReducer } from "./getBankOfficerByBank";
 import { getJudgeByTalukaReducer } from "./getJudgeByTaluka";
 import { getCaseTypeByCaseCatReducer } from "./getCaseTypeByCaseCat";
+import { getCaseTypeForDropdownReducer } from "./getCaseTypeForDropdown";
+import { getClientsForDropdownReducer } from "./getClientsForDropDown";
+import { getClientOfficerByClientForDropdownReducer } from "./getClientOfficerByClientForDropdown";
+import { getAllOurAdvocatesForDropdownReducer } from "./getAllOurAdvocatesReducer";
+import { getAllOppositeAdvocatesForDropdownReducer } from "./getAllOppositeAdvocatesReducer";
+import { getAllClientsForDropdownReducer } from "./getAllClientsforDropdownreducer";
+import { getAllStatusForDropdownReducer } from "./getAllStatusForDropdownReducer";
 
 export default {
   getAllMastersDataReducer,
@@ -40,4 +47,11 @@ export default {
   getBankOfficerByBankReducer,
   getJudgeByTalukaReducer,
   getCaseTypeByCaseCatReducer,
+  getCaseTypeForDropdownReducer,
+  getClientsForDropdownReducer,
+  getClientOfficerByClientForDropdownReducer,
+  getAllOurAdvocatesForDropdownReducer,
+  getAllOppositeAdvocatesForDropdownReducer,
+  getAllClientsForDropdownReducer,
+  getAllStatusForDropdownReducer,
 };

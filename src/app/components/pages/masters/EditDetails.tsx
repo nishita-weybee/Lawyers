@@ -123,6 +123,7 @@ import {
   fetchCaseCategoryForDropdown,
   fetchExeOffDesignationForDropdown,
 } from "../../../reducers/mastersReducers/mastersAction";
+import CaseTypeForm from "./CaseTypeForm";
 
 export interface props {
   loadingPost: boolean;
@@ -185,7 +186,6 @@ const EditDetails: React.FC<props> = ({
   let validateFun = Yup.object().shape({
     name: Yup.string().required(REQUIRED),
   });
-
   switch (params.masters) {
     case DISTRICT_CONST:
       num = 0;
@@ -365,7 +365,7 @@ const EditDetails: React.FC<props> = ({
         name: Yup.string()
           .required(REQUIRED)
           .matches(/^[^.]*$/, NO_DOT_ALLOWED),
-        caseCategoryId: Yup.string().required(REQUIRED),
+        //   caseCategoryId: Yup.string().required(REQUIRED),
       });
       break;
     case CASE_CATEGORY_CONST:
@@ -382,30 +382,104 @@ const EditDetails: React.FC<props> = ({
 
   const initialValuesArr = [
     { name: "" },
-    { name: "", mobile: "", email: "", pinCode: "", address1: "", address2: "", districtId: "", talukaId: "", postalAddress: null },
+    {
+      name: "",
+      mobile: "",
+      email: "",
+      pinCode: "",
+      address1: "",
+      address2: "",
+      districtId: "",
+      talukaId: "",
+      postalAddress: null,
+    },
     { name: "", bankId: "" },
-    { name: "", mobile: "", email: "", bankId: "", isSms: false, isEmail: false, isWhatsapp: false },
-    { name: "", mobile: "", districtId: "", talukaId: "", exeOfficerDesignationId: "" },
+    {
+      name: "",
+      mobile: "",
+      email: "",
+      bankId: "",
+      isSms: false,
+      isEmail: false,
+      isWhatsapp: false,
+    },
+    {
+      name: "",
+      mobile: "",
+      districtId: "",
+      talukaId: "",
+      exeOfficerDesignationId: "",
+    },
     { name: "", mobile: "", email: "" },
     { name: "", districtId: "" },
     { name: "", forum: "", districtId: "", talukaId: "" },
     { name: "" },
     { name: "", mobile: "" },
-    { name: "", caseCategoryId: "" },
+    {
+      name: "",
+      caseCategoryId: "",
+      applicant_Caption: "",
+      opponent_Caption: "",
+      otherCaption1: "",
+      otherCaption2: "",
+      otherCaption3: "",
+      otherCaption4: "",
+      otherCaption5: "",
+      otherCaption6: "",
+      otherCaption7: "",
+      otherCaption8: "",
+      otherCaption9: "",
+      otherCaption10: "",
+      judgeId: "",
+      caseStatusId: "",
+      districtId: "",
+      talukaId: "",
+      filingStageId: "",
+      leadAdvocateId: "",
+      defaultValues: [
+        {
+          fieldName: "string",
+          value: "",
+        },
+      ],
+    },
+  ];
+
+  const otherCaptionArr = [
+    { label: "Other Caption 1", name: "caption_1" },
+    { label: "Other Caption 2", name: "caption_2" },
+    { label: "Other Caption 3", name: "caption_3" },
+    { label: "Other Caption 4", name: "caption_4" },
+    { label: "Other Caption 5", name: "caption_5" },
+    { label: "Other Caption 6", name: "caption_6" },
+    { label: "Other Caption 7", name: "caption_7" },
+    { label: "Other Caption 8", name: "caption_8" },
+    { label: "Other Caption 9", name: "caption_9" },
+    { label: "Other Caption 10", name: "caption_10" },
   ];
 
   const onSubmit = async (values: any, resetForm: Function) => {
     if (params.id) {
       switch (params.masters) {
         case DISTRICT_CONST:
-          updateMastersField(UPDATE_DISTRICT_BY_ID, params.masters, values, () => {
-            navigate(`${DISTRICT}`);
-          });
+          updateMastersField(
+            UPDATE_DISTRICT_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${DISTRICT}`);
+            }
+          );
           break;
         case TALUKA_CONST:
-          updateMastersField(UPDATE_TALUKA_BY_ID, params.masters, values, () => {
-            navigate(`${TALUKA}`);
-          });
+          updateMastersField(
+            UPDATE_TALUKA_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${TALUKA}`);
+            }
+          );
           break;
         case FORUM_CONST:
           updateMastersField(UPDATE_FORUM_BY_ID, params.masters, values, () => {
@@ -413,9 +487,14 @@ const EditDetails: React.FC<props> = ({
           });
           break;
         case JUDGE_CONST:
-          updateMastersField(UPDATE_JUDGE_NAME_BY_ID, params.masters, values, () => {
-            navigate(`${JUDGE}`);
-          });
+          updateMastersField(
+            UPDATE_JUDGE_NAME_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${JUDGE}`);
+            }
+          );
           break;
         case BANK_CONST:
           updateMastersField(UPDATE_BANK_BY_ID, params.masters, values, () => {
@@ -423,44 +502,84 @@ const EditDetails: React.FC<props> = ({
           });
           break;
         case DEPARTMENT_CONST:
-          updateMastersField(UPDATE_DEPARTMENT_BY_ID, params.masters, values, () => {
-            navigate(`${DEPARTMENT}`);
-          });
+          updateMastersField(
+            UPDATE_DEPARTMENT_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${DEPARTMENT}`);
+            }
+          );
           break;
         case BANK_BRANCH_CONST:
-          updateMastersField(UPDATE_BANK_BRANCH_BY_ID, params.masters, values, () => {
-            navigate(`${BANK_BRANCH}`);
-          });
+          updateMastersField(
+            UPDATE_BANK_BRANCH_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${BANK_BRANCH}`);
+            }
+          );
           break;
         case BANK_OFFICER_CONST:
-          updateMastersField(UPDATE_BANK_OFFICER_BY_ID, params.masters, values, () => {
-            navigate(`${BANK_OFFICER}`);
-          });
+          updateMastersField(
+            UPDATE_BANK_OFFICER_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${BANK_OFFICER}`);
+            }
+          );
           break;
         case ADVOCATE_CONST:
-          updateMastersField(UPDATE_OUR_ADVOCATE_BY_ID, params.masters, values, () => {
-            navigate(`${ADVOCATE}`);
-          });
+          updateMastersField(
+            UPDATE_OUR_ADVOCATE_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${ADVOCATE}`);
+            }
+          );
           break;
         case ASSOCIATE_ADVOCATE_CONST:
-          updateMastersField(UPDATE_ASSOCIATE_ADVOCATE_BY_ID, params.masters, values, () => {
-            navigate(`${ASSOCIATE_ADVOCATE}`);
-          });
+          updateMastersField(
+            UPDATE_ASSOCIATE_ADVOCATE_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${ASSOCIATE_ADVOCATE}`);
+            }
+          );
           break;
         case EXECUTER_CONST:
-          updateMastersField(UPDATE_EXECUTER_NAME_BY_ID, params.masters, values, () => {
-            navigate(`${EXECUTER}`);
-          });
+          updateMastersField(
+            UPDATE_EXECUTER_NAME_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${EXECUTER}`);
+            }
+          );
           break;
         case EXECUTIVE_OFFICER_DESIGNATION_CONST:
-          updateMastersField(UPDATE_EXECUTING_OFFICER_DESIGNATION_BY_ID, params.masters, values, () => {
-            navigate(`${EXECUTIVE_OFFICER_DESIGNATION}`);
-          });
+          updateMastersField(
+            UPDATE_EXECUTING_OFFICER_DESIGNATION_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${EXECUTIVE_OFFICER_DESIGNATION}`);
+            }
+          );
           break;
         case PRODUCTS_CONST:
-          updateMastersField(UPDATE_PRODUCT_BY_ID, params.masters, values, () => {
-            navigate(`${PRODUCTS}`);
-          });
+          updateMastersField(
+            UPDATE_PRODUCT_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${PRODUCTS}`);
+            }
+          );
           break;
         case STAGE_CONST:
           updateMastersField(UPDATE_STAGE_BY_ID, params.masters, values, () => {
@@ -468,39 +587,128 @@ const EditDetails: React.FC<props> = ({
           });
           break;
         case DESIGNATION_CONST:
-          updateMastersField(UPDATE_DESIGNATION_BY_ID, params.masters, values, () => {
-            navigate(`${DESIGNATION}`);
-          });
+          updateMastersField(
+            UPDATE_DESIGNATION_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${DESIGNATION}`);
+            }
+          );
           break;
         case OPPOSITE_ADVOCATE_CONST:
-          updateMastersField(UPDATE_OPPOSITE_ADVOCATE_BY_ID, params.masters, values, () => {
-            navigate(`${OPPOSITE_ADVOCATE}`);
-          });
+          updateMastersField(
+            UPDATE_OPPOSITE_ADVOCATE_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${OPPOSITE_ADVOCATE}`);
+            }
+          );
           break;
         case DISPOSAL_CONST:
-          updateMastersField(UPDATE_DISPOSAL_BY_ID, params.masters, values, () => {
-            navigate(`${DISPOSAL}`);
-          });
+          updateMastersField(
+            UPDATE_DISPOSAL_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${DISPOSAL}`);
+            }
+          );
           break;
         case CASE_TYPE_CONST:
-          updateMastersField(UPDATE_CASE_TYPE_BY_ID, params.masters, values, () => {
-            navigate(`${CASE_TYPE}`);
-          });
+          const defaultValues = [
+            {
+              fieldName: "leadAdvocateId",
+              value: values.leadAdvocateId,
+            },
+            {
+              fieldName: "filingStageId",
+              value: values.filingStageId,
+            },
+            {
+              fieldName: "judgeId",
+              value: values.judgeId,
+            },
+            {
+              fieldName: "caseStatusId",
+              value: values.caseStatusId,
+            },
+            {
+              fieldName: "districtId",
+              value: values.districtId,
+            },
+            {
+              fieldName: "talukaId",
+              value: values.talukaId,
+            },
+          ];
+          const formValues =
+            params?.masters === "case-type"
+              ? { ...values, defaultValues: defaultValues }
+              : values;
+          updateMastersField(
+            UPDATE_CASE_TYPE_BY_ID,
+            params.masters,
+            formValues,
+            () => {
+              navigate(`${CASE_TYPE}`);
+            }
+          );
           break;
         case CASE_CATEGORY_CONST:
-          updateMastersField(UPDATE_CASE_CATEGORY_BY_ID, params.masters, values, () => {
-            navigate(`${CASE_CATEGROY}`);
-          });
+          updateMastersField(
+            UPDATE_CASE_CATEGORY_BY_ID,
+            params.masters,
+            values,
+            () => {
+              navigate(`${CASE_CATEGROY}`);
+            }
+          );
           break;
 
         default:
           break;
       }
     } else {
-      await postDetails(params?.masters, values, () => {
+      const defaultValues = [
+        {
+          fieldName: "leadAdvocateId",
+          value: values.leadAdvocateId,
+        },
+        {
+          fieldName: "filingStageId",
+          value: values.filingStageId,
+        },
+        {
+          fieldName: "judgeId",
+          value: values.judgeId,
+        },
+        {
+          fieldName: "caseStatusId",
+          value: values.caseStatusId,
+        },
+        {
+          fieldName: "districtId",
+          value: values.districtId,
+        },
+        {
+          fieldName: "talukaId",
+          value: values.talukaId,
+        },
+      ];
+      const formValues =
+        params?.masters === "case-type"
+          ? { ...values, defaultValues: defaultValues }
+          : values;
+      await postDetails(params?.masters, formValues, () => {
         navigate(`/masters/${params?.masters}`);
         resetForm();
       });
+      // await postDetails(params?.masters, values, () => {
+      //   navigate(`/masters/${params?.masters}`);
+      //   resetForm();
+      // });
     }
   };
 
@@ -579,12 +787,22 @@ const EditDetails: React.FC<props> = ({
     params.masters === JUDGE_CONST && getDistrictList();
     params.masters === EXECUTER_CONST && getExeOffDesignation();
 
-    params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && getDesignationList();
+    params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST &&
+      getDesignationList();
     params.masters === EXECUTER_CONST && getDistrictList();
     params.masters === CASE_TYPE_CONST && getCaseCatList();
 
     // getDistrictList();
-  }, [getByIdFields, getDistrictList, getBankList, getForumList, getCaseCatList, getDesignationList, getExeOffDesignation, params]);
+  }, [
+    getByIdFields,
+    getDistrictList,
+    getBankList,
+    getForumList,
+    getCaseCatList,
+    getDesignationList,
+    getExeOffDesignation,
+    params,
+  ]);
 
   useEffect(() => {
     if (params.id && params.masters === BANK_OFFICER_CONST && details.data) {
@@ -600,7 +818,8 @@ const EditDetails: React.FC<props> = ({
       <div className="card-header border-0 align-items-center">
         <div className="card-title m-0">
           <h3 className="fw-bolder m-0 text-capitalize">
-            {`${params.id ? "Update " : "Add"}`} {params.masters?.replace(/-/g, " ")}
+            {`${params.id ? "Update " : "Add"}`}{" "}
+            {params.masters?.replace(/-/g, " ")}
           </h3>
         </div>
       </div>
@@ -614,12 +833,23 @@ const EditDetails: React.FC<props> = ({
         enableReinitialize={true}
         validationSchema={validateFun}
         render={({ values, setFieldValue, errors, touched, resetForm }) => (
-          <Form className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" noValidate id="kt_login_signup_form">
+          <Form
+            className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
+            noValidate
+            id="kt_login_signup_form"
+          >
             {values ? (
-              <div className="card-body border-top p-9">
+              <div
+                // className="card-body border-top p-9"
+                className={`card-body border-top ${
+                  params.masters === "case-type" ? "p-0" : "p-9"
+                }`}
+              >
                 {params.masters === DISTRICT_CONST && (
                   <div className="row mb-6">
-                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">District Name</label>
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                      District Name
+                    </label>
                     <div className="col-lg-8">
                       <Field
                         placeholder={"District Name"}
@@ -649,7 +879,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === TALUKA_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        District Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -657,13 +889,17 @@ const EditDetails: React.FC<props> = ({
                           className={clsx(
                             "form-control bg-transparent form-select",
                             {
-                              "is-invalid": touched.districtId && errors.districtId,
+                              "is-invalid":
+                                touched.districtId && errors.districtId,
                             },
                             {
-                              "is-valid": touched.districtId && !errors.districtId,
+                              "is-valid":
+                                touched.districtId && !errors.districtId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("districtId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("districtId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select District
@@ -696,7 +932,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Taluka Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Taluka Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Taluka Name"}
@@ -726,7 +964,9 @@ const EditDetails: React.FC<props> = ({
                 )}
                 {params.masters === EXECUTIVE_OFFICER_DESIGNATION_CONST && (
                   <div className="row mb-6">
-                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executive Officer Designation</label>
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                      Executive Officer Designation
+                    </label>
                     <div className="col-lg-8">
                       <Field
                         placeholder={"Executive Officer Designation"}
@@ -755,7 +995,7 @@ const EditDetails: React.FC<props> = ({
                 )}
                 {params.masters === CASE_TYPE_CONST && (
                   <>
-                    <div className="row mb-6">
+                    {/* <div className="row mb-6">
                       <label className="col-lg-4 col-form-label fw-bold fs-6 required">Case Category</label>
                       <div className="col-lg-8">
                         <Field
@@ -801,9 +1041,11 @@ const EditDetails: React.FC<props> = ({
                           </div>
                         )}
                       </div>
-                    </div>
-                    <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Type</label>
+                    </div> */}
+                    {/* <div className="row mb-6">
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Case Type
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Case Type"}
@@ -828,13 +1070,22 @@ const EditDetails: React.FC<props> = ({
                           </div>
                         )}
                       </div>
-                    </div>
+                    </div> */}
+                    <CaseTypeForm
+                      values={values}
+                      errors={errors}
+                      touched={touched}
+                      otherCaptionArr={otherCaptionArr}
+                      setFieldValue={setFieldValue}
+                    />
                   </>
                 )}
                 {params.masters === DEPARTMENT_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Bank Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -848,7 +1099,9 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.bankId && !errors.bankId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("bankId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Bank
@@ -881,7 +1134,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Department Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Department Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Department Name"}
@@ -912,7 +1167,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === JUDGE_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        District Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -920,10 +1177,12 @@ const EditDetails: React.FC<props> = ({
                           className={clsx(
                             "form-control bg-transparent form-select",
                             {
-                              "is-invalid": touched.districtId && errors.districtId,
+                              "is-invalid":
+                                touched.districtId && errors.districtId,
                             },
                             {
-                              "is-valid": touched.districtId && !errors.districtId,
+                              "is-valid":
+                                touched.districtId && !errors.districtId,
                             }
                           )}
                           onChange={(e: any) => {
@@ -963,7 +1222,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Taluka Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -977,7 +1238,9 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.talukaId && !errors.talukaId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("talukaId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Taluka
@@ -1015,7 +1278,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Forum</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Forum
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Forum`}
@@ -1041,7 +1306,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Judge Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Judge Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Judge Name"}
@@ -1071,7 +1338,9 @@ const EditDetails: React.FC<props> = ({
                 )}
                 {params.masters === FORUM_CONST && (
                   <div className="row mb-6">
-                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Forum Name</label>
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                      Forum Name
+                    </label>
                     <div className="col-lg-8">
                       <Field
                         placeholder={"Forum Name"}
@@ -1101,7 +1370,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === BANK_BRANCH_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Bank Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1115,7 +1386,9 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.bankId && !errors.bankId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("bankId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Bank
@@ -1148,7 +1421,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Branch Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Bank Branch Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Bank Branch Name"}
@@ -1178,7 +1453,9 @@ const EditDetails: React.FC<props> = ({
                 )}
                 {params.masters === BANK_CONST && (
                   <div className="row mb-6">
-                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Name</label>
+                    <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                      Bank Name
+                    </label>
                     <div className="col-lg-8">
                       <Field
                         placeholder={"Bank Name"}
@@ -1208,7 +1485,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === BANK_OFFICER_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Bank Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Bank`}
@@ -1262,7 +1541,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Bank Officer Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Bank Officer Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Bank Officer Name"}
@@ -1289,7 +1570,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Mobile
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Mobile`}
@@ -1316,7 +1599,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Email
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Email`}
@@ -1343,26 +1628,52 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6">Platform</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6">
+                        Platform
+                      </label>
                       <div className="col-lg-8">
                         <div className="d-flex fw-semibold h-100">
                           <div className="form-check form-check-custom form-check-solid me-9">
-                            <Field type="checkbox" name="isSms" className="form-check-input" id="isSms" />
-                            <label className="form-check-label ms-3" htmlFor="isSms">
+                            <Field
+                              type="checkbox"
+                              name="isSms"
+                              className="form-check-input"
+                              id="isSms"
+                            />
+                            <label
+                              className="form-check-label ms-3"
+                              htmlFor="isSms"
+                            >
                               isSms
                             </label>
                           </div>
 
                           <div className="form-check form-check-custom form-check-solid me-9">
-                            <Field type="checkbox" name="isWhatsapp" className="form-check-input" id="isWhatsapp" />
-                            <label className="form-check-label ms-3" htmlFor="isWhatsapp">
+                            <Field
+                              type="checkbox"
+                              name="isWhatsapp"
+                              className="form-check-input"
+                              id="isWhatsapp"
+                            />
+                            <label
+                              className="form-check-label ms-3"
+                              htmlFor="isWhatsapp"
+                            >
                               isWhatsapp
                             </label>
                           </div>
 
                           <div className="form-check form-check-custom form-check-solid">
-                            <Field type="checkbox" name="isEmail" className="form-check-input" id="isEmail" />
-                            <label className="form-check-label ms-3" htmlFor="isEmail">
+                            <Field
+                              type="checkbox"
+                              name="isEmail"
+                              className="form-check-input"
+                              id="isEmail"
+                            />
+                            <label
+                              className="form-check-label ms-3"
+                              htmlFor="isEmail"
+                            >
                               isEmail
                             </label>
                           </div>
@@ -1439,7 +1750,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === ADVOCATE_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Mobile
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Mobile`}
@@ -1466,7 +1779,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Email
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Email`}
@@ -1497,7 +1812,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === ASSOCIATE_ADVOCATE_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Associate Advocate Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Associate Advocate Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Associate Advocate Name"}
@@ -1524,7 +1841,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        District Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1532,10 +1851,12 @@ const EditDetails: React.FC<props> = ({
                           className={clsx(
                             "form-control bg-transparent form-select",
                             {
-                              "is-invalid": touched.districtId && errors.districtId,
+                              "is-invalid":
+                                touched.districtId && errors.districtId,
                             },
                             {
-                              "is-valid": touched.districtId && !errors.districtId,
+                              "is-valid":
+                                touched.districtId && !errors.districtId,
                             }
                           )}
                           onChange={(e: any) => {
@@ -1575,7 +1896,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Taluka Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1589,7 +1912,9 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.talukaId && !errors.talukaId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("talukaId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Taluka
@@ -1643,7 +1968,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Pin Code</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Pin Code
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Pin Code`}
@@ -1671,7 +1998,9 @@ const EditDetails: React.FC<props> = ({
                     </div>
 
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 1</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Address Line 1
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Address Line 1`}
@@ -1698,7 +2027,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Address Line 2</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Address Line 2
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Address Line 2`}
@@ -1726,7 +2057,9 @@ const EditDetails: React.FC<props> = ({
                     </div>
 
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Mobile
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Mobile`}
@@ -1753,7 +2086,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Email</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Email
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Email`}
@@ -1784,7 +2119,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === EXECUTER_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">District Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        District Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1792,10 +2129,12 @@ const EditDetails: React.FC<props> = ({
                           className={clsx(
                             "form-control bg-transparent form-select",
                             {
-                              "is-invalid": touched.districtId && errors.districtId,
+                              "is-invalid":
+                                touched.districtId && errors.districtId,
                             },
                             {
-                              "is-valid": touched.districtId && !errors.districtId,
+                              "is-valid":
+                                touched.districtId && !errors.districtId,
                             }
                           )}
                           onChange={(e: any) => {
@@ -1835,7 +2174,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Taluka Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Taluka Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1849,32 +2190,34 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.talukaId && !errors.talukaId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("talukaId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("talukaId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Taluka
                           </option>
                           {values.districtId &&
-                                              districtList?.data?.map((x: any, i: any) => {
-                                                if (x.id === Number(values.districtId)) {
-                                                  return x.taluka.map((tal: any, i: any) => {
-                                                    return (
-                                                      <>
-                                                        {!params.id && tal.isActive === true && (
-                                                          <option key={i} value={tal.id}>
-                                                            {tal.name}
-                                                          </option>
-                                                        )}
-                                                        {params.id && (
-                                                          <option key={i} value={tal.id}>
-                                                            {tal.name}
-                                                          </option>
-                                                        )}
-                                                      </>
-                                                    );
-                                                  });
-                                                }
-                                              })}
+                            districtList?.data?.map((x: any, i: any) => {
+                              if (x.id === Number(values.districtId)) {
+                                return x.taluka.map((tal: any, i: any) => {
+                                  return (
+                                    <>
+                                      {!params.id && tal.isActive === true && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                      {params.id && (
+                                        <option key={i} value={tal.id}>
+                                          {tal.name}
+                                        </option>
+                                      )}
+                                    </>
+                                  );
+                                });
+                              }
+                            })}
                           {/* {!talukaList?.data && "Loading..."}
                           {talukaList?.data?.map((list: any, i: any) => {
                             return (
@@ -1903,7 +2246,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Executive Officer Designation</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Executive Officer Designation
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -1911,46 +2256,60 @@ const EditDetails: React.FC<props> = ({
                           className={clsx(
                             "form-control bg-transparent form-select",
                             {
-                              "is-invalid": touched.exeOfficerDesignationId && errors.exeOfficerDesignationId,
+                              "is-invalid":
+                                touched.exeOfficerDesignationId &&
+                                errors.exeOfficerDesignationId,
                             },
                             {
-                              "is-valid": touched.exeOfficerDesignationId && !errors.exeOfficerDesignationId,
+                              "is-valid":
+                                touched.exeOfficerDesignationId &&
+                                !errors.exeOfficerDesignationId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("exeOfficerDesignationId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue(
+                              "exeOfficerDesignationId",
+                              e.target.value
+                            )
+                          }
                         >
                           <option value="" disabled>
                             Select Designation
                           </option>
                           {!exeOffDesignationList?.data && "Loading..."}
-                          {exeOffDesignationList?.data?.map((list: any, i: any) => {
-                            return (
-                              <>
-                                {!params.id && list.isActive === true && (
-                                  <option key={i} value={list.id}>
-                                    {list.name}
-                                  </option>
-                                )}
-                                {params.id && (
-                                  <option key={i} value={list.id}>
-                                    {list.name}
-                                  </option>
-                                )}
-                              </>
-                            );
-                          })}
+                          {exeOffDesignationList?.data?.map(
+                            (list: any, i: any) => {
+                              return (
+                                <>
+                                  {!params.id && list.isActive === true && (
+                                    <option key={i} value={list.id}>
+                                      {list.name}
+                                    </option>
+                                  )}
+                                  {params.id && (
+                                    <option key={i} value={list.id}>
+                                      {list.name}
+                                    </option>
+                                  )}
+                                </>
+                              );
+                            }
+                          )}
                         </Field>
-                        {touched.exeOfficerDesignationId && errors.exeOfficerDesignationId && (
-                          <div className="fv-plugins-message-container">
-                            <div className="fv-help-block">
-                              <span role="alert">{`${errors.exeOfficerDesignationId}`}</span>
+                        {touched.exeOfficerDesignationId &&
+                          errors.exeOfficerDesignationId && (
+                            <div className="fv-plugins-message-container">
+                              <div className="fv-help-block">
+                                <span role="alert">{`${errors.exeOfficerDesignationId}`}</span>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Executer Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Executer Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Executer Name"}
@@ -1977,7 +2336,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Mobile
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Mobile`}
@@ -2008,7 +2369,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === OPPOSITE_ADVOCATE_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Opposite Advocate Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Opposite Advocate Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Opposite Advocate Name`}
@@ -2035,7 +2398,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Mobile</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Mobile
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={`Mobile`}
@@ -2066,7 +2431,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === PRODUCTS_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">Bank Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required">
+                        Bank Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           as="select"
@@ -2080,7 +2447,9 @@ const EditDetails: React.FC<props> = ({
                               "is-valid": touched.bankId && !errors.bankId,
                             }
                           )}
-                          onChange={(e: any) => setFieldValue("bankId", e.target.value)}
+                          onChange={(e: any) =>
+                            setFieldValue("bankId", e.target.value)
+                          }
                         >
                           <option value="" disabled>
                             Select Bank
@@ -2113,7 +2482,9 @@ const EditDetails: React.FC<props> = ({
                       </div>
                     </div>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Product Name</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Product Name
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Product Name"}
@@ -2144,7 +2515,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === CASE_CATEGORY_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Case Category</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Case Category
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Case Category"}
@@ -2175,7 +2548,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === DISPOSAL_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Disposal Type</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Disposal Type
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Disposal Type"}
@@ -2206,7 +2581,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === DESIGNATION_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Designation</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Designation
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Designation"}
@@ -2237,7 +2614,9 @@ const EditDetails: React.FC<props> = ({
                 {params.masters === STAGE_CONST && (
                   <>
                     <div className="row mb-6">
-                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">Stage</label>
+                      <label className="col-lg-4 col-form-label fw-bold fs-6 required text-capitalize">
+                        Stage
+                      </label>
                       <div className="col-lg-8">
                         <Field
                           placeholder={"Stage"}
@@ -2276,7 +2655,9 @@ const EditDetails: React.FC<props> = ({
                 id="kt_login_password_reset_form_cancel_button"
                 className="btn btn-light me-4 btn-active-light-primary"
                 disabled={loading}
-                onClick={() => navigate(`/masters/${params?.masters?.replace("add-", "")}`)}
+                onClick={() =>
+                  navigate(`/masters/${params?.masters?.replace("add-", "")}`)
+                }
               >
                 {DISCARD}
               </button>
@@ -2305,7 +2686,8 @@ const mapStateToProps = (state: any) => {
     designationList: state.getDesignationForDropdownReducer.designation,
     talukaList: state.getTalukaByDistrictIdReducer.talukaList,
     caseCatList: state.getCaseCatForDropdownReducer.caseCatList,
-    exeOffDesignationList: state.getExeOffDesignationDropdownReducer.exeOffDesignationList,
+    exeOffDesignationList:
+      state.getExeOffDesignationDropdownReducer.exeOffDesignationList,
 
     loadingPost: state.postMasterDataReducer.loading,
     loadingPut: state.updateMasterReducer.loading,
@@ -2388,8 +2770,16 @@ const mapDispatchToProps = (dispatch: any) => {
     getCaseCatList: () => dispatch(fetchCaseCategoryForDropdown()),
     getExeOffDesignation: () => dispatch(fetchExeOffDesignationForDropdown()),
 
-    updateMastersField: (url: any, master: any, values: any, callback: Function) => dispatch(updateMasters(url, master, values, callback)),
+    updateMastersField: (
+      url: any,
+      master: any,
+      values: any,
+      callback: Function
+    ) => dispatch(updateMasters(url, master, values, callback)),
   };
 };
-const connectComponent = connect(mapStateToProps, mapDispatchToProps)(EditDetails);
+const connectComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditDetails);
 export default connectComponent;

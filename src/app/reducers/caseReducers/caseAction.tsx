@@ -1,4 +1,8 @@
-import { showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
+import {
+  showToastMessageFailure,
+  showToastMessageSuccess,
+} from "../../helpers/helperFunction";
+import { VIEW_CASE } from "../../helpers/routesConstant";
 import {
   ACTIVE_DEACTIVE_CASE_REQUEST,
   ADD_CASE_FAILURE,
@@ -14,7 +18,13 @@ import {
   GET_CASE_BY_ID_REQUEST,
   GET_CASE_BY_ID_SUCCESS,
 } from "../actionTypes";
-import { activateDeactivateCaseService, addCaseService, editCaseService, getAllCaseService, getCaseByIdService } from "./caseService";
+import {
+  activateDeactivateCaseService,
+  addCaseService,
+  editCaseService,
+  getAllCaseService,
+  getCaseByIdService,
+} from "./caseService";
 
 const request = (type: string) => {
   return { type: type };
@@ -32,9 +42,8 @@ export const postCaseDetails = (details: any, callback: any) => {
     return addCaseService(details).then(
       (result: any) => {
         dispatch(success(ADD_CASE_SUCCESS, result.data));
-        showToastMessageSuccess("Case Added");
-
-        callback();
+        showToastMessageSuccess("Case added succesfully");
+        callback(VIEW_CASE);
       },
       (error: any) => {
         dispatch(failure(ADD_CASE_FAILURE, error.message));
@@ -58,13 +67,14 @@ export const getCaseById = (id: any) => {
   };
 };
 
-export const editCaseDetails = (details: any) => {
+export const editCaseDetails = (details: any, callback: any) => {
   return (dispatch: any) => {
     dispatch(request(EDIT_CASE_REQUEST));
     return editCaseService(details).then(
       (result: any) => {
         dispatch(success(EDIT_CASE_SUCCESS, result.data));
-        showToastMessageSuccess("Case Edited");
+        showToastMessageSuccess("Case updated succesfully");
+        callback(VIEW_CASE);
       },
       (error: any) => {
         dispatch(failure(EDIT_CASE_FAILURE, error.message));
@@ -74,7 +84,11 @@ export const editCaseDetails = (details: any) => {
   };
 };
 
-export const activeDeactiveCase = (id: any, status: any, callback: Function) => {
+export const activeDeactiveCase = (
+  id: any,
+  status: any,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_CASE_REQUEST));
     return activateDeactivateCaseService(id).then(

@@ -1,4 +1,8 @@
-import { capitalizeFirstLetter, showToastMessageFailure, showToastMessageSuccess } from "../../helpers/helperFunction";
+import {
+  capitalizeFirstLetter,
+  showToastMessageFailure,
+  showToastMessageSuccess,
+} from "../../helpers/helperFunction";
 import {
   ACTIVE_DEACTIVE_MASTERS_FAILURE,
   ACTIVE_DEACTIVE_MASTERS_REQUEST,
@@ -21,6 +25,9 @@ import {
   GET_ALL_CASE_TYPE_FAILURE,
   GET_ALL_CASE_TYPE_REQUEST,
   GET_ALL_CASE_TYPE_SUCCESS,
+  GET_ALL_CLIENT_FOR_DROPDOWN_FAILURE,
+  GET_ALL_CLIENT_FOR_DROPDOWN_REQUEST,
+  GET_ALL_CLIENT_FOR_DROPDOWN_SUCCESS,
   GET_ALL_DEPARTMENT_FAILURE,
   GET_ALL_DEPARTMENT_REQUEST,
   GET_ALL_DEPARTMENT_SUCCESS,
@@ -45,10 +52,16 @@ import {
   GET_ALL_JUDGE_NAME_FAILURE,
   GET_ALL_JUDGE_NAME_REQUEST,
   GET_ALL_JUDGE_NAME_SUCCESS,
+  GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_FAILURE,
+  GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_REQUEST,
+  GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_SUCCESS,
   GET_ALL_OPPSITE_ADVOCATE_FAILURE,
   GET_ALL_OPPSITE_ADVOCATE_REQUEST,
   GET_ALL_OPPSITE_ADVOCATE_SUCCESS,
   GET_ALL_OUR_ADVOCATE_FAILURE,
+  GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_FAILURE,
+  GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_REQUEST,
+  GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_SUCCESS,
   GET_ALL_OUR_ADVOCATE_REQUEST,
   GET_ALL_OUR_ADVOCATE_SUCCESS,
   GET_ALL_PRODUCT_FAILURE,
@@ -81,6 +94,15 @@ import {
   GET_CASE_TYPE_BY_CASE_CAT_FAILURE,
   GET_CASE_TYPE_BY_CASE_CAT_REQUEST,
   GET_CASE_TYPE_BY_CASE_CAT_SUCCESS,
+  GET_CASE_TYPE_FOR_DROPDOWN_FAILURE,
+  GET_CASE_TYPE_FOR_DROPDOWN_REQUEST,
+  GET_CASE_TYPE_FOR_DROPDOWN_SUCCESS,
+  GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_FAILURE,
+  GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_REQUEST,
+  GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_SUCCESS,
+  GET_CLIENTS_FOR_DROPDOWN_FAILURE,
+  GET_CLIENTS_FOR_DROPDOWN_REQUEST,
+  GET_CLIENTS_FOR_DROPDOWN_SUCCESS,
   GET_DESIGNATION_FOR_DROPDOWN_FAILURE,
   GET_DESIGNATION_FOR_DROPDOWN_REQUEST,
   GET_DESIGNATION_FOR_DROPDOWN_SUCCESS,
@@ -93,7 +115,7 @@ import {
   GET_FORUM_DROPDOWN_MASTERS_FAILURE,
   GET_FORUM_DROPDOWN_MASTERS_REQUEST,
   GET_FORUM_DROPDOWN_MASTERS_SUCCESS,
-  GET_JUDGE_BY_TALUKA_FAILURE,  
+  GET_JUDGE_BY_TALUKA_FAILURE,
   GET_JUDGE_BY_TALUKA_REQUEST,
   GET_JUDGE_BY_TALUKA_SUCCESS,
   GET_JUDGE_DROPDOWN_MASTERS_FAILURE,
@@ -105,6 +127,9 @@ import {
   GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE,
   GET_STAGE_FOR_DROPDOWN_MASTERS_REQUEST,
   GET_STAGE_FOR_DROPDOWN_MASTERS_SUCCESS,
+  GET_STATUS_FOR_DROPDOWN_FAILURE,
+  GET_STATUS_FOR_DROPDOWN_REQUEST,
+  GET_STATUS_FOR_DROPDOWN_SUCCESS,
   GET_TALUKA_BY_DISTRICT_ID_FAILURE,
   GET_TALUKA_BY_DISTRICT_ID_REQUEST,
   GET_TALUKA_BY_DISTRICT_ID_SUCCESS,
@@ -190,6 +215,13 @@ import {
   getBankOfficerByBank,
   getJudgeByTaluka,
   getCaseTypeByCaseCat,
+  getCaseTypeForDropDown,
+  getClientsForDropdown,
+  getClientOfficerByCLientIdForDropdown,
+  getAllOurAdvocateForDropDown,
+  getAllOppositeAdvocateForDropDown,
+  getAllClientsForDropDown,
+  getStatusForDropdown,
 } from "./mastersService";
 const request = (type: string) => {
   return { type: type };
@@ -271,7 +303,9 @@ export const fetchAllAssociateAdvocate = (master: any, location: any) => {
     dispatch(request(GET_ALL_ASSOCIATE_ADVOCATE_REQUEST));
     return getAllAssociateAdvocate(location).then(
       (result: any) => {
-        dispatch(success(GET_ALL_ASSOCIATE_ADVOCATE_SUCCESS, result.data, master));
+        dispatch(
+          success(GET_ALL_ASSOCIATE_ADVOCATE_SUCCESS, result.data, master)
+        );
       },
       (error: any) => {
         dispatch(failure(GET_ALL_ASSOCIATE_ADVOCATE_FAILURE, error.message));
@@ -292,15 +326,26 @@ export const fetchAllExecuterName = (master: any, location: any) => {
     );
   };
 };
-export const fetchAllExecutingOfficerDesignation = (master: any, location: any) => {
+export const fetchAllExecutingOfficerDesignation = (
+  master: any,
+  location: any
+) => {
   return (dispatch: any) => {
     dispatch(request(GET_ALL_EXECUTING_OFFICER_DESIGNATION_REQUEST));
     return getAllExecutingOfficerDesignation(location).then(
       (result: any) => {
-        dispatch(success(GET_ALL_EXECUTING_OFFICER_DESIGNATION_SUCCESS, result.data, master));
+        dispatch(
+          success(
+            GET_ALL_EXECUTING_OFFICER_DESIGNATION_SUCCESS,
+            result.data,
+            master
+          )
+        );
       },
       (error: any) => {
-        dispatch(failure(GET_ALL_EXECUTING_OFFICER_DESIGNATION_FAILURE, error.message));
+        dispatch(
+          failure(GET_ALL_EXECUTING_OFFICER_DESIGNATION_FAILURE, error.message)
+        );
       }
     );
   };
@@ -444,7 +489,9 @@ export const fetchAllOppositeAdvocate = (master: any, location: any) => {
     dispatch(request(GET_ALL_OPPSITE_ADVOCATE_REQUEST));
     return getAllOppositeAdvocate(location).then(
       (result: any) => {
-        dispatch(success(GET_ALL_OPPSITE_ADVOCATE_SUCCESS, result.data, master));
+        dispatch(
+          success(GET_ALL_OPPSITE_ADVOCATE_SUCCESS, result.data, master)
+        );
       },
       (error: any) => {
         dispatch(failure(GET_ALL_OPPSITE_ADVOCATE_FAILURE, error.message));
@@ -657,7 +704,10 @@ export const postExecuterName = (detail: any, callback: Function) => {
     );
   };
 };
-export const postExecutingOfficerDesignation = (detail: any, callback: Function) => {
+export const postExecutingOfficerDesignation = (
+  detail: any,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(POST_MASTER_DATA_REQUEST));
     return postExecutingOfficerDesignationService(detail).then(
@@ -746,7 +796,7 @@ export const postCaseType = (detail: any, callback: Function) => {
     return postCaseTypeService(detail).then(
       (result: any) => {
         dispatch(success(POST_MASTER_DATA_SUCCESS, result.data));
-        showToastMessageSuccess(`Case Type Added`);
+        showToastMessageSuccess(`Case type added successfully`);
         callback();
       },
       (error: any) => {
@@ -791,7 +841,11 @@ export const postOppsiteAdvocate = (detail: any, callback: Function) => {
   };
 };
 
-export const activeDeactiveDistrict = (id: any, status: string, callback: Function) => {
+export const activeDeactiveDistrict = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveDistrictService(id).then(
@@ -807,7 +861,11 @@ export const activeDeactiveDistrict = (id: any, status: string, callback: Functi
     );
   };
 };
-export const activeDeactiveTaluka = (id: any, status: string, callback: Function) => {
+export const activeDeactiveTaluka = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveTalukaService(id).then(
@@ -823,7 +881,11 @@ export const activeDeactiveTaluka = (id: any, status: string, callback: Function
     );
   };
 };
-export const activeDeactiveForum = (id: any, status: string, callback: Function) => {
+export const activeDeactiveForum = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveForumService(id).then(
@@ -839,7 +901,11 @@ export const activeDeactiveForum = (id: any, status: string, callback: Function)
     );
   };
 };
-export const activeDeactiveJudgeName = (id: any, status: string, callback: Function) => {
+export const activeDeactiveJudgeName = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveJudgeNameService(id).then(
@@ -855,7 +921,11 @@ export const activeDeactiveJudgeName = (id: any, status: string, callback: Funct
     );
   };
 };
-export const activeDeactiveBank = (id: any, status: string, callback: Function) => {
+export const activeDeactiveBank = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveBankService(id).then(
@@ -871,7 +941,11 @@ export const activeDeactiveBank = (id: any, status: string, callback: Function) 
     );
   };
 };
-export const activeDeactiveDepartment = (id: any, status: string, callback: Function) => {
+export const activeDeactiveDepartment = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveDepartmentService(id).then(
@@ -887,7 +961,11 @@ export const activeDeactiveDepartment = (id: any, status: string, callback: Func
     );
   };
 };
-export const activeDeactiveBankBranch = (id: any, status: string, callback: Function) => {
+export const activeDeactiveBankBranch = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveBankBranchService(id).then(
@@ -903,7 +981,11 @@ export const activeDeactiveBankBranch = (id: any, status: string, callback: Func
     );
   };
 };
-export const activeDeactiveBankOfficer = (id: any, status: string, callback: Function) => {
+export const activeDeactiveBankOfficer = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveBankOfficerService(id).then(
@@ -919,7 +1001,11 @@ export const activeDeactiveBankOfficer = (id: any, status: string, callback: Fun
     );
   };
 };
-export const activeDeactiveOurAdvocate = (id: any, status: string, callback: Function) => {
+export const activeDeactiveOurAdvocate = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveOurAdvocateService(id).then(
@@ -934,7 +1020,11 @@ export const activeDeactiveOurAdvocate = (id: any, status: string, callback: Fun
     );
   };
 };
-export const activeDeactiveAssociateAdvocate = (id: any, status: string, callback: Function) => {
+export const activeDeactiveAssociateAdvocate = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveAssociateAdvocateService(id).then(
@@ -950,7 +1040,11 @@ export const activeDeactiveAssociateAdvocate = (id: any, status: string, callbac
     );
   };
 };
-export const activeDeactiveExecuterName = (id: any, status: string, callback: Function) => {
+export const activeDeactiveExecuterName = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveExecuterNameService(id).then(
@@ -966,7 +1060,11 @@ export const activeDeactiveExecuterName = (id: any, status: string, callback: Fu
     );
   };
 };
-export const activeDeactiveExecutingOfficerDesignation = (id: any, status: string, callback: Function) => {
+export const activeDeactiveExecutingOfficerDesignation = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveExecutingOfficerDesignationService(id).then(
@@ -982,7 +1080,11 @@ export const activeDeactiveExecutingOfficerDesignation = (id: any, status: strin
     );
   };
 };
-export const activeDeactiveProducts = (id: any, status: string, callback: Function) => {
+export const activeDeactiveProducts = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveProductService(id).then(
@@ -998,7 +1100,11 @@ export const activeDeactiveProducts = (id: any, status: string, callback: Functi
     );
   };
 };
-export const activeDeactiveStage = (id: any, status: string, callback: Function) => {
+export const activeDeactiveStage = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveStageService(id).then(
@@ -1014,7 +1120,11 @@ export const activeDeactiveStage = (id: any, status: string, callback: Function)
     );
   };
 };
-export const activeDeactiveDisposal = (id: any, status: string, callback: Function) => {
+export const activeDeactiveDisposal = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveDisposalService(id).then(
@@ -1030,7 +1140,11 @@ export const activeDeactiveDisposal = (id: any, status: string, callback: Functi
     );
   };
 };
-export const activeDeactiveDesignation = (id: any, status: string, callback: Function) => {
+export const activeDeactiveDesignation = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveDesignationService(id).then(
@@ -1046,7 +1160,11 @@ export const activeDeactiveDesignation = (id: any, status: string, callback: Fun
     );
   };
 };
-export const activeDeactiveCaseType = (id: any, status: string, callback: Function) => {
+export const activeDeactiveCaseType = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveCaseTypeService(id).then(
@@ -1062,7 +1180,11 @@ export const activeDeactiveCaseType = (id: any, status: string, callback: Functi
     );
   };
 };
-export const activeDeactiveCaseCategory = (id: any, status: string, callback: Function) => {
+export const activeDeactiveCaseCategory = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveCaseCategoryService(id).then(
@@ -1078,7 +1200,11 @@ export const activeDeactiveCaseCategory = (id: any, status: string, callback: Fu
     );
   };
 };
-export const activeDeactiveOppositeAdvocate = (id: any, status: string, callback: Function) => {
+export const activeDeactiveOppositeAdvocate = (
+  id: any,
+  status: string,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(ACTIVE_DEACTIVE_MASTERS_REQUEST));
     return activeDeactiveOppositeAdvocateService(id).then(
@@ -1109,17 +1235,29 @@ export const getById = (url: any, id: any) => {
   };
 };
 
-export const updateMasters = (url: any, masters: any, values: any, callback: Function) => {
+export const updateMasters = (
+  url: any,
+  masters: any,
+  values: any,
+  callback: Function
+) => {
   return (dispatch: any) => {
     dispatch(request(UPDATE_MASTERS_REQUEST));
     return updateMastersService(url, values).then(
       (result: any) => {
         dispatch(success(UPDATE_MASTERS_SUCCESS, result.data));
-        showToastMessageSuccess(`${capitalizeFirstLetter(masters.replace(/-/g, " "))} Updated`);
+        showToastMessageSuccess(
+          `${capitalizeFirstLetter(masters.replace(/-/g, " "))} Updated`
+        );
         callback();
       },
       (error: any) => {
-        dispatch(failure(UPDATE_MASTERS_FAILURE, error.response.data.error.errorMessage));
+        dispatch(
+          failure(
+            UPDATE_MASTERS_FAILURE,
+            error.response.data.error.errorMessage
+          )
+        );
         showToastMessageFailure(error.response.data.error.errorMessage);
       }
     );
@@ -1140,15 +1278,33 @@ export const fetchBankForDropdown = () => {
   };
 };
 
+export const fetchStatusForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_STATUS_FOR_DROPDOWN_REQUEST));
+    return getStatusForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_STATUS_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_STATUS_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+
 export const fetchDistrictForDropdown = () => {
   return (dispatch: any) => {
     dispatch(request(GET_DISTRICT_FOR_DROPDOWN_MASTERS_REQUEST));
     return getDistrictForDropdown().then(
       (result: any) => {
-        dispatch(success(GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+        dispatch(
+          success(GET_DISTRICT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data)
+        );
       },
       (error: any) => {
-        dispatch(failure(GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+        dispatch(
+          failure(GET_DISTRICT_FOR_DROPDOWN_MASTERS_FAILURE, error.message)
+        );
       }
     );
   };
@@ -1176,7 +1332,9 @@ export const fetchStageDropdown = () => {
         dispatch(success(GET_STAGE_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
       },
       (error: any) => {
-        dispatch(failure(GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+        dispatch(
+          failure(GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE, error.message)
+        );
       }
     );
   };
@@ -1201,10 +1359,14 @@ export const fetchBankOfficerByBranchId = (id: any) => {
     dispatch(request(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_REQUEST));
     return getBankOfficerForDropdown(id).then(
       (result: any) => {
-        dispatch(success(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+        dispatch(
+          success(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_SUCCESS, result.data)
+        );
       },
       (error: any) => {
-        dispatch(failure(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+        dispatch(
+          failure(GET_BANK_OFFICER_FOR_DROPDOWN_MASTERS_FAILURE, error.message)
+        );
       }
     );
   };
@@ -1229,10 +1391,14 @@ export const fetchProductByBankDropdown = (id: any) => {
     dispatch(request(GET_PRODUCT_FOR_DROPDOWN_MASTERS_REQUEST));
     return getProductByBankForDropdown(id).then(
       (result: any) => {
-        dispatch(success(GET_PRODUCT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data));
+        dispatch(
+          success(GET_PRODUCT_FOR_DROPDOWN_MASTERS_SUCCESS, result.data)
+        );
       },
       (error: any) => {
-        dispatch(failure(GET_PRODUCT_FOR_DROPDOWN_MASTERS_FAILURE, error.message));
+        dispatch(
+          failure(GET_PRODUCT_FOR_DROPDOWN_MASTERS_FAILURE, error.message)
+        );
       }
     );
   };
@@ -1271,10 +1437,113 @@ export const fetchExeOffDesignationForDropdown = () => {
     dispatch(request(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_REQUEST));
     return getExeOffDesignationForDropdown().then(
       (result: any) => {
-        dispatch(success(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_SUCCESS, result.data));
+        dispatch(
+          success(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_SUCCESS, result.data)
+        );
       },
       (error: any) => {
-        dispatch(failure(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_FAILURE, error.message));
+        dispatch(
+          failure(GET_EXE_OFF_DESIGNATION_FOR_DROPDOWN_FAILURE, error.message)
+        );
+      }
+    );
+  };
+};
+export const fetchCaseTypeForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_CASE_TYPE_FOR_DROPDOWN_REQUEST));
+    return getCaseTypeForDropDown().then(
+      (result: any) => {
+        dispatch(success(GET_CASE_TYPE_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_CASE_TYPE_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+export const fetchAllOurAdvocatesForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_REQUEST));
+    return getAllOurAdvocateForDropDown().then(
+      (result: any) => {
+        dispatch(
+          success(GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_SUCCESS, result.data)
+        );
+      },
+      (error: any) => {
+        dispatch(
+          failure(GET_ALL_OUR_ADVOCATE_FOR_DROPDOWN_FAILURE, error.message)
+        );
+      }
+    );
+  };
+};
+export const fetchAllOppositeAdvocatesForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_REQUEST));
+    return getAllOppositeAdvocateForDropDown().then(
+      (result: any) => {
+        dispatch(
+          success(GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_SUCCESS, result.data)
+        );
+      },
+      (error: any) => {
+        dispatch(
+          failure(GET_ALL_OPPOSITE_ADVOCATE_FOR_DROPDOWN_FAILURE, error.message)
+        );
+      }
+    );
+  };
+};
+export const fetchAllClientsForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_ALL_CLIENT_FOR_DROPDOWN_REQUEST));
+    return getAllClientsForDropDown().then(
+      (result: any) => {
+        dispatch(success(GET_ALL_CLIENT_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_ALL_CLIENT_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+export const fetchClientsForDropdown = () => {
+  return (dispatch: any) => {
+    dispatch(request(GET_CLIENTS_FOR_DROPDOWN_REQUEST));
+    return getClientsForDropdown().then(
+      (result: any) => {
+        dispatch(success(GET_CLIENTS_FOR_DROPDOWN_SUCCESS, result.data));
+      },
+      (error: any) => {
+        dispatch(failure(GET_CLIENTS_FOR_DROPDOWN_FAILURE, error.message));
+      }
+    );
+  };
+};
+export const fetchClientsOfficerByClientIdForDropdown = (
+  id: any,
+  index?: any,
+  callback?: any
+) => {
+  return (dispatch: any) => {
+    dispatch(request(GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_REQUEST));
+    return getClientOfficerByCLientIdForDropdown(id).then(
+      (result: any) => {
+        dispatch(
+          success(GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_SUCCESS, result.data)
+        );
+
+        callback && callback(index, result.data.data);
+      },
+      (error: any) => {
+        dispatch(
+          failure(
+            GET_CLIENTOFFICER_BY_CLIENT_FOR_DROPDOWN_FAILURE,
+            error.message
+          )
+        );
       }
     );
   };

@@ -28,7 +28,7 @@ const getStageForDropdownReducer = (state = initialState, action: action) => {
       return {
         ...state,
         loading: false,
-        stageList: action.payload,
+        stageList: action.payload?.data,
       };
 
     case GET_STAGE_FOR_DROPDOWN_MASTERS_FAILURE:
